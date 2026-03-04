@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E-Commerce Data Pipeline — Architecture</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #090e1a;
+    --bg2: #0d1526;
+    --grid: rgba(255,255,255,0.03);
+    --border: rgba(255,255,255,0.07);
+    --accent: #00d4ff;
+    --accent2: #7c3aed;
+    --accent3: #10b981;
+    --accent4: #f59e0b;
+    --accent5: #ef4444;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Syne', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Grid background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Glow blobs */
+  .blob {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.12;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .blob-1 { width: 600px; height: 600px; background: var(--accent2); top: -200px; left: -200px; }
+  .blob-2 { width: 500px; height: 500px; background: var(--accent); bottom: -150px; right: -150px; }
+  .blob-3 { width: 400px; height: 400px; background: var(--accent3); top: 40%; left: 40%; }
+
+  .wrapper {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 60px 40px 80px;
+  }
+
+  /* Header */
+  header {
+    text-align: center;
+    margin-bottom: 64px;
+    animation: fadeDown 0.8s ease both;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid rgba(0,212,255,0.3);
+    background: rgba(0,212,255,0.05);
+    padding: 6px 16px;
+    border-radius: 100px;
+    margin-bottom: 24px;
+  }
+
+  .badge::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  h1 {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+
+  h1 span { color: var(--accent); }
+
+  .subtitle {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+
+  /* Stack row */
+  .stack-row {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    margin-bottom: 0;
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .stack-row:nth-child(2) { animation-delay: 0.1s; }
+  .stack-row:nth-child(3) { animation-delay: 0.2s; }
+  .stack-row:nth-child(4) { animation-delay: 0.3s; }
+  .stack-row:nth-child(5) { animation-delay: 0.4s; }
+  .stack-row:nth-child(6) { animation-delay: 0.5s; }
+  .stack-row:nth-child(7) { animation-delay: 0.6s; }
+  .stack-row:nth-child(8) { animation-delay: 0.7s; }
+
+  /* Layer label */
+  .layer-label {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transform: rotate(180deg);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 16px 12px;
+    min-width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+
+  /* Pipeline container */
+  .pipeline {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  /* Arrow connector */
+  .arrow-row {
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    height: 36px;
+    gap: 8px;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .arrow-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+    position: relative;
+  }
+
+  .arrow-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+    padding: 3px 10px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--bg2);
+  }
+
+  .arrow-down {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 4px 0;
+    height: 40px;
+    justify-content: center;
+  }
+
+  .arrow-down-line {
+    width: 1px;
+    flex: 1;
+    background: linear-gradient(180deg, var(--border), rgba(255,255,255,0.15), var(--border));
+  }
+
+  .arrow-down svg { color: var(--muted); }
+
+  /* Node card */
+  .node {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 24px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    cursor: default;
+  }
+
+  .node::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .node:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  }
+
+  /* Color variants */
+  .node-blue  { --c: var(--accent); }
+  .node-purple { --c: var(--accent2); }
+  .node-green { --c: var(--accent3); }
+  .node-yellow { --c: var(--accent4); }
+  .node-red   { --c: var(--accent5); }
+
+  .node-blue::after,
+  .node-purple::after,
+  .node-green::after,
+  .node-yellow::after,
+  .node-red::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--c);
+    border-radius: 12px 12px 0 0;
+  }
+
+  .node:hover { border-color: var(--c) !important; box-shadow: 0 0 30px rgba(0,0,0,0.5), 0 0 0 1px var(--c); }
+
+  .node-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .node-icon {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .node-title {
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  .node-tech {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--c);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .node-desc {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 10px;
+  }
+
+  .tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+
+  /* Horizontal nodes row */
+  .nodes-row {
+    display: grid;
+    gap: 12px;
+    padding: 0 0 0 0;
+  }
+
+  .nodes-row-3 { grid-template-columns: repeat(3, 1fr); }
+  .nodes-row-2 { grid-template-columns: repeat(2, 1fr); }
+  .nodes-row-1 { grid-template-columns: 1fr; }
+
+  /* Section wrapper with label */
+  .section {
+    display: flex;
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 8px;
+    background: rgba(255,255,255,0.01);
+  }
+
+  /* Connector between sections */
+  .connector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 48px;
+    margin-bottom: 8px;
+    position: relative;
+  }
+
+  .connector-line {
+    width: 2px;
+    flex: 1;
+    background: linear-gradient(180deg, var(--border) 0%, rgba(255,255,255,0.2) 50%, var(--border) 100%);
+  }
+
+  .connector-arrow {
+    width: 0; height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 7px solid rgba(255,255,255,0.2);
+  }
+
+  .connector-label {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(12px, -50%);
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    white-space: nowrap;
+    letter-spacing: 0.08em;
+    background: var(--bg);
+    padding: 2px 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+  }
+
+  /* Tech stack legend */
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 48px;
+    padding-top: 40px;
+    border-top: 1px solid var(--border);
+    animation: fadeUp 1s ease 0.8s both;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  .legend-dot {
+    width: 8px; height: 8px;
+    border-radius: 2px;
+  }
+
+  /* Stats bar */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 48px;
+    animation: fadeUp 0.8s ease 0.2s both;
+  }
+
+  .stat {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+  }
+
+  .stat-value {
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    background: linear-gradient(135deg, var(--text), var(--muted));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .stat-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-top: 4px;
+  }
+
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  /* Data flow animation on arrows */
+  .flow-dot {
+    position: absolute;
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: var(--accent);
+    top: -1.5px;
+    animation: flowRight 3s linear infinite;
+    opacity: 0.7;
+  }
+
+  @keyframes flowRight {
+    from { left: 0%; opacity: 0; }
+    10%  { opacity: 0.7; }
+    90%  { opacity: 0.7; }
+    to   { left: 100%; opacity: 0; }
+  }
+
+  @media (max-width: 768px) {
+    .nodes-row-3 { grid-template-columns: 1fr; }
+    .nodes-row-2 { grid-template-columns: 1fr; }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .wrapper { padding: 40px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="blob blob-1"></div>
+<div class="blob blob-2"></div>
+<div class="blob blob-3"></div>
+
+<div class="wrapper">
+
+  <!-- Header -->
+  <header>
+    <div class="badge">Portfolio Project · Data Engineering</div>
+    <h1>Real-Time <span>E-Commerce</span><br>Analytics Pipeline</h1>
+    <p class="subtitle">End-to-end · Kafka → Spark → Delta Lake → dbt → Airflow → Superset</p>
+  </header>
+
+  <!-- Stats -->
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-value">7</div>
+      <div class="stat-label">Layers</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">3</div>
+      <div class="stat-label">Event Types</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">6</div>
+      <div class="stat-label">dbt Models</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">∞</div>
+      <div class="stat-label">Events/sec</div>
+    </div>
+  </div>
+
+  <!-- LAYER 1: Ingestion -->
+  <div class="section">
+    <div class="layer-label">Ingestion</div>
+    <div class="pipeline" style="padding: 16px;">
+      <div class="nodes-row nodes-row-2">
+
+        <div class="node node-blue">
+          <div class="node-header">
+            <div class="node-icon">🐍</div>
+            <div>
+              <div class="node-title">Event Simulator</div>
+              <div class="node-tech">Python · Faker</div>
+            </div>
+          </div>
+          <div class="node-desc">Generates realistic user journeys — page views, cart adds, and orders — simulating 50 concurrent users across 8 products.</div>
+          <div class="tags">
+            <span class="tag">page_view</span>
+            <span class="tag">add_to_cart</span>
+            <span class="tag">order_placed</span>
+            <span class="tag">~50 users</span>
+          </div>
+        </div>
+
+        <div class="node node-blue">
+          <div class="node-header">
+            <div class="node-icon">📨</div>
+            <div>
+              <div class="node-title">Apache Kafka</div>
+              <div class="node-tech">Confluent · Docker</div>
+            </div>
+          </div>
+          <div class="node-desc">Decoupled message broker. Events streamed to <code style="color:var(--accent);font-size:11px">ecommerce_events</code> topic. Internal/external listener split for Docker networking.</div>
+          <div class="tags">
+            <span class="tag">topic: ecommerce_events</span>
+            <span class="tag">port 9092</span>
+            <span class="tag">Zookeeper</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Connector -->
+  <div class="connector">
+    <div class="connector-line"></div>
+    <div class="connector-arrow"></div>
+    <div class="connector-label">Structured Streaming · micro-batch</div>
+  </div>
+
+  <!-- LAYER 2: Processing -->
+  <div class="section">
+    <div class="layer-label">Processing</div>
+    <div class="pipeline" style="padding: 16px;">
+      <div class="nodes-row nodes-row-1">
+
+        <div class="node node-purple">
+          <div class="node-header">
+            <div class="node-icon">⚡</div>
+            <div>
+              <div class="node-title">Spark Structured Streaming</div>
+              <div class="node-tech">Apache Spark 3.5 · Docker</div>
+            </div>
+          </div>
+          <div class="node-desc">Consumes Kafka stream in real time. Parses JSON events against a defined schema, enriches with ingestion timestamps, and writes to Bronze Delta Lake in append mode.</div>
+          <div class="tags">
+            <span class="tag">readStream</span>
+            <span class="tag">from_json</span>
+            <span class="tag">outputMode: append</span>
+            <span class="tag">checkpointing</span>
+            <span class="tag">kafka:29092</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Connector -->
+  <div class="connector">
+    <div class="connector-line"></div>
+    <div class="connector-arrow"></div>
+    <div class="connector-label">Delta Lake ACID writes</div>
+  </div>
+
+  <!-- LAYER 3: Storage — Medallion -->
+  <div class="section">
+    <div class="layer-label">Medallion</div>
+    <div class="pipeline" style="padding: 16px;">
+      <div class="nodes-row nodes-row-3">
+
+        <div class="node node-yellow">
+          <div class="node-header">
+            <div class="node-icon">🥉</div>
+            <div>
+              <div class="node-title">Bronze Layer</div>
+              <div class="node-tech">Delta Lake · Parquet</div>
+            </div>
+          </div>
+          <div class="node-desc">Raw, unmodified events exactly as received. All event types in one table. Never deleted — permanent audit trail.</div>
+          <div class="tags">
+            <span class="tag">raw events</span>
+            <span class="tag">_delta_log/</span>
+            <span class="tag">append only</span>
+          </div>
+        </div>
+
+        <div class="node node-yellow">
+          <div class="node-header">
+            <div class="node-icon">🥈</div>
+            <div>
+              <div class="node-title">Silver Layer</div>
+              <div class="node-tech">Spark Batch · Delta MERGE</div>
+            </div>
+          </div>
+          <div class="node-desc">Cleaned, deduplicated, split into typed tables. Null checks, duplicate removal, type casting. Idempotent upserts via Delta MERGE.</div>
+          <div class="tags">
+            <span class="tag">page_views</span>
+            <span class="tag">cart_events</span>
+            <span class="tag">orders</span>
+            <span class="tag">dedup</span>
+          </div>
+        </div>
+
+        <div class="node node-green">
+          <div class="node-header">
+            <div class="node-icon">🥇</div>
+            <div>
+              <div class="node-title">Gold Layer</div>
+              <div class="node-tech">dbt · DuckDB</div>
+            </div>
+          </div>
+          <div class="node-desc">Business-level aggregates. Conversion funnel, revenue by category, product performance. Materialized as tables for fast dashboard queries.</div>
+          <div class="tags">
+            <span class="tag">fct_orders</span>
+            <span class="tag">fct_conversion_funnel</span>
+            <span class="tag">dim_product_performance</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Connector -->
+  <div class="connector">
+    <div class="connector-line"></div>
+    <div class="connector-arrow"></div>
+    <div class="connector-label">dbt run · SQL transforms</div>
+  </div>
+
+  <!-- LAYER 4: Transformation -->
+  <div class="section">
+    <div class="layer-label">Transform</div>
+    <div class="pipeline" style="padding: 16px;">
+      <div class="nodes-row nodes-row-2">
+
+        <div class="node node-green">
+          <div class="node-header">
+            <div class="node-icon">🔧</div>
+            <div>
+              <div class="node-title">dbt Models</div>
+              <div class="node-tech">dbt-core · dbt-duckdb</div>
+            </div>
+          </div>
+          <div class="node-desc">6 models across staging and marts layers. Staging views wrap Silver tables. Mart tables compute KPIs: revenue, conversion rates, AOV.</div>
+          <div class="tags">
+            <span class="tag">3 staging views</span>
+            <span class="tag">3 mart tables</span>
+            <span class="tag">ref() lineage</span>
+          </div>
+        </div>
+
+        <div class="node node-green">
+          <div class="node-header">
+            <div class="node-icon">✅</div>
+            <div>
+              <div class="node-title">dbt Tests & Docs</div>
+              <div class="node-tech">dbt test · dbt docs</div>
+            </div>
+          </div>
+          <div class="node-desc">8 automated data quality tests — uniqueness, not-null constraints on critical columns. Auto-generated docs with full lineage graph.</div>
+          <div class="tags">
+            <span class="tag">unique</span>
+            <span class="tag">not_null</span>
+            <span class="tag">lineage graph</span>
+            <span class="tag">schema.yml</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Connector -->
+  <div class="connector">
+    <div class="connector-line"></div>
+    <div class="connector-arrow"></div>
+    <div class="connector-label">Airflow DAG · hourly schedule</div>
+  </div>
+
+  <!-- LAYER 5: Orchestration -->
+  <div class="section">
+    <div class="layer-label">Orchestrate</div>
+    <div class="pipeline" style="padding: 16px;">
+      <div class="nodes-row nodes-row-1">
+
+        <div class="node node-purple">
+          <div class="node-header">
+            <div class="node-icon">🌀</div>
+            <div>
+              <div class="node-title">Apache Airflow</div>
+              <div class="node-tech">Airflow 2.8 · LocalExecutor · PostgreSQL</div>
+            </div>
+          </div>
+          <div class="node-desc">Orchestrates the full batch pipeline on an hourly cron schedule. DAG enforces task order, handles retries, and logs execution summary on success.</div>
+          <div class="tags">
+            <span class="tag">check_bronze_availability</span>
+            <span class="tag">run_silver_job</span>
+            <span class="tag">run_dbt_models</span>
+            <span class="tag">run_dbt_tests</span>
+            <span class="tag">log_summary</span>
+            <span class="tag">retries: 2</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Connector -->
+  <div class="connector">
+    <div class="connector-line"></div>
+    <div class="connector-arrow"></div>
+    <div class="connector-label">SQLAlchemy · DuckDB engine</div>
+  </div>
+
+  <!-- LAYER 6: Serving -->
+  <div class="section">
+    <div class="layer-label">Serving</div>
+    <div class="pipeline" style="padding: 16px;">
+      <div class="nodes-row nodes-row-1">
+
+        <div class="node node-blue">
+          <div class="node-header">
+            <div class="node-icon">📊</div>
+            <div>
+              <div class="node-title">Apache Superset</div>
+              <div class="node-tech">Superset 3.0 · DuckDB connector</div>
+            </div>
+          </div>
+          <div class="node-desc">Business intelligence layer serving the Gold tables. Four charts on one dashboard: revenue KPI, category breakdown, conversion funnel, and product performance table.</div>
+          <div class="tags">
+            <span class="tag">Total Revenue KPI</span>
+            <span class="tag">Revenue by Category</span>
+            <span class="tag">Conversion Funnel</span>
+            <span class="tag">Product Performance</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Legend -->
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#00d4ff"></div>Ingestion / Serving</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#7c3aed"></div>Processing / Orchestration</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#f59e0b"></div>Storage (Bronze/Silver)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#10b981"></div>Transformation (Gold)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#334155; border:1px solid #475569"></div>Docker Container</div>
+  </div>
+
+</div>
+</body>
+</html>
