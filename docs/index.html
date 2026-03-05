@@ -4,22 +4,26 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>E-Commerce Data Pipeline — Architecture</title>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #090e1a;
-    --bg2: #0d1526;
-    --grid: rgba(255,255,255,0.03);
-    --border: rgba(255,255,255,0.07);
-    --accent: #00d4ff;
-    --accent2: #7c3aed;
-    --accent3: #10b981;
-    --accent4: #f59e0b;
-    --accent5: #ef4444;
-    --text: #e2e8f0;
-    --muted: #64748b;
-    --mono: 'JetBrains Mono', monospace;
-    --sans: 'Syne', sans-serif;
+    --bg: #f8f7f4;
+    --surface: #ffffff;
+    --surface2: #f1f0ed;
+    --border: #e2e0db;
+    --border-strong: #c9c6bf;
+    --text: #1a1917;
+    --text-secondary: #6b6860;
+    --text-muted: #9d9b96;
+    --mono: 'IBM Plex Mono', monospace;
+    --sans: 'IBM Plex Sans', sans-serif;
+    --ingestion: #1d4ed8;
+    --processing: #7c3aed;
+    --bronze: #b45309;
+    --silver: #475569;
+    --gold: #15803d;
+    --orchestration: #be185d;
+    --serving: #0369a1;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -28,758 +32,637 @@
     background: var(--bg);
     color: var(--text);
     font-family: var(--sans);
-    min-height: 100vh;
-    overflow-x: hidden;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
   }
 
-  /* Grid background */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image:
-      linear-gradient(var(--grid) 1px, transparent 1px),
-      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
-    background-size: 40px 40px;
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  /* Glow blobs */
-  .blob {
-    position: fixed;
-    border-radius: 50%;
-    filter: blur(120px);
-    opacity: 0.12;
-    pointer-events: none;
-    z-index: 0;
-  }
-  .blob-1 { width: 600px; height: 600px; background: var(--accent2); top: -200px; left: -200px; }
-  .blob-2 { width: 500px; height: 500px; background: var(--accent); bottom: -150px; right: -150px; }
-  .blob-3 { width: 400px; height: 400px; background: var(--accent3); top: 40%; left: 40%; }
-
-  .wrapper {
-    position: relative;
-    z-index: 1;
-    max-width: 1200px;
+  .page {
+    max-width: 900px;
     margin: 0 auto;
-    padding: 60px 40px 80px;
+    padding: 64px 40px 100px;
   }
 
-  /* Header */
-  header {
-    text-align: center;
-    margin-bottom: 64px;
-    animation: fadeDown 0.8s ease both;
+  .header {
+    margin-bottom: 56px;
+    padding-bottom: 32px;
+    border-bottom: 2px solid var(--text);
   }
 
-  .badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
+  .header-label {
     font-family: var(--mono);
     font-size: 11px;
-    letter-spacing: 0.15em;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: var(--accent);
-    border: 1px solid rgba(0,212,255,0.3);
-    background: rgba(0,212,255,0.05);
-    padding: 6px 16px;
-    border-radius: 100px;
-    margin-bottom: 24px;
-  }
-
-  .badge::before {
-    content: '';
-    width: 6px; height: 6px;
-    background: var(--accent);
-    border-radius: 50%;
-    animation: pulse 2s infinite;
-  }
-
-  h1 {
-    font-size: clamp(2rem, 5vw, 3.5rem);
-    font-weight: 800;
-    letter-spacing: -0.03em;
-    line-height: 1.1;
-    margin-bottom: 16px;
-  }
-
-  h1 span { color: var(--accent); }
-
-  .subtitle {
-    font-family: var(--mono);
-    font-size: 13px;
-    color: var(--muted);
-    letter-spacing: 0.05em;
-  }
-
-  /* Stack row */
-  .stack-row {
-    display: flex;
-    align-items: stretch;
-    gap: 0;
-    margin-bottom: 0;
-    animation: fadeUp 0.8s ease both;
-  }
-
-  .stack-row:nth-child(2) { animation-delay: 0.1s; }
-  .stack-row:nth-child(3) { animation-delay: 0.2s; }
-  .stack-row:nth-child(4) { animation-delay: 0.3s; }
-  .stack-row:nth-child(5) { animation-delay: 0.4s; }
-  .stack-row:nth-child(6) { animation-delay: 0.5s; }
-  .stack-row:nth-child(7) { animation-delay: 0.6s; }
-  .stack-row:nth-child(8) { animation-delay: 0.7s; }
-
-  /* Layer label */
-  .layer-label {
-    writing-mode: vertical-rl;
-    text-orientation: mixed;
-    transform: rotate(180deg);
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--muted);
-    padding: 16px 12px;
-    min-width: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-right: 1px solid var(--border);
-    flex-shrink: 0;
-  }
-
-  /* Pipeline container */
-  .pipeline {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-  }
-
-  /* Arrow connector */
-  .arrow-row {
-    display: flex;
-    align-items: center;
-    padding: 0 24px;
-    height: 36px;
-    gap: 8px;
-    animation: fadeUp 0.6s ease both;
-  }
-
-  .arrow-line {
-    flex: 1;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--border), transparent);
-    position: relative;
-  }
-
-  .arrow-label {
-    font-family: var(--mono);
-    font-size: 10px;
-    color: var(--muted);
-    letter-spacing: 0.1em;
-    white-space: nowrap;
-    padding: 3px 10px;
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    background: var(--bg2);
-  }
-
-  .arrow-down {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 4px 0;
-    height: 40px;
-    justify-content: center;
-  }
-
-  .arrow-down-line {
-    width: 1px;
-    flex: 1;
-    background: linear-gradient(180deg, var(--border), rgba(255,255,255,0.15), var(--border));
-  }
-
-  .arrow-down svg { color: var(--muted); }
-
-  /* Node card */
-  .node {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 20px 24px;
-    position: relative;
-    overflow: hidden;
-    transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
-    cursor: default;
-  }
-
-  .node::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
-
-  .node:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
-  }
-
-  /* Color variants */
-  .node-blue  { --c: var(--accent); }
-  .node-purple { --c: var(--accent2); }
-  .node-green { --c: var(--accent3); }
-  .node-yellow { --c: var(--accent4); }
-  .node-red   { --c: var(--accent5); }
-
-  .node-blue::after,
-  .node-purple::after,
-  .node-green::after,
-  .node-yellow::after,
-  .node-red::after {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: var(--c);
-    border-radius: 12px 12px 0 0;
-  }
-
-  .node:hover { border-color: var(--c) !important; box-shadow: 0 0 30px rgba(0,0,0,0.5), 0 0 0 1px var(--c); }
-
-  .node-header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
+    color: var(--text-muted);
     margin-bottom: 12px;
   }
 
-  .node-icon {
-    width: 36px; height: 36px;
-    border-radius: 8px;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    flex-shrink: 0;
-  }
-
-  .node-title {
-    font-size: 15px;
+  .header h1 {
+    font-size: 36px;
     font-weight: 700;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    margin-bottom: 12px;
   }
 
-  .node-tech {
-    font-family: var(--mono);
-    font-size: 10px;
-    color: var(--c);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
+  .header p {
+    font-size: 16px;
+    color: var(--text-secondary);
+    max-width: 560px;
   }
 
-  .node-desc {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--muted);
-    line-height: 1.6;
-  }
-
-  .tags {
+  .header-meta {
     display: flex;
+    gap: 24px;
+    margin-top: 20px;
     flex-wrap: wrap;
-    gap: 6px;
-    margin-top: 10px;
   }
 
-  .tag {
+  .meta-item {
     font-family: var(--mono);
-    font-size: 10px;
-    padding: 3px 8px;
-    border-radius: 4px;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid var(--border);
-    color: var(--muted);
-    letter-spacing: 0.05em;
+    font-size: 12px;
+    color: var(--text-muted);
   }
 
-  /* Horizontal nodes row */
-  .nodes-row {
-    display: grid;
-    gap: 12px;
-    padding: 0 0 0 0;
-  }
+  .meta-item strong { color: var(--text); font-weight: 600; }
 
-  .nodes-row-3 { grid-template-columns: repeat(3, 1fr); }
-  .nodes-row-2 { grid-template-columns: repeat(2, 1fr); }
-  .nodes-row-1 { grid-template-columns: 1fr; }
-
-  /* Section wrapper with label */
-  .section {
-    display: flex;
-    gap: 0;
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    overflow: hidden;
-    margin-bottom: 8px;
-    background: rgba(255,255,255,0.01);
-  }
-
-  /* Connector between sections */
-  .connector {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 48px;
-    margin-bottom: 8px;
-    position: relative;
-  }
-
-  .connector-line {
-    width: 2px;
-    flex: 1;
-    background: linear-gradient(180deg, var(--border) 0%, rgba(255,255,255,0.2) 50%, var(--border) 100%);
-  }
-
-  .connector-arrow {
-    width: 0; height: 0;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-top: 7px solid rgba(255,255,255,0.2);
-  }
-
-  .connector-label {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(12px, -50%);
-    font-family: var(--mono);
-    font-size: 10px;
-    color: var(--muted);
-    white-space: nowrap;
-    letter-spacing: 0.08em;
-    background: var(--bg);
-    padding: 2px 8px;
-    border-radius: 4px;
-    border: 1px solid var(--border);
-  }
-
-  /* Tech stack legend */
-  .legend {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    justify-content: center;
-    margin-top: 48px;
-    padding-top: 40px;
-    border-top: 1px solid var(--border);
-    animation: fadeUp 1s ease 0.8s both;
-  }
-
-  .legend-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--muted);
-  }
-
-  .legend-dot {
-    width: 8px; height: 8px;
-    border-radius: 2px;
-  }
-
-  /* Stats bar */
   .stats {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 16px;
-    margin-bottom: 48px;
-    animation: fadeUp 0.8s ease 0.2s both;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 56px;
   }
 
   .stat {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 20px;
-    text-align: center;
+    background: var(--surface);
+    padding: 20px 24px;
   }
 
-  .stat-value {
-    font-size: 28px;
-    font-weight: 800;
+  .stat-num {
+    font-size: 32px;
+    font-weight: 700;
     letter-spacing: -0.03em;
-    background: linear-gradient(135deg, var(--text), var(--muted));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    line-height: 1;
+    margin-bottom: 4px;
   }
 
   .stat-label {
     font-family: var(--mono);
-    font-size: 10px;
-    color: var(--muted);
+    font-size: 11px;
+    color: var(--text-muted);
     text-transform: uppercase;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.1em;
+  }
+
+  .section-title {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .pipeline { margin-bottom: 56px; }
+
+  .flow-step {
+    display: flex;
+    gap: 0;
+    position: relative;
+  }
+
+  .timeline {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 48px;
+    flex-shrink: 0;
+    padding-top: 20px;
+  }
+
+  .timeline-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--c, var(--text));
+    border: 2px solid var(--surface);
+    box-shadow: 0 0 0 1px var(--c, var(--text));
+    flex-shrink: 0;
+    z-index: 1;
+  }
+
+  .timeline-line {
+    width: 1px;
+    flex: 1;
+    background: var(--border-strong);
     margin-top: 4px;
   }
 
-  @keyframes fadeDown {
-    from { opacity: 0; transform: translateY(-20px); }
-    to   { opacity: 1; transform: translateY(0); }
+  .flow-step:last-child .timeline-line { display: none; }
+
+  .step-card {
+    flex: 1;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin-bottom: 8px;
+    border-left: 3px solid var(--c, var(--border));
+    transition: box-shadow 0.2s;
   }
 
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to   { opacity: 1; transform: translateY(0); }
+  .step-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.07); }
+
+  .step-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    gap: 16px;
   }
 
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.3; }
+  .step-name {
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
   }
 
-  /* Data flow animation on arrows */
-  .flow-dot {
-    position: absolute;
-    width: 4px; height: 4px;
-    border-radius: 50%;
-    background: var(--accent);
-    top: -1.5px;
-    animation: flowRight 3s linear infinite;
-    opacity: 0.7;
+  .step-tech {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--c, var(--text-muted));
+    background: color-mix(in srgb, var(--c, #888) 8%, transparent);
+    border: 1px solid color-mix(in srgb, var(--c, #888) 20%, transparent);
+    padding: 3px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+    flex-shrink: 0;
   }
 
-  @keyframes flowRight {
-    from { left: 0%; opacity: 0; }
-    10%  { opacity: 0.7; }
-    90%  { opacity: 0.7; }
-    to   { left: 100%; opacity: 0; }
+  .step-desc {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+    line-height: 1.6;
   }
 
-  @media (max-width: 768px) {
-    .nodes-row-3 { grid-template-columns: 1fr; }
-    .nodes-row-2 { grid-template-columns: 1fr; }
+  .step-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+
+  .tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 3px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+  }
+
+  .medallion {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+
+  .medal-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+    border-top: 3px solid var(--c);
+    transition: box-shadow 0.2s;
+  }
+
+  .medal-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.07); }
+
+  .medal-badge {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--c);
+    background: color-mix(in srgb, var(--c) 8%, transparent);
+    border: 1px solid color-mix(in srgb, var(--c) 20%, transparent);
+    padding: 2px 8px;
+    border-radius: 3px;
+    margin-bottom: 8px;
+  }
+
+  .medal-title {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  .medal-desc {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+    line-height: 1.6;
+  }
+
+  .dbt-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 56px;
+  }
+
+  .dbt-group {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .dbt-group-header {
+    padding: 12px 16px;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+  }
+
+  .dbt-model {
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .dbt-model:last-child { border-bottom: none; }
+  .dbt-model:hover { background: var(--surface2); }
+
+  .dbt-model-name {
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .dbt-model-desc { font-size: 12px; color: var(--text-muted); }
+
+  .dbt-type {
+    font-family: var(--mono);
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+
+  .type-view { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
+  .type-table { background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; }
+
+  .dag-flow {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 56px;
+  }
+
+  .dag-task {
+    background: var(--surface2);
+    border: 1px solid var(--border-strong);
+    border-radius: 6px;
+    padding: 8px 14px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text);
+    white-space: nowrap;
+  }
+
+  .dag-arrow { color: var(--text-muted); font-size: 14px; flex-shrink: 0; }
+
+  .services-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 56px;
+    font-size: 14px;
+  }
+
+  .services-table th {
+    padding: 12px 16px;
+    text-align: left;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .services-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+  }
+
+  .services-table tr:last-child td { border-bottom: none; }
+  .services-table tr:hover td { background: var(--surface2); }
+
+  .url { font-family: var(--mono); font-size: 12px; color: var(--ingestion); text-decoration: none; }
+  .url:hover { text-decoration: underline; }
+
+  .port-badge {
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 2px 7px;
+    border-radius: 3px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+  }
+
+  .footer {
+    margin-top: 64px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .footer-author { font-size: 14px; color: var(--text-secondary); }
+  .footer-author a { color: var(--text); font-weight: 600; text-decoration: none; }
+  .footer-author a:hover { text-decoration: underline; }
+
+  .footer-stack { display: flex; flex-wrap: wrap; gap: 6px; justify-content: flex-end; }
+
+  .stack-chip {
+    font-family: var(--mono);
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 3px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+  }
+
+  @media (max-width: 700px) {
+    .page { padding: 40px 20px 60px; }
     .stats { grid-template-columns: repeat(2, 1fr); }
-    .wrapper { padding: 40px 20px; }
+    .medallion { grid-template-columns: 1fr; }
+    .dbt-grid { grid-template-columns: 1fr; }
+    .header h1 { font-size: 26px; }
+    .step-header { flex-direction: column; gap: 8px; }
   }
 </style>
 </head>
 <body>
+<div class="page">
 
-<div class="blob blob-1"></div>
-<div class="blob blob-2"></div>
-<div class="blob blob-3"></div>
-
-<div class="wrapper">
-
-  <!-- Header -->
-  <header>
-    <div class="badge">Portfolio Project · Data Engineering</div>
-    <h1>Real-Time <span>E-Commerce</span><br>Analytics Pipeline</h1>
-    <p class="subtitle">End-to-end · Kafka → Spark → Delta Lake → dbt → Airflow → Superset</p>
+  <header class="header">
+    <div class="header-label">Data Engineering · Portfolio Project</div>
+    <h1>Real-Time E-Commerce<br>Analytics Pipeline</h1>
+    <p>An end-to-end data pipeline that ingests live events, processes them through Bronze, Silver, and Gold layers, and serves business metrics on a live dashboard.</p>
+    <div class="header-meta">
+      <div class="meta-item"><strong>7</strong> services</div>
+      <div class="meta-item"><strong>3</strong> storage layers</div>
+      <div class="meta-item"><strong>6</strong> dbt models</div>
+      <div class="meta-item"><strong>Hourly</strong> schedule</div>
+      <div class="meta-item"><strong>100%</strong> open source</div>
+    </div>
   </header>
 
-  <!-- Stats -->
   <div class="stats">
-    <div class="stat">
-      <div class="stat-value">7</div>
-      <div class="stat-label">Layers</div>
-    </div>
-    <div class="stat">
-      <div class="stat-value">3</div>
-      <div class="stat-label">Event Types</div>
-    </div>
-    <div class="stat">
-      <div class="stat-value">6</div>
-      <div class="stat-label">dbt Models</div>
-    </div>
-    <div class="stat">
-      <div class="stat-value">∞</div>
-      <div class="stat-label">Events/sec</div>
-    </div>
+    <div class="stat"><div class="stat-num">3</div><div class="stat-label">Event Types</div></div>
+    <div class="stat"><div class="stat-num">50</div><div class="stat-label">Simulated Users</div></div>
+    <div class="stat"><div class="stat-num">8</div><div class="stat-label">dbt Tests</div></div>
+    <div class="stat"><div class="stat-num">4</div><div class="stat-label">Dashboard Charts</div></div>
   </div>
 
-  <!-- LAYER 1: Ingestion -->
-  <div class="section">
-    <div class="layer-label">Ingestion</div>
-    <div class="pipeline" style="padding: 16px;">
-      <div class="nodes-row nodes-row-2">
+  <div class="section-title">Data Flow</div>
+  <div class="pipeline">
 
-        <div class="node node-blue">
-          <div class="node-header">
-            <div class="node-icon">🐍</div>
-            <div>
-              <div class="node-title">Event Simulator</div>
-              <div class="node-tech">Python · Faker</div>
-            </div>
-          </div>
-          <div class="node-desc">Generates realistic user journeys — page views, cart adds, and orders — simulating 50 concurrent users across 8 products.</div>
-          <div class="tags">
-            <span class="tag">page_view</span>
-            <span class="tag">add_to_cart</span>
-            <span class="tag">order_placed</span>
-            <span class="tag">~50 users</span>
-          </div>
+    <div class="flow-step">
+      <div class="timeline" style="--c: var(--ingestion)"><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+      <div class="step-card" style="--c: var(--ingestion)">
+        <div class="step-header">
+          <div class="step-name">Event Simulator</div>
+          <div class="step-tech">Python · Faker</div>
         </div>
-
-        <div class="node node-blue">
-          <div class="node-header">
-            <div class="node-icon">📨</div>
-            <div>
-              <div class="node-title">Apache Kafka</div>
-              <div class="node-tech">Confluent · Docker</div>
-            </div>
-          </div>
-          <div class="node-desc">Decoupled message broker. Events streamed to <code style="color:var(--accent);font-size:11px">ecommerce_events</code> topic. Internal/external listener split for Docker networking.</div>
-          <div class="tags">
-            <span class="tag">topic: ecommerce_events</span>
-            <span class="tag">port 9092</span>
-            <span class="tag">Zookeeper</span>
-          </div>
+        <div class="step-desc">Generates realistic user journeys — page views, cart adds, and orders — mimicking 50 concurrent users browsing 8 products. Each journey follows a realistic conversion funnel: all users view a page, 60% add to cart, 40% of those place an order.</div>
+        <div class="step-tags">
+          <span class="tag">page_view</span>
+          <span class="tag">add_to_cart</span>
+          <span class="tag">order_placed</span>
+          <span class="tag">50 active users</span>
+          <span class="tag">JSON events</span>
         </div>
-
       </div>
     </div>
-  </div>
 
-  <!-- Connector -->
-  <div class="connector">
-    <div class="connector-line"></div>
-    <div class="connector-arrow"></div>
-    <div class="connector-label">Structured Streaming · micro-batch</div>
-  </div>
+    <div class="flow-step">
+      <div class="timeline" style="--c: var(--ingestion)"><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+      <div class="step-card" style="--c: var(--ingestion)">
+        <div class="step-header">
+          <div class="step-name">Apache Kafka</div>
+          <div class="step-tech">Confluent 7.4 · Docker</div>
+        </div>
+        <div class="step-desc">Decoupled message broker. Events are written to the <code style="font-family:var(--mono);font-size:13px;background:var(--surface2);padding:1px 5px;border-radius:3px">ecommerce_events</code> topic. Two listener addresses are configured — one for the Python producer on Windows, one for Spark inside Docker — solving the container networking problem.</div>
+        <div class="step-tags">
+          <span class="tag">topic: ecommerce_events</span>
+          <span class="tag">EXTERNAL: localhost:9092</span>
+          <span class="tag">INTERNAL: kafka:29092</span>
+          <span class="tag">Zookeeper</span>
+        </div>
+      </div>
+    </div>
 
-  <!-- LAYER 2: Processing -->
-  <div class="section">
-    <div class="layer-label">Processing</div>
-    <div class="pipeline" style="padding: 16px;">
-      <div class="nodes-row nodes-row-1">
+    <div class="flow-step">
+      <div class="timeline" style="--c: var(--processing)"><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+      <div class="step-card" style="--c: var(--processing)">
+        <div class="step-header">
+          <div class="step-name">Spark Structured Streaming</div>
+          <div class="step-tech">Apache Spark 3.5 · Docker</div>
+        </div>
+        <div class="step-desc">Reads the Kafka topic as a continuous stream. Parses raw JSON bytes against a defined schema, casts timestamps, adds ingestion metadata, and writes every event to the Bronze Delta Lake table in append mode. Checkpointing ensures no events are lost if the job restarts.</div>
+        <div class="step-tags">
+          <span class="tag">readStream</span>
+          <span class="tag">from_json</span>
+          <span class="tag">append mode</span>
+          <span class="tag">checkpointing</span>
+          <span class="tag">Spark UI: 4040</span>
+        </div>
+      </div>
+    </div>
 
-        <div class="node node-purple">
-          <div class="node-header">
-            <div class="node-icon">⚡</div>
-            <div>
-              <div class="node-title">Spark Structured Streaming</div>
-              <div class="node-tech">Apache Spark 3.5 · Docker</div>
-            </div>
+    <div class="flow-step">
+      <div class="timeline" style="--c: var(--bronze)"><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+      <div style="flex:1; margin-bottom: 8px;">
+        <div style="font-family:var(--mono);font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:10px;padding-top:20px">Medallion Architecture</div>
+        <div class="medallion">
+          <div class="medal-card" style="--c: var(--bronze)">
+            <div class="medal-badge">Bronze</div>
+            <div class="medal-title">Raw Layer</div>
+            <div class="medal-desc">Every event stored exactly as received. No changes, no filtering. Permanent audit trail — if anything breaks downstream, replay starts here.</div>
+            <div class="step-tags"><span class="tag">Delta Lake</span><span class="tag">append only</span><span class="tag">_delta_log/</span></div>
           </div>
-          <div class="node-desc">Consumes Kafka stream in real time. Parses JSON events against a defined schema, enriches with ingestion timestamps, and writes to Bronze Delta Lake in append mode.</div>
-          <div class="tags">
-            <span class="tag">readStream</span>
-            <span class="tag">from_json</span>
-            <span class="tag">outputMode: append</span>
-            <span class="tag">checkpointing</span>
-            <span class="tag">kafka:29092</span>
+          <div class="medal-card" style="--c: var(--silver)">
+            <div class="medal-badge">Silver</div>
+            <div class="medal-title">Clean Layer</div>
+            <div class="medal-desc">Nulls removed, duplicates dropped, events split into three typed tables. Delta MERGE makes the job safe to re-run without creating duplicates.</div>
+            <div class="step-tags"><span class="tag">page_views</span><span class="tag">cart_events</span><span class="tag">orders</span><span class="tag">MERGE upsert</span></div>
+          </div>
+          <div class="medal-card" style="--c: var(--gold)">
+            <div class="medal-badge">Gold</div>
+            <div class="medal-title">Business Layer</div>
+            <div class="medal-desc">dbt transforms Silver into business metrics — revenue, conversion rates, product performance. Materialized as tables for fast dashboard queries.</div>
+            <div class="step-tags"><span class="tag">fct_orders</span><span class="tag">fct_funnel</span><span class="tag">dim_products</span></div>
           </div>
         </div>
-
       </div>
+    </div>
+
+    <div class="flow-step">
+      <div class="timeline" style="--c: var(--gold)"><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+      <div class="step-card" style="--c: var(--gold)">
+        <div class="step-header">
+          <div class="step-name">dbt + DuckDB</div>
+          <div class="step-tech">dbt-core · dbt-duckdb</div>
+        </div>
+        <div class="step-desc">Six SQL models build the Gold layer. Staging views wrap the Silver tables with clean column names and types. Mart tables compute KPIs: total revenue, daily conversion rates, average order value, and product performance. Eight automated tests run on every build.</div>
+        <div class="step-tags">
+          <span class="tag">3 staging views</span>
+          <span class="tag">3 mart tables</span>
+          <span class="tag">8 data tests</span>
+          <span class="tag">lineage graph</span>
+          <span class="tag">docs: port 8081</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-step">
+      <div class="timeline" style="--c: var(--orchestration)"><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+      <div class="step-card" style="--c: var(--orchestration)">
+        <div class="step-header">
+          <div class="step-name">Apache Airflow</div>
+          <div class="step-tech">Airflow 2.8 · LocalExecutor · PostgreSQL</div>
+        </div>
+        <div class="step-desc">Orchestrates the full batch pipeline on an hourly cron schedule. The DAG checks Bronze is healthy before running Silver, then runs dbt models, then dbt tests. Failed tasks retry twice with a 5-minute delay. Everything is defined as code in a single DAG file.</div>
+        <div class="step-tags">
+          <span class="tag">schedule: 0 * * * *</span>
+          <span class="tag">retries: 2</span>
+          <span class="tag">PythonOperator</span>
+          <span class="tag">BashOperator</span>
+          <span class="tag">UI: port 8082</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-step">
+      <div class="timeline" style="--c: var(--serving)"><div class="timeline-dot"></div></div>
+      <div class="step-card" style="--c: var(--serving)">
+        <div class="step-header">
+          <div class="step-name">Apache Superset</div>
+          <div class="step-tech">Superset 3.0 · duckdb-engine</div>
+        </div>
+        <div class="step-desc">Business intelligence layer connected directly to the Gold DuckDB database. Four charts on one dashboard: a revenue KPI with trendline, revenue by product category, the user conversion funnel, and a product performance ranking table.</div>
+        <div class="step-tags">
+          <span class="tag">Total Revenue KPI</span>
+          <span class="tag">Revenue by Category</span>
+          <span class="tag">Conversion Funnel</span>
+          <span class="tag">Product Performance</span>
+          <span class="tag">UI: port 8083</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="section-title">dbt Models</div>
+  <div class="dbt-grid">
+    <div class="dbt-group">
+      <div class="dbt-group-header">Staging — views</div>
+      <div class="dbt-model"><div><div class="dbt-model-name">stg_page_views</div><div class="dbt-model-desc">Wraps silver/page_views</div></div><span class="dbt-type type-view">view</span></div>
+      <div class="dbt-model"><div><div class="dbt-model-name">stg_cart_events</div><div class="dbt-model-desc">Wraps silver/cart_events</div></div><span class="dbt-type type-view">view</span></div>
+      <div class="dbt-model"><div><div class="dbt-model-name">stg_orders</div><div class="dbt-model-desc">Wraps silver/orders</div></div><span class="dbt-type type-view">view</span></div>
+    </div>
+    <div class="dbt-group">
+      <div class="dbt-group-header">Marts — tables</div>
+      <div class="dbt-model"><div><div class="dbt-model-name">fct_orders</div><div class="dbt-model-desc">One row per order, revenue calculated</div></div><span class="dbt-type type-table">table</span></div>
+      <div class="dbt-model"><div><div class="dbt-model-name">fct_conversion_funnel</div><div class="dbt-model-desc">Daily funnel with conversion rates</div></div><span class="dbt-type type-table">table</span></div>
+      <div class="dbt-model"><div><div class="dbt-model-name">dim_product_performance</div><div class="dbt-model-desc">Products ranked by revenue</div></div><span class="dbt-type type-table">table</span></div>
     </div>
   </div>
 
-  <!-- Connector -->
-  <div class="connector">
-    <div class="connector-line"></div>
-    <div class="connector-arrow"></div>
-    <div class="connector-label">Delta Lake ACID writes</div>
+  <div class="section-title">Airflow DAG — task order</div>
+  <div class="dag-flow">
+    <div class="dag-task">check_bronze_availability</div>
+    <div class="dag-arrow">→</div>
+    <div class="dag-task">run_silver_job</div>
+    <div class="dag-arrow">→</div>
+    <div class="dag-task">run_dbt_models</div>
+    <div class="dag-arrow">→</div>
+    <div class="dag-task">run_dbt_tests</div>
+    <div class="dag-arrow">→</div>
+    <div class="dag-task">log_pipeline_summary</div>
   </div>
 
-  <!-- LAYER 3: Storage — Medallion -->
-  <div class="section">
-    <div class="layer-label">Medallion</div>
-    <div class="pipeline" style="padding: 16px;">
-      <div class="nodes-row nodes-row-3">
+  <div class="section-title">Service URLs</div>
+  <table class="services-table">
+    <thead>
+      <tr><th>Service</th><th>URL</th><th>Port</th><th>Login</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Kafka UI</td><td><a class="url" href="http://localhost:8080">http://localhost:8080</a></td><td><span class="port-badge">8080</span></td><td style="color:var(--text-muted);font-size:13px">None</td></tr>
+      <tr><td>Spark UI</td><td><a class="url" href="http://localhost:4040">http://localhost:4040</a></td><td><span class="port-badge">4040</span></td><td style="color:var(--text-muted);font-size:13px">None</td></tr>
+      <tr><td>dbt Docs</td><td><a class="url" href="http://localhost:8081">http://localhost:8081</a></td><td><span class="port-badge">8081</span></td><td style="color:var(--text-muted);font-size:13px">None</td></tr>
+      <tr><td>Airflow</td><td><a class="url" href="http://localhost:8082">http://localhost:8082</a></td><td><span class="port-badge">8082</span></td><td style="font-family:var(--mono);font-size:12px">admin / admin123</td></tr>
+      <tr><td>Superset</td><td><a class="url" href="http://localhost:8083">http://localhost:8083</a></td><td><span class="port-badge">8083</span></td><td style="font-family:var(--mono);font-size:12px">admin / admin123</td></tr>
+    </tbody>
+  </table>
 
-        <div class="node node-yellow">
-          <div class="node-header">
-            <div class="node-icon">🥉</div>
-            <div>
-              <div class="node-title">Bronze Layer</div>
-              <div class="node-tech">Delta Lake · Parquet</div>
-            </div>
-          </div>
-          <div class="node-desc">Raw, unmodified events exactly as received. All event types in one table. Never deleted — permanent audit trail.</div>
-          <div class="tags">
-            <span class="tag">raw events</span>
-            <span class="tag">_delta_log/</span>
-            <span class="tag">append only</span>
-          </div>
-        </div>
-
-        <div class="node node-yellow">
-          <div class="node-header">
-            <div class="node-icon">🥈</div>
-            <div>
-              <div class="node-title">Silver Layer</div>
-              <div class="node-tech">Spark Batch · Delta MERGE</div>
-            </div>
-          </div>
-          <div class="node-desc">Cleaned, deduplicated, split into typed tables. Null checks, duplicate removal, type casting. Idempotent upserts via Delta MERGE.</div>
-          <div class="tags">
-            <span class="tag">page_views</span>
-            <span class="tag">cart_events</span>
-            <span class="tag">orders</span>
-            <span class="tag">dedup</span>
-          </div>
-        </div>
-
-        <div class="node node-green">
-          <div class="node-header">
-            <div class="node-icon">🥇</div>
-            <div>
-              <div class="node-title">Gold Layer</div>
-              <div class="node-tech">dbt · DuckDB</div>
-            </div>
-          </div>
-          <div class="node-desc">Business-level aggregates. Conversion funnel, revenue by category, product performance. Materialized as tables for fast dashboard queries.</div>
-          <div class="tags">
-            <span class="tag">fct_orders</span>
-            <span class="tag">fct_conversion_funnel</span>
-            <span class="tag">dim_product_performance</span>
-          </div>
-        </div>
-
-      </div>
+  <footer class="footer">
+    <div class="footer-author">Built by <a href="https://github.com/Ujusophy">Ujusophy</a></div>
+    <div class="footer-stack">
+      <span class="stack-chip">Python</span>
+      <span class="stack-chip">Kafka</span>
+      <span class="stack-chip">Spark</span>
+      <span class="stack-chip">Delta Lake</span>
+      <span class="stack-chip">dbt</span>
+      <span class="stack-chip">DuckDB</span>
+      <span class="stack-chip">Airflow</span>
+      <span class="stack-chip">Superset</span>
+      <span class="stack-chip">Docker</span>
     </div>
-  </div>
-
-  <!-- Connector -->
-  <div class="connector">
-    <div class="connector-line"></div>
-    <div class="connector-arrow"></div>
-    <div class="connector-label">dbt run · SQL transforms</div>
-  </div>
-
-  <!-- LAYER 4: Transformation -->
-  <div class="section">
-    <div class="layer-label">Transform</div>
-    <div class="pipeline" style="padding: 16px;">
-      <div class="nodes-row nodes-row-2">
-
-        <div class="node node-green">
-          <div class="node-header">
-            <div class="node-icon">🔧</div>
-            <div>
-              <div class="node-title">dbt Models</div>
-              <div class="node-tech">dbt-core · dbt-duckdb</div>
-            </div>
-          </div>
-          <div class="node-desc">6 models across staging and marts layers. Staging views wrap Silver tables. Mart tables compute KPIs: revenue, conversion rates, AOV.</div>
-          <div class="tags">
-            <span class="tag">3 staging views</span>
-            <span class="tag">3 mart tables</span>
-            <span class="tag">ref() lineage</span>
-          </div>
-        </div>
-
-        <div class="node node-green">
-          <div class="node-header">
-            <div class="node-icon">✅</div>
-            <div>
-              <div class="node-title">dbt Tests & Docs</div>
-              <div class="node-tech">dbt test · dbt docs</div>
-            </div>
-          </div>
-          <div class="node-desc">8 automated data quality tests — uniqueness, not-null constraints on critical columns. Auto-generated docs with full lineage graph.</div>
-          <div class="tags">
-            <span class="tag">unique</span>
-            <span class="tag">not_null</span>
-            <span class="tag">lineage graph</span>
-            <span class="tag">schema.yml</span>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </div>
-
-  <!-- Connector -->
-  <div class="connector">
-    <div class="connector-line"></div>
-    <div class="connector-arrow"></div>
-    <div class="connector-label">Airflow DAG · hourly schedule</div>
-  </div>
-
-  <!-- LAYER 5: Orchestration -->
-  <div class="section">
-    <div class="layer-label">Orchestrate</div>
-    <div class="pipeline" style="padding: 16px;">
-      <div class="nodes-row nodes-row-1">
-
-        <div class="node node-purple">
-          <div class="node-header">
-            <div class="node-icon">🌀</div>
-            <div>
-              <div class="node-title">Apache Airflow</div>
-              <div class="node-tech">Airflow 2.8 · LocalExecutor · PostgreSQL</div>
-            </div>
-          </div>
-          <div class="node-desc">Orchestrates the full batch pipeline on an hourly cron schedule. DAG enforces task order, handles retries, and logs execution summary on success.</div>
-          <div class="tags">
-            <span class="tag">check_bronze_availability</span>
-            <span class="tag">run_silver_job</span>
-            <span class="tag">run_dbt_models</span>
-            <span class="tag">run_dbt_tests</span>
-            <span class="tag">log_summary</span>
-            <span class="tag">retries: 2</span>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </div>
-
-  <!-- Connector -->
-  <div class="connector">
-    <div class="connector-line"></div>
-    <div class="connector-arrow"></div>
-    <div class="connector-label">SQLAlchemy · DuckDB engine</div>
-  </div>
-
-  <!-- LAYER 6: Serving -->
-  <div class="section">
-    <div class="layer-label">Serving</div>
-    <div class="pipeline" style="padding: 16px;">
-      <div class="nodes-row nodes-row-1">
-
-        <div class="node node-blue">
-          <div class="node-header">
-            <div class="node-icon">📊</div>
-            <div>
-              <div class="node-title">Apache Superset</div>
-              <div class="node-tech">Superset 3.0 · DuckDB connector</div>
-            </div>
-          </div>
-          <div class="node-desc">Business intelligence layer serving the Gold tables. Four charts on one dashboard: revenue KPI, category breakdown, conversion funnel, and product performance table.</div>
-          <div class="tags">
-            <span class="tag">Total Revenue KPI</span>
-            <span class="tag">Revenue by Category</span>
-            <span class="tag">Conversion Funnel</span>
-            <span class="tag">Product Performance</span>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </div>
-
-  <!-- Legend -->
-  <div class="legend">
-    <div class="legend-item"><div class="legend-dot" style="background:#00d4ff"></div>Ingestion / Serving</div>
-    <div class="legend-item"><div class="legend-dot" style="background:#7c3aed"></div>Processing / Orchestration</div>
-    <div class="legend-item"><div class="legend-dot" style="background:#f59e0b"></div>Storage (Bronze/Silver)</div>
-    <div class="legend-item"><div class="legend-dot" style="background:#10b981"></div>Transformation (Gold)</div>
-    <div class="legend-item"><div class="legend-dot" style="background:#334155; border:1px solid #475569"></div>Docker Container</div>
-  </div>
+  </footer>
 
 </div>
 </body>
