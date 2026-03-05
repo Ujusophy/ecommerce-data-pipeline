@@ -1,0 +1,116 @@
+version: '3.8'
+
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.4.0
+    container_name: zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+
+  kafka:
+    image: confluentinc/cp-kafka:7.4.0
+    container_name: kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka:29092,EXTERNAL://localhost:9092
+      KAFKA_LISTENERS: INTERNAL://0.0.0.0:29092,EXTERNAL://0.0.0.0:9092
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+
+
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: kafka-ui
+    depends_on:
+      - kafka
+    ports:
+      - "8080:8080"
+    environment:
+      KAFKA_CLUSTERS_0_NAME: local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
+
+
+  spark:
+    image: apache/spark:3.5.0
+    container_name: spark
+    environment:
+      - SPARK_MODE=master
+    command: tail -f /dev/null        # ← keeps container alive
+    user: root                        # ← needed for file permissions
+    ports:
+      - "4040:4040"    # Spark UI
+      - "7077:7077"    # Spark master port
+    volumes:
+      - ../spark:/opt/spark-jobs          # your spark scripts
+      - ../data:/opt/spark-data           # delta lake storage
+
+
+  postgres:
+    image: postgres:14
+    container_name: airflow-postgres
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow
+      POSTGRES_DB: airflow
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+  airflow:
+    image: apache/airflow:2.8.0
+    container_name: airflow
+    depends_on:
+      - postgres
+      - kafka
+    ports:
+      - "8082:8080"                          # airflow UI on 8082 (8080 is kafka-ui)
+    environment:
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
+      AIRFLOW__CORE__LOAD_EXAMPLES: "false"  # hide the built-in example DAGs
+      AIRFLOW__CORE__DAGS_FOLDER: /opt/airflow/dags
+      AIRFLOW__WEBSERVER__WARN_DEPLOYMENT_EXPOSURE: "false"
+      AIRFLOW__SCHEDULER__HEARTBEAT_SEC: "10"
+      AIRFLOW__SCHEDULER__SCHEDULER_HEALTH_CHECK_THRESHOLD: "60"
+    volumes:
+      - ../airflow/dags:/opt/airflow/dags          # your DAG files
+      - ../data:/opt/airflow/data                  # access to delta lake
+      - ../spark:/opt/airflow/spark-jobs           # access to spark jobs
+    command: >
+      bash -c "
+        airflow db migrate &&
+        airflow users create
+          --username admin
+          --password admin
+          --firstname Admin
+          --lastname User
+          --role Admin
+          --email admin@example.com &&
+        airflow scheduler &
+        airflow webserver
+      "
+  superset:
+    image: apache/superset:3.0.0
+    container_name: superset
+    ports:
+      - "8083:8088"
+    environment:
+      SUPERSET_SECRET_KEY: "ecommerce_superset_secret_123"
+    volumes:
+      - ../data:/opt/superset/data
+      - superset_data:/app/superset_home
+    command: >
+      bash -c "pip install duckdb-engine &&
+      superset db upgrade &&
+      superset fab create-admin --username admin --firstname Admin --lastname User --email admin@example.com --password admin123 &&
+      superset init &&
+      superset run -h 0.0.0.0 -p 8088"
+
+volumes:
+  postgres_data:
+  superset_data:

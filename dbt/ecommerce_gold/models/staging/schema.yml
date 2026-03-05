@@ -1,0 +1,29 @@
+version: 2
+
+models:
+  - name: stg_orders
+    columns:
+      - name: order_id
+        tests:
+          - not_null
+          - unique
+      - name: user_id
+        tests:
+          - not_null
+      - name: total_amount
+        tests:
+          - not_null
+
+  - name: stg_page_views
+    columns:
+      - name: event_id
+        tests:
+          - not_null
+          - unique
+
+  - name: stg_cart_events
+    columns:
+      - name: event_id
+        tests:
+          - not_null
+          - unique

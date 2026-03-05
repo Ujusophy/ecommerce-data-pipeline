@@ -1,0 +1,1742 @@
+[0m16:10:40.627102 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000018F18583640>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000018F1A900370>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000018F1A900190>]}
+
+
+============================== 16:10:40.643866 | 2b89afb9-8623-4557-8e13-97e0963d3080 ==============================
+[0m16:10:40.643866 [info ] [MainThread]: Running with dbt=1.11.6
+[0m16:10:40.647429 [debug] [MainThread]: running dbt with arguments {'version_check': 'True', 'no_print': 'None', 'static_parser': 'True', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'target_path': 'None', 'printer_width': '80', 'write_json': 'True', 'empty': 'False', 'log_cache_events': 'False', 'introspect': 'True', 'cache_selected_only': 'False', 'log_format': 'default', 'debug': 'False', 'fail_fast': 'False', 'partial_parse': 'True', 'send_anonymous_usage_stats': 'True', 'quiet': 'False', 'warn_error': 'None', 'profiles_dir': 'C:\\Users\\LENOVO\\.dbt', 'use_colors': 'True', 'indirect_selection': 'eager', 'invocation_command': 'dbt run', 'use_experimental_parser': 'False', 'log_path': 'C:\\Users\\LENOVO\\Downloads\\merge-handler\\ecommerce-pipeline\\dbt\\ecommerce_gold\\logs'}
+[0m16:10:44.819170 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': '2b89afb9-8623-4557-8e13-97e0963d3080', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000018F167DAA10>]}
+[0m16:10:45.495713 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'adapter_info', 'label': '2b89afb9-8623-4557-8e13-97e0963d3080', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000018F1AA18730>]}
+[0m16:10:45.583672 [info ] [MainThread]: Registered adapter: duckdb=1.10.1
+[0m16:10:48.058613 [debug] [MainThread]: checksum: ec27062d18352e9cfca161c166fcc73d2201661a23a3cf3c89196a27f32cfcb8, vars: {}, profile: , target: , version: 1.11.6
+[0m16:10:48.064682 [info ] [MainThread]: Unable to do partial parsing because saved manifest not found. Starting full parse.
+[0m16:10:48.067227 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'partial_parser', 'label': '2b89afb9-8623-4557-8e13-97e0963d3080', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000018F1A9BCC40>]}
+[0m16:10:57.825164 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'load_project', 'label': '2b89afb9-8623-4557-8e13-97e0963d3080', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000018F1C390130>]}
+[0m16:10:58.049681 [debug] [MainThread]: Wrote artifact WritableManifest to C:\Users\LENOVO\Downloads\merge-handler\ecommerce-pipeline\dbt\ecommerce_gold\target\manifest.json
+[0m16:10:58.085334 [debug] [MainThread]: Wrote artifact SemanticManifest to C:\Users\LENOVO\Downloads\merge-handler\ecommerce-pipeline\dbt\ecommerce_gold\target\semantic_manifest.json
+[0m16:10:58.221620 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'resource_counts', 'label': '2b89afb9-8623-4557-8e13-97e0963d3080', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000018F1C172740>]}
+[0m16:10:58.222619 [info ] [MainThread]: Found 6 models, 8 data tests, 474 macros
+[0m16:10:58.224620 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': '2b89afb9-8623-4557-8e13-97e0963d3080', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000018F1C1732E0>]}
+[0m16:10:58.228171 [info ] [MainThread]: 
+[0m16:10:58.231148 [info ] [MainThread]: Concurrency: 4 threads (target='dev')
+[0m16:10:58.232558 [info ] [MainThread]: 
+[0m16:10:58.234567 [debug] [MainThread]: Acquiring new duckdb connection 'master'
+[0m16:10:58.253871 [debug] [ThreadPool]: Acquiring new duckdb connection 'list_ecommerce'
+[0m16:11:03.501755 [debug] [ThreadPool]: Using duckdb connection "list_ecommerce"
+[0m16:11:03.502778 [debug] [ThreadPool]: On list_ecommerce: /* {"app": "dbt", "dbt_version": "1.11.6", "profile_name": "ecommerce_gold", "target_name": "dev", "connection_name": "list_ecommerce"} */
+
+    
+    select schema_name
+    from system.information_schema.schemata
+    
+    where lower(catalog_name) = '"ecommerce"'
+    
+  
+  
+[0m16:11:03.504776 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m16:11:03.527971 [debug] [ThreadPool]: DuckDB adapter: duckdb error: IO Error: Cannot open file "c:\users\lenovo\downloads\merge-handler\ecommerce-pipeline\data\gold\ecommerce.duckdb": The system cannot find the path specified.
+
+[0m16:11:03.528971 [debug] [ThreadPool]: DuckDB adapter: Error running SQL: /* {"app": "dbt", "dbt_version": "1.11.6", "profile_name": "ecommerce_gold", "target_name": "dev", "connection_name": "list_ecommerce"} */
+
+    
+    select schema_name
+    from system.information_schema.schemata
+    
+    where lower(catalog_name) = '"ecommerce"'
+    
+  
+  
+[0m16:11:03.530969 [debug] [ThreadPool]: DuckDB adapter: Rolling back transaction.
+[0m16:11:03.532773 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m16:11:03.546439 [debug] [ThreadPool]: DuckDB adapter: duckdb error: IO Error: Cannot open file "c:\users\lenovo\downloads\merge-handler\ecommerce-pipeline\data\gold\ecommerce.duckdb": The system cannot find the path specified.
+
+[0m16:11:03.547527 [debug] [ThreadPool]: DuckDB adapter: Error running SQL: macro list_schemas
+[0m16:11:03.549847 [debug] [ThreadPool]: DuckDB adapter: Rolling back transaction.
+[0m16:11:03.550846 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m16:11:03.561607 [debug] [MainThread]: Connection 'master' was properly closed.
+[0m16:11:03.562607 [debug] [MainThread]: Connection 'list_ecommerce' was properly closed.
+[0m16:11:03.564122 [info ] [MainThread]: 
+[0m16:11:03.566140 [info ] [MainThread]: Finished running  in 0 hours 0 minutes and 5.33 seconds (5.33s).
+[0m16:11:03.568142 [error] [MainThread]: Encountered an error:
+IO Error: Cannot open file "c:\users\lenovo\downloads\merge-handler\ecommerce-pipeline\data\gold\ecommerce.duckdb": The system cannot find the path specified.
+
+[0m16:11:04.028505 [error] [MainThread]: Traceback (most recent call last):
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\adapters\duckdb\connections.py", line 95, in exception_handler
+    yield
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\adapters\sql\connections.py", line 147, in add_query
+    cursor = connection.handle.cursor()
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\adapters\contracts\connection.py", line 96, in handle
+    self._handle.resolve(self)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\adapters\contracts\connection.py", line 120, in resolve
+    return self.opener(connection)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\adapters\duckdb\connections.py", line 53, in open
+    connection.handle = cls._ENV.handle()
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\adapters\duckdb\environments\local.py", line 75, in handle
+    self.conn = self.initialize_db(self.creds, self._plugins)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\adapters\duckdb\environments\__init__.py", line 159, in initialize_db
+    conn = duckdb.connect(creds.path, read_only=False, config=config)
+_duckdb.IOException: IO Error: Cannot open file "c:\users\lenovo\downloads\merge-handler\ecommerce-pipeline\data\gold\ecommerce.duckdb": The system cannot find the path specified.
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\adapters\duckdb\connections.py", line 95, in exception_handler
+    yield
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\adapters\base\impl.py", line 1320, in execute_macro
+    result = macro_function(**kwargs)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt_common\clients\jinja.py", line 427, in __call__
+    return self.call_macro(*args, **kwargs)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt_common\clients\jinja.py", line 395, in call_macro
+    return macro(*args, **kwargs)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\jinja2\runtime.py", line 770, in __call__
+    return self._invoke(arguments, autoescape)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\jinja2\runtime.py", line 784, in _invoke
+    rv = self._func(*arguments)
+  File "<template>", line 20, in macro
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\jinja2\sandbox.py", line 401, in call
+    return __context.call(__obj, *args, **kwargs)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\jinja2\runtime.py", line 303, in call
+    return __obj(*args, **kwargs)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\clients\jinja.py", line 82, in __call__
+    return self.call_macro(*args, **kwargs)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt_common\clients\jinja.py", line 395, in call_macro
+    return macro(*args, **kwargs)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\jinja2\runtime.py", line 770, in __call__
+    return self._invoke(arguments, autoescape)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\jinja2\runtime.py", line 784, in _invoke
+    rv = self._func(*arguments)
+  File "<template>", line 50, in macro
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\jinja2\sandbox.py", line 401, in call
+    return __context.call(__obj, *args, **kwargs)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\jinja2\runtime.py", line 303, in call
+    return __obj(*args, **kwargs)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\clients\jinja.py", line 82, in __call__
+    return self.call_macro(*args, **kwargs)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt_common\clients\jinja.py", line 395, in call_macro
+    return macro(*args, **kwargs)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\jinja2\runtime.py", line 770, in __call__
+    return self._invoke(arguments, autoescape)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\jinja2\runtime.py", line 784, in _invoke
+    rv = self._func(*arguments)
+  File "<template>", line 33, in macro
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\jinja2\sandbox.py", line 401, in call
+    return __context.call(__obj, *args, **kwargs)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\jinja2\runtime.py", line 303, in call
+    return __obj(*args, **kwargs)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\clients\jinja.py", line 82, in __call__
+    return self.call_macro(*args, **kwargs)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt_common\clients\jinja.py", line 395, in call_macro
+    return macro(*args, **kwargs)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\jinja2\runtime.py", line 770, in __call__
+    return self._invoke(arguments, autoescape)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\jinja2\runtime.py", line 784, in _invoke
+    rv = self._func(*arguments)
+  File "<template>", line 52, in macro
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\jinja2\sandbox.py", line 401, in call
+    return __context.call(__obj, *args, **kwargs)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\jinja2\runtime.py", line 303, in call
+    return __obj(*args, **kwargs)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt_common\record.py", line 538, in record_replay_wrapper
+    return func_to_record(*call_args, **kwargs)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\adapters\base\impl.py", line 471, in execute
+    return self.connections.execute(sql=sql, auto_begin=auto_begin, fetch=fetch, limit=limit)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\adapters\duckdb\connections.py", line 130, in execute
+    return super().execute(sql, auto_begin, fetch, limit)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\adapters\sql\connections.py", line 219, in execute
+    _, cursor = self.add_query(sql, auto_begin)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\adapters\sql\connections.py", line 131, in add_query
+    with self.exception_handler(sql):
+  File "C:\Users\LENOVO\AppData\Local\Programs\Python\Python310\lib\contextlib.py", line 153, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\adapters\duckdb\connections.py", line 102, in exception_handler
+    self.rollback_if_open()
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\adapters\base\connections.py", line 125, in rollback_if_open
+    if conn is not None and conn.handle and conn.transaction_open:
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\adapters\contracts\connection.py", line 96, in handle
+    self._handle.resolve(self)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\adapters\contracts\connection.py", line 120, in resolve
+    return self.opener(connection)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\adapters\duckdb\connections.py", line 53, in open
+    connection.handle = cls._ENV.handle()
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\adapters\duckdb\environments\local.py", line 75, in handle
+    self.conn = self.initialize_db(self.creds, self._plugins)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\adapters\duckdb\environments\__init__.py", line 159, in initialize_db
+    conn = duckdb.connect(creds.path, read_only=False, config=config)
+_duckdb.IOException: IO Error: Cannot open file "c:\users\lenovo\downloads\merge-handler\ecommerce-pipeline\data\gold\ecommerce.duckdb": The system cannot find the path specified.
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\cli\requires.py", line 182, in wrapper
+    result, success = func(*args, **kwargs)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\cli\requires.py", line 128, in wrapper
+    return func(*args, **kwargs)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\cli\requires.py", line 276, in wrapper
+    return func(*args, **kwargs)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\cli\requires.py", line 321, in wrapper
+    return func(*args, **kwargs)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\cli\requires.py", line 391, in wrapper
+    return func(*args, **kwargs)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\cli\requires.py", line 368, in wrapper
+    return func(*args, **kwargs)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\cli\requires.py", line 408, in wrapper
+    return func(*args, **kwargs)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\cli\main.py", line 587, in run
+    results = task.run()
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\task\runnable.py", line 626, in run
+    result = self.execute_with_hooks(selected_uids)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\task\runnable.py", line 559, in execute_with_hooks
+    before_run_status = self.before_run(adapter, selected_uids)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\task\run.py", line 1117, in before_run
+    self.create_schemas(adapter, required_schemas)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\task\runnable.py", line 734, in create_schemas
+    existing_schemas_lowered.update(ls_future.result())
+  File "C:\Users\LENOVO\AppData\Local\Programs\Python\Python310\lib\concurrent\futures\_base.py", line 451, in result
+    return self.__get_result()
+  File "C:\Users\LENOVO\AppData\Local\Programs\Python\Python310\lib\concurrent\futures\_base.py", line 403, in __get_result
+    raise self._exception
+  File "C:\Users\LENOVO\AppData\Local\Programs\Python\Python310\lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt_common\utils\executor.py", line 16, in connected
+    return func(*args, **kwargs)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\task\runnable.py", line 709, in list_schemas
+    for s in adapter.list_schemas(database_quoted)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\adapters\sql\impl.py", line 218, in list_schemas
+    results = self.execute_macro(LIST_SCHEMAS_MACRO_NAME, kwargs={"database": database})
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\adapters\base\impl.py", line 1319, in execute_macro
+    with self.connections.exception_handler(f"macro {macro_name}"):
+  File "C:\Users\LENOVO\AppData\Local\Programs\Python\Python310\lib\contextlib.py", line 153, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\adapters\duckdb\connections.py", line 102, in exception_handler
+    self.rollback_if_open()
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\adapters\base\connections.py", line 125, in rollback_if_open
+    if conn is not None and conn.handle and conn.transaction_open:
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\adapters\contracts\connection.py", line 96, in handle
+    self._handle.resolve(self)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\adapters\contracts\connection.py", line 120, in resolve
+    return self.opener(connection)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\adapters\duckdb\connections.py", line 53, in open
+    connection.handle = cls._ENV.handle()
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\adapters\duckdb\environments\local.py", line 75, in handle
+    self.conn = self.initialize_db(self.creds, self._plugins)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\adapters\duckdb\environments\__init__.py", line 159, in initialize_db
+    conn = duckdb.connect(creds.path, read_only=False, config=config)
+_duckdb.IOException: IO Error: Cannot open file "c:\users\lenovo\downloads\merge-handler\ecommerce-pipeline\data\gold\ecommerce.duckdb": The system cannot find the path specified.
+
+
+[0m16:11:04.036023 [debug] [MainThread]: Command `dbt run` failed at 16:11:04.034627 after 23.91 seconds
+[0m16:11:04.037024 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000018F18583640>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000018F1C116860>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000018F1C117520>]}
+[0m16:11:04.039019 [debug] [MainThread]: Flushing usage events
+[0m16:11:05.473759 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m16:27:34.544717 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000240372F35B0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000024039670370>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000024039670190>]}
+
+
+============================== 16:27:34.553139 | 298bf5fa-3e35-4635-bde0-49cdd328f939 ==============================
+[0m16:27:34.553139 [info ] [MainThread]: Running with dbt=1.11.6
+[0m16:27:34.555464 [debug] [MainThread]: running dbt with arguments {'version_check': 'True', 'no_print': 'None', 'static_parser': 'True', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'target_path': 'None', 'printer_width': '80', 'write_json': 'True', 'introspect': 'True', 'log_cache_events': 'False', 'empty': 'False', 'cache_selected_only': 'False', 'log_format': 'default', 'debug': 'False', 'fail_fast': 'False', 'profiles_dir': 'C:\\Users\\LENOVO\\.dbt', 'send_anonymous_usage_stats': 'True', 'quiet': 'False', 'warn_error': 'None', 'partial_parse': 'True', 'indirect_selection': 'eager', 'use_colors': 'True', 'invocation_command': 'dbt run', 'use_experimental_parser': 'False', 'log_path': 'C:\\Users\\LENOVO\\Downloads\\merge-handler\\ecommerce-pipeline\\dbt\\ecommerce_gold\\logs'}
+[0m16:27:35.795328 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': '298bf5fa-3e35-4635-bde0-49cdd328f939', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000024035F414E0>]}
+[0m16:27:36.295589 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'adapter_info', 'label': '298bf5fa-3e35-4635-bde0-49cdd328f939', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000240395E1C60>]}
+[0m16:27:36.308820 [info ] [MainThread]: Registered adapter: duckdb=1.10.1
+[0m16:27:37.788768 [debug] [MainThread]: checksum: ec27062d18352e9cfca161c166fcc73d2201661a23a3cf3c89196a27f32cfcb8, vars: {}, profile: , target: , version: 1.11.6
+[0m16:27:38.330301 [debug] [MainThread]: Partial parsing enabled: 0 files deleted, 0 files added, 0 files changed.
+[0m16:27:38.332253 [debug] [MainThread]: Nothing changed, skipping partial parsing.
+[0m16:27:38.333252 [debug] [MainThread]: Partial parsing enabled, no changes found, skipping parsing
+[0m16:27:38.542381 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'load_project', 'label': '298bf5fa-3e35-4635-bde0-49cdd328f939', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002403AD57F70>]}
+[0m16:27:38.860300 [debug] [MainThread]: Wrote artifact WritableManifest to C:\Users\LENOVO\Downloads\merge-handler\ecommerce-pipeline\dbt\ecommerce_gold\target\manifest.json
+[0m16:27:38.865551 [debug] [MainThread]: Wrote artifact SemanticManifest to C:\Users\LENOVO\Downloads\merge-handler\ecommerce-pipeline\dbt\ecommerce_gold\target\semantic_manifest.json
+[0m16:27:38.924228 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'resource_counts', 'label': '298bf5fa-3e35-4635-bde0-49cdd328f939', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002403AD2C640>]}
+[0m16:27:38.926255 [info ] [MainThread]: Found 6 models, 8 data tests, 474 macros
+[0m16:27:38.929246 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': '298bf5fa-3e35-4635-bde0-49cdd328f939', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002403AD37A90>]}
+[0m16:27:38.933292 [info ] [MainThread]: 
+[0m16:27:38.934810 [info ] [MainThread]: Concurrency: 4 threads (target='dev')
+[0m16:27:38.937360 [info ] [MainThread]: 
+[0m16:27:38.940352 [debug] [MainThread]: Acquiring new duckdb connection 'master'
+[0m16:27:38.963329 [debug] [ThreadPool]: Acquiring new duckdb connection 'list_ecommerce'
+[0m16:27:39.207846 [debug] [ThreadPool]: Using duckdb connection "list_ecommerce"
+[0m16:27:39.209365 [debug] [ThreadPool]: On list_ecommerce: /* {"app": "dbt", "dbt_version": "1.11.6", "profile_name": "ecommerce_gold", "target_name": "dev", "connection_name": "list_ecommerce"} */
+
+    
+    select schema_name
+    from system.information_schema.schemata
+    
+    where lower(catalog_name) = '"ecommerce"'
+    
+  
+  
+[0m16:27:39.210899 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m16:27:39.228182 [debug] [ThreadPool]: DuckDB adapter: duckdb error: IO Error: Cannot open file "c:\users\lenovo\downloads\merge-handler\ecommerce-pipeline\data\gold\ecommerce.duckdb": The system cannot find the path specified.
+
+[0m16:27:39.230237 [debug] [ThreadPool]: DuckDB adapter: Error running SQL: /* {"app": "dbt", "dbt_version": "1.11.6", "profile_name": "ecommerce_gold", "target_name": "dev", "connection_name": "list_ecommerce"} */
+
+    
+    select schema_name
+    from system.information_schema.schemata
+    
+    where lower(catalog_name) = '"ecommerce"'
+    
+  
+  
+[0m16:27:39.231767 [debug] [ThreadPool]: DuckDB adapter: Rolling back transaction.
+[0m16:27:39.233814 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m16:27:39.246474 [debug] [ThreadPool]: DuckDB adapter: duckdb error: IO Error: Cannot open file "c:\users\lenovo\downloads\merge-handler\ecommerce-pipeline\data\gold\ecommerce.duckdb": The system cannot find the path specified.
+
+[0m16:27:39.247990 [debug] [ThreadPool]: DuckDB adapter: Error running SQL: macro list_schemas
+[0m16:27:39.249550 [debug] [ThreadPool]: DuckDB adapter: Rolling back transaction.
+[0m16:27:39.250580 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m16:27:39.264800 [debug] [MainThread]: Connection 'master' was properly closed.
+[0m16:27:39.265800 [debug] [MainThread]: Connection 'list_ecommerce' was properly closed.
+[0m16:27:39.267316 [info ] [MainThread]: 
+[0m16:27:39.269870 [info ] [MainThread]: Finished running  in 0 hours 0 minutes and 0.33 seconds (0.33s).
+[0m16:27:39.271869 [error] [MainThread]: Encountered an error:
+IO Error: Cannot open file "c:\users\lenovo\downloads\merge-handler\ecommerce-pipeline\data\gold\ecommerce.duckdb": The system cannot find the path specified.
+
+[0m16:27:39.288663 [error] [MainThread]: Traceback (most recent call last):
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\adapters\duckdb\connections.py", line 95, in exception_handler
+    yield
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\adapters\sql\connections.py", line 147, in add_query
+    cursor = connection.handle.cursor()
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\adapters\contracts\connection.py", line 96, in handle
+    self._handle.resolve(self)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\adapters\contracts\connection.py", line 120, in resolve
+    return self.opener(connection)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\adapters\duckdb\connections.py", line 53, in open
+    connection.handle = cls._ENV.handle()
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\adapters\duckdb\environments\local.py", line 75, in handle
+    self.conn = self.initialize_db(self.creds, self._plugins)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\adapters\duckdb\environments\__init__.py", line 159, in initialize_db
+    conn = duckdb.connect(creds.path, read_only=False, config=config)
+_duckdb.IOException: IO Error: Cannot open file "c:\users\lenovo\downloads\merge-handler\ecommerce-pipeline\data\gold\ecommerce.duckdb": The system cannot find the path specified.
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\adapters\duckdb\connections.py", line 95, in exception_handler
+    yield
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\adapters\base\impl.py", line 1320, in execute_macro
+    result = macro_function(**kwargs)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt_common\clients\jinja.py", line 427, in __call__
+    return self.call_macro(*args, **kwargs)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt_common\clients\jinja.py", line 395, in call_macro
+    return macro(*args, **kwargs)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\jinja2\runtime.py", line 770, in __call__
+    return self._invoke(arguments, autoescape)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\jinja2\runtime.py", line 784, in _invoke
+    rv = self._func(*arguments)
+  File "<template>", line 20, in macro
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\jinja2\sandbox.py", line 401, in call
+    return __context.call(__obj, *args, **kwargs)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\jinja2\runtime.py", line 303, in call
+    return __obj(*args, **kwargs)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\clients\jinja.py", line 82, in __call__
+    return self.call_macro(*args, **kwargs)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt_common\clients\jinja.py", line 395, in call_macro
+    return macro(*args, **kwargs)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\jinja2\runtime.py", line 770, in __call__
+    return self._invoke(arguments, autoescape)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\jinja2\runtime.py", line 784, in _invoke
+    rv = self._func(*arguments)
+  File "<template>", line 50, in macro
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\jinja2\sandbox.py", line 401, in call
+    return __context.call(__obj, *args, **kwargs)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\jinja2\runtime.py", line 303, in call
+    return __obj(*args, **kwargs)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\clients\jinja.py", line 82, in __call__
+    return self.call_macro(*args, **kwargs)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt_common\clients\jinja.py", line 395, in call_macro
+    return macro(*args, **kwargs)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\jinja2\runtime.py", line 770, in __call__
+    return self._invoke(arguments, autoescape)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\jinja2\runtime.py", line 784, in _invoke
+    rv = self._func(*arguments)
+  File "<template>", line 33, in macro
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\jinja2\sandbox.py", line 401, in call
+    return __context.call(__obj, *args, **kwargs)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\jinja2\runtime.py", line 303, in call
+    return __obj(*args, **kwargs)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\clients\jinja.py", line 82, in __call__
+    return self.call_macro(*args, **kwargs)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt_common\clients\jinja.py", line 395, in call_macro
+    return macro(*args, **kwargs)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\jinja2\runtime.py", line 770, in __call__
+    return self._invoke(arguments, autoescape)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\jinja2\runtime.py", line 784, in _invoke
+    rv = self._func(*arguments)
+  File "<template>", line 52, in macro
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\jinja2\sandbox.py", line 401, in call
+    return __context.call(__obj, *args, **kwargs)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\jinja2\runtime.py", line 303, in call
+    return __obj(*args, **kwargs)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt_common\record.py", line 538, in record_replay_wrapper
+    return func_to_record(*call_args, **kwargs)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\adapters\base\impl.py", line 471, in execute
+    return self.connections.execute(sql=sql, auto_begin=auto_begin, fetch=fetch, limit=limit)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\adapters\duckdb\connections.py", line 130, in execute
+    return super().execute(sql, auto_begin, fetch, limit)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\adapters\sql\connections.py", line 219, in execute
+    _, cursor = self.add_query(sql, auto_begin)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\adapters\sql\connections.py", line 131, in add_query
+    with self.exception_handler(sql):
+  File "C:\Users\LENOVO\AppData\Local\Programs\Python\Python310\lib\contextlib.py", line 153, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\adapters\duckdb\connections.py", line 102, in exception_handler
+    self.rollback_if_open()
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\adapters\base\connections.py", line 125, in rollback_if_open
+    if conn is not None and conn.handle and conn.transaction_open:
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\adapters\contracts\connection.py", line 96, in handle
+    self._handle.resolve(self)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\adapters\contracts\connection.py", line 120, in resolve
+    return self.opener(connection)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\adapters\duckdb\connections.py", line 53, in open
+    connection.handle = cls._ENV.handle()
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\adapters\duckdb\environments\local.py", line 75, in handle
+    self.conn = self.initialize_db(self.creds, self._plugins)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\adapters\duckdb\environments\__init__.py", line 159, in initialize_db
+    conn = duckdb.connect(creds.path, read_only=False, config=config)
+_duckdb.IOException: IO Error: Cannot open file "c:\users\lenovo\downloads\merge-handler\ecommerce-pipeline\data\gold\ecommerce.duckdb": The system cannot find the path specified.
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\cli\requires.py", line 182, in wrapper
+    result, success = func(*args, **kwargs)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\cli\requires.py", line 128, in wrapper
+    return func(*args, **kwargs)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\cli\requires.py", line 276, in wrapper
+    return func(*args, **kwargs)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\cli\requires.py", line 321, in wrapper
+    return func(*args, **kwargs)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\cli\requires.py", line 391, in wrapper
+    return func(*args, **kwargs)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\cli\requires.py", line 368, in wrapper
+    return func(*args, **kwargs)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\cli\requires.py", line 408, in wrapper
+    return func(*args, **kwargs)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\cli\main.py", line 587, in run
+    results = task.run()
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\task\runnable.py", line 626, in run
+    result = self.execute_with_hooks(selected_uids)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\task\runnable.py", line 559, in execute_with_hooks
+    before_run_status = self.before_run(adapter, selected_uids)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\task\run.py", line 1117, in before_run
+    self.create_schemas(adapter, required_schemas)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\task\runnable.py", line 734, in create_schemas
+    existing_schemas_lowered.update(ls_future.result())
+  File "C:\Users\LENOVO\AppData\Local\Programs\Python\Python310\lib\concurrent\futures\_base.py", line 451, in result
+    return self.__get_result()
+  File "C:\Users\LENOVO\AppData\Local\Programs\Python\Python310\lib\concurrent\futures\_base.py", line 403, in __get_result
+    raise self._exception
+  File "C:\Users\LENOVO\AppData\Local\Programs\Python\Python310\lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt_common\utils\executor.py", line 16, in connected
+    return func(*args, **kwargs)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\task\runnable.py", line 709, in list_schemas
+    for s in adapter.list_schemas(database_quoted)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\adapters\sql\impl.py", line 218, in list_schemas
+    results = self.execute_macro(LIST_SCHEMAS_MACRO_NAME, kwargs={"database": database})
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\adapters\base\impl.py", line 1319, in execute_macro
+    with self.connections.exception_handler(f"macro {macro_name}"):
+  File "C:\Users\LENOVO\AppData\Local\Programs\Python\Python310\lib\contextlib.py", line 153, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\adapters\duckdb\connections.py", line 102, in exception_handler
+    self.rollback_if_open()
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\adapters\base\connections.py", line 125, in rollback_if_open
+    if conn is not None and conn.handle and conn.transaction_open:
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\adapters\contracts\connection.py", line 96, in handle
+    self._handle.resolve(self)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\adapters\contracts\connection.py", line 120, in resolve
+    return self.opener(connection)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\adapters\duckdb\connections.py", line 53, in open
+    connection.handle = cls._ENV.handle()
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\adapters\duckdb\environments\local.py", line 75, in handle
+    self.conn = self.initialize_db(self.creds, self._plugins)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\adapters\duckdb\environments\__init__.py", line 159, in initialize_db
+    conn = duckdb.connect(creds.path, read_only=False, config=config)
+_duckdb.IOException: IO Error: Cannot open file "c:\users\lenovo\downloads\merge-handler\ecommerce-pipeline\data\gold\ecommerce.duckdb": The system cannot find the path specified.
+
+
+[0m16:27:39.302265 [debug] [MainThread]: Command `dbt run` failed at 16:27:39.301263 after 4.99 seconds
+[0m16:27:39.304799 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000240372F35B0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002403AD7E650>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002403AD7E740>]}
+[0m16:27:39.311426 [debug] [MainThread]: Flushing usage events
+[0m16:27:40.765784 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m16:30:03.252368 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001C931473640>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001C9337EC370>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001C9337EC190>]}
+
+
+============================== 16:30:03.277086 | afcacaf3-ce8a-4f5b-9679-60adfc25f42c ==============================
+[0m16:30:03.277086 [info ] [MainThread]: Running with dbt=1.11.6
+[0m16:30:03.282236 [debug] [MainThread]: running dbt with arguments {'static_parser': 'True', 'no_print': 'None', 'version_check': 'True', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'target_path': 'None', 'printer_width': '80', 'write_json': 'True', 'introspect': 'True', 'log_cache_events': 'False', 'empty': 'False', 'cache_selected_only': 'False', 'log_format': 'default', 'debug': 'False', 'fail_fast': 'False', 'partial_parse': 'True', 'send_anonymous_usage_stats': 'True', 'quiet': 'False', 'warn_error': 'None', 'profiles_dir': 'C:\\Users\\LENOVO\\.dbt', 'invocation_command': 'dbt run', 'indirect_selection': 'eager', 'use_colors': 'True', 'use_experimental_parser': 'False', 'log_path': 'C:\\Users\\LENOVO\\Downloads\\merge-handler\\ecommerce-pipeline\\dbt\\ecommerce_gold\\logs'}
+[0m16:30:05.038364 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': 'afcacaf3-ce8a-4f5b-9679-60adfc25f42c', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001C92F6DAA10>]}
+[0m16:30:05.424095 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'adapter_info', 'label': 'afcacaf3-ce8a-4f5b-9679-60adfc25f42c', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001C933908730>]}
+[0m16:30:05.433433 [info ] [MainThread]: Registered adapter: duckdb=1.10.1
+[0m16:30:06.461480 [debug] [MainThread]: checksum: ec27062d18352e9cfca161c166fcc73d2201661a23a3cf3c89196a27f32cfcb8, vars: {}, profile: , target: , version: 1.11.6
+[0m16:30:06.833492 [debug] [MainThread]: Partial parsing enabled: 0 files deleted, 0 files added, 0 files changed.
+[0m16:30:06.835486 [debug] [MainThread]: Nothing changed, skipping partial parsing.
+[0m16:30:06.837511 [debug] [MainThread]: Partial parsing enabled, no changes found, skipping parsing
+[0m16:30:06.948616 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'load_project', 'label': 'afcacaf3-ce8a-4f5b-9679-60adfc25f42c', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001C934ED3EE0>]}
+[0m16:30:07.245344 [debug] [MainThread]: Wrote artifact WritableManifest to C:\Users\LENOVO\Downloads\merge-handler\ecommerce-pipeline\dbt\ecommerce_gold\target\manifest.json
+[0m16:30:07.251888 [debug] [MainThread]: Wrote artifact SemanticManifest to C:\Users\LENOVO\Downloads\merge-handler\ecommerce-pipeline\dbt\ecommerce_gold\target\semantic_manifest.json
+[0m16:30:07.326373 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'resource_counts', 'label': 'afcacaf3-ce8a-4f5b-9679-60adfc25f42c', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001C934DD9300>]}
+[0m16:30:07.328376 [info ] [MainThread]: Found 6 models, 8 data tests, 474 macros
+[0m16:30:07.330380 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': 'afcacaf3-ce8a-4f5b-9679-60adfc25f42c', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001C934C906A0>]}
+[0m16:30:07.335979 [info ] [MainThread]: 
+[0m16:30:07.337979 [info ] [MainThread]: Concurrency: 4 threads (target='dev')
+[0m16:30:07.340501 [info ] [MainThread]: 
+[0m16:30:07.343753 [debug] [MainThread]: Acquiring new duckdb connection 'master'
+[0m16:30:07.364623 [debug] [ThreadPool]: Acquiring new duckdb connection 'list_ecommerce'
+[0m16:30:07.625856 [debug] [ThreadPool]: Using duckdb connection "list_ecommerce"
+[0m16:30:07.627022 [debug] [ThreadPool]: On list_ecommerce: /* {"app": "dbt", "dbt_version": "1.11.6", "profile_name": "ecommerce_gold", "target_name": "dev", "connection_name": "list_ecommerce"} */
+
+    
+    select schema_name
+    from system.information_schema.schemata
+    
+    where lower(catalog_name) = '"ecommerce"'
+    
+  
+  
+[0m16:30:07.629217 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m16:30:07.677632 [debug] [ThreadPool]: SQL status: OK in 0.048 seconds
+[0m16:30:07.681886 [debug] [ThreadPool]: On list_ecommerce: Close
+[0m16:30:07.684956 [debug] [ThreadPool]: Re-using an available connection from the pool (formerly list_ecommerce, now create_ecommerce_main)
+[0m16:30:07.686948 [debug] [ThreadPool]: Creating schema "database: "ecommerce"
+schema: "main"
+"
+[0m16:30:07.707839 [debug] [ThreadPool]: Using duckdb connection "create_ecommerce_main"
+[0m16:30:07.709202 [debug] [ThreadPool]: On create_ecommerce_main: /* {"app": "dbt", "dbt_version": "1.11.6", "profile_name": "ecommerce_gold", "target_name": "dev", "connection_name": "create_ecommerce_main"} */
+
+    
+        select type from duckdb_databases()
+        where lower(database_name)='ecommerce'
+        and type='sqlite'
+    
+  
+[0m16:30:07.711827 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m16:30:07.715134 [debug] [ThreadPool]: SQL status: OK in 0.004 seconds
+[0m16:30:07.719342 [debug] [ThreadPool]: Using duckdb connection "create_ecommerce_main"
+[0m16:30:07.721675 [debug] [ThreadPool]: On create_ecommerce_main: BEGIN
+[0m16:30:07.723678 [debug] [ThreadPool]: SQL status: OK in 0.001 seconds
+[0m16:30:07.725676 [debug] [ThreadPool]: Using duckdb connection "create_ecommerce_main"
+[0m16:30:07.727213 [debug] [ThreadPool]: On create_ecommerce_main: /* {"app": "dbt", "dbt_version": "1.11.6", "profile_name": "ecommerce_gold", "target_name": "dev", "connection_name": "create_ecommerce_main"} */
+
+    
+    
+        create schema if not exists "ecommerce"."main"
+    
+[0m16:30:07.728434 [debug] [ThreadPool]: SQL status: OK in 0.001 seconds
+[0m16:30:07.731099 [debug] [ThreadPool]: On create_ecommerce_main: COMMIT
+[0m16:30:07.733376 [debug] [ThreadPool]: Using duckdb connection "create_ecommerce_main"
+[0m16:30:07.734411 [debug] [ThreadPool]: On create_ecommerce_main: COMMIT
+[0m16:30:07.738404 [debug] [ThreadPool]: SQL status: OK in 0.001 seconds
+[0m16:30:07.740522 [debug] [ThreadPool]: On create_ecommerce_main: Close
+[0m16:30:07.745184 [debug] [ThreadPool]: Acquiring new duckdb connection 'list_ecommerce_main'
+[0m16:30:07.762237 [debug] [ThreadPool]: Using duckdb connection "list_ecommerce_main"
+[0m16:30:07.764230 [debug] [ThreadPool]: On list_ecommerce_main: BEGIN
+[0m16:30:07.765568 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m16:30:07.768551 [debug] [ThreadPool]: SQL status: OK in 0.002 seconds
+[0m16:30:07.770578 [debug] [ThreadPool]: Using duckdb connection "list_ecommerce_main"
+[0m16:30:07.772355 [debug] [ThreadPool]: On list_ecommerce_main: /* {"app": "dbt", "dbt_version": "1.11.6", "profile_name": "ecommerce_gold", "target_name": "dev", "connection_name": "list_ecommerce_main"} */
+select
+      'ecommerce' as database,
+      table_name as name,
+      table_schema as schema,
+      CASE table_type
+        WHEN 'BASE TABLE' THEN 'table'
+        WHEN 'VIEW' THEN 'view'
+        WHEN 'LOCAL TEMPORARY' THEN 'table'
+        END as type
+    from system.information_schema.tables
+    where lower(table_schema) = 'main'
+    and lower(table_catalog) = 'ecommerce'
+  
+[0m16:30:07.808565 [debug] [ThreadPool]: SQL status: OK in 0.034 seconds
+[0m16:30:07.811086 [debug] [ThreadPool]: On list_ecommerce_main: ROLLBACK
+[0m16:30:07.813110 [debug] [ThreadPool]: Failed to rollback 'list_ecommerce_main'
+[0m16:30:07.814185 [debug] [ThreadPool]: On list_ecommerce_main: Close
+[0m16:30:07.815530 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': 'afcacaf3-ce8a-4f5b-9679-60adfc25f42c', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001C93351FE80>]}
+[0m16:30:07.817763 [debug] [MainThread]: Using duckdb connection "master"
+[0m16:30:07.819532 [debug] [MainThread]: On master: BEGIN
+[0m16:30:07.820577 [debug] [MainThread]: Opening a new connection, currently in state init
+[0m16:30:07.821577 [debug] [MainThread]: SQL status: OK in 0.002 seconds
+[0m16:30:07.822579 [debug] [MainThread]: On master: COMMIT
+[0m16:30:07.823579 [debug] [MainThread]: Using duckdb connection "master"
+[0m16:30:07.825303 [debug] [MainThread]: On master: COMMIT
+[0m16:30:07.827699 [debug] [MainThread]: SQL status: OK in 0.000 seconds
+[0m16:30:07.829206 [debug] [MainThread]: On master: Close
+[0m16:30:07.845453 [debug] [Thread-1 (]: Began running node model.ecommerce_gold.stg_cart_events
+[0m16:30:07.846670 [debug] [Thread-2 (]: Began running node model.ecommerce_gold.stg_orders
+[0m16:30:07.847677 [debug] [Thread-3 (]: Began running node model.ecommerce_gold.stg_page_views
+[0m16:30:07.849675 [info ] [Thread-1 (]: 1 of 6 START sql view model main.stg_cart_events ............................... [RUN]
+[0m16:30:07.851118 [info ] [Thread-2 (]: 2 of 6 START sql view model main.stg_orders .................................... [RUN]
+[0m16:30:07.853833 [info ] [Thread-3 (]: 3 of 6 START sql view model main.stg_page_views ................................ [RUN]
+[0m16:30:07.856230 [debug] [Thread-1 (]: Acquiring new duckdb connection 'model.ecommerce_gold.stg_cart_events'
+[0m16:30:07.857584 [debug] [Thread-2 (]: Acquiring new duckdb connection 'model.ecommerce_gold.stg_orders'
+[0m16:30:07.859093 [debug] [Thread-3 (]: Acquiring new duckdb connection 'model.ecommerce_gold.stg_page_views'
+[0m16:30:07.861169 [debug] [Thread-1 (]: Began compiling node model.ecommerce_gold.stg_cart_events
+[0m16:30:07.862278 [debug] [Thread-2 (]: Began compiling node model.ecommerce_gold.stg_orders
+[0m16:30:07.863433 [debug] [Thread-3 (]: Began compiling node model.ecommerce_gold.stg_page_views
+[0m16:30:07.884688 [debug] [Thread-1 (]: Writing injected SQL for node "model.ecommerce_gold.stg_cart_events"
+[0m16:30:07.893032 [debug] [Thread-2 (]: Writing injected SQL for node "model.ecommerce_gold.stg_orders"
+[0m16:30:07.902343 [debug] [Thread-3 (]: Writing injected SQL for node "model.ecommerce_gold.stg_page_views"
+[0m16:30:07.913442 [debug] [Thread-3 (]: Began executing node model.ecommerce_gold.stg_page_views
+[0m16:30:07.915067 [debug] [Thread-1 (]: Began executing node model.ecommerce_gold.stg_cart_events
+[0m16:30:07.945854 [debug] [Thread-2 (]: Began executing node model.ecommerce_gold.stg_orders
+[0m16:30:08.016063 [debug] [Thread-3 (]: Writing runtime sql for node "model.ecommerce_gold.stg_page_views"
+[0m16:30:08.017108 [debug] [Thread-1 (]: Writing runtime sql for node "model.ecommerce_gold.stg_cart_events"
+[0m16:30:08.025928 [debug] [Thread-2 (]: Writing runtime sql for node "model.ecommerce_gold.stg_orders"
+[0m16:30:08.039426 [debug] [Thread-2 (]: Using duckdb connection "model.ecommerce_gold.stg_orders"
+[0m16:30:08.041963 [debug] [Thread-3 (]: Using duckdb connection "model.ecommerce_gold.stg_page_views"
+[0m16:30:08.043965 [debug] [Thread-2 (]: On model.ecommerce_gold.stg_orders: BEGIN
+[0m16:30:08.044965 [debug] [Thread-1 (]: Using duckdb connection "model.ecommerce_gold.stg_cart_events"
+[0m16:30:08.046707 [debug] [Thread-3 (]: On model.ecommerce_gold.stg_page_views: BEGIN
+[0m16:30:08.047723 [debug] [Thread-2 (]: Opening a new connection, currently in state init
+[0m16:30:08.048723 [debug] [Thread-1 (]: On model.ecommerce_gold.stg_cart_events: BEGIN
+[0m16:30:08.051212 [debug] [Thread-3 (]: Opening a new connection, currently in state init
+[0m16:30:08.053312 [debug] [Thread-2 (]: SQL status: OK in 0.005 seconds
+[0m16:30:08.054893 [debug] [Thread-1 (]: Opening a new connection, currently in state init
+[0m16:30:08.056452 [debug] [Thread-3 (]: SQL status: OK in 0.006 seconds
+[0m16:30:08.057606 [debug] [Thread-2 (]: Using duckdb connection "model.ecommerce_gold.stg_orders"
+[0m16:30:08.059870 [debug] [Thread-1 (]: SQL status: OK in 0.005 seconds
+[0m16:30:08.060872 [debug] [Thread-3 (]: Using duckdb connection "model.ecommerce_gold.stg_page_views"
+[0m16:30:08.062872 [debug] [Thread-2 (]: On model.ecommerce_gold.stg_orders: /* {"app": "dbt", "dbt_version": "1.11.6", "profile_name": "ecommerce_gold", "target_name": "dev", "node_id": "model.ecommerce_gold.stg_orders"} */
+
+  
+  create view "ecommerce"."main"."stg_orders__dbt_tmp" as (
+    with source as (
+
+    select * from read_parquet(
+        'C:/Users/LENOVO/Downloads/merge-handler/ecommerce-pipeline/data/silver/orders/*.parquet'
+    )
+
+)
+
+select
+    event_id,
+    order_id,
+    user_id,
+    product_id,
+    product_name,
+    category,
+    quantity,
+    price,
+    total_amount,
+    payment_method,
+    status,
+    is_failed,
+    event_timestamp                         as ordered_at,
+    date_trunc('day', event_timestamp)      as order_date
+from source
+  );
+
+[0m16:30:08.063953 [debug] [Thread-1 (]: Using duckdb connection "model.ecommerce_gold.stg_cart_events"
+[0m16:30:08.066132 [debug] [Thread-3 (]: On model.ecommerce_gold.stg_page_views: /* {"app": "dbt", "dbt_version": "1.11.6", "profile_name": "ecommerce_gold", "target_name": "dev", "node_id": "model.ecommerce_gold.stg_page_views"} */
+
+  
+  create view "ecommerce"."main"."stg_page_views__dbt_tmp" as (
+    -- Staging models are thin wrappers over Silver tables
+-- They rename columns, cast types, and add nothing else
+-- Rule: staging models should be boring and predictable
+
+with source as (
+
+    select * from read_parquet(
+        'C:/Users/LENOVO/Downloads/merge-handler/ecommerce-pipeline/data/silver/page_views/*.parquet'
+    )
+
+)
+
+select
+    event_id,
+    user_id,
+    session_id,
+    product_id,
+    product_name,
+    category,
+    event_timestamp                         as viewed_at,
+    date_trunc('day', event_timestamp)      as view_date
+from source
+  );
+
+[0m16:30:08.068176 [debug] [Thread-1 (]: On model.ecommerce_gold.stg_cart_events: /* {"app": "dbt", "dbt_version": "1.11.6", "profile_name": "ecommerce_gold", "target_name": "dev", "node_id": "model.ecommerce_gold.stg_cart_events"} */
+
+  
+  create view "ecommerce"."main"."stg_cart_events__dbt_tmp" as (
+    with source as (
+
+    select * from read_parquet(
+        'C:/Users/LENOVO/Downloads/merge-handler/ecommerce-pipeline/data/silver/cart_events/*.parquet'
+    )
+
+)
+
+select
+    event_id,
+    user_id,
+    product_id,
+    product_name,
+    category,
+    quantity,
+    price,
+    line_total,
+    event_timestamp                         as added_at,
+    date_trunc('day', event_timestamp)      as cart_date
+from source
+  );
+
+[0m16:30:08.087620 [debug] [Thread-2 (]: SQL status: OK in 0.020 seconds
+[0m16:30:08.088965 [debug] [Thread-1 (]: SQL status: OK in 0.019 seconds
+[0m16:30:08.090387 [debug] [Thread-3 (]: SQL status: OK in 0.021 seconds
+[0m16:30:08.105184 [debug] [Thread-2 (]: Using duckdb connection "model.ecommerce_gold.stg_orders"
+[0m16:30:08.114981 [debug] [Thread-1 (]: Using duckdb connection "model.ecommerce_gold.stg_cart_events"
+[0m16:30:08.123249 [debug] [Thread-3 (]: Using duckdb connection "model.ecommerce_gold.stg_page_views"
+[0m16:30:08.124254 [debug] [Thread-2 (]: On model.ecommerce_gold.stg_orders: /* {"app": "dbt", "dbt_version": "1.11.6", "profile_name": "ecommerce_gold", "target_name": "dev", "node_id": "model.ecommerce_gold.stg_orders"} */
+alter view "ecommerce"."main"."stg_orders__dbt_tmp" rename to "stg_orders"
+[0m16:30:08.125306 [debug] [Thread-1 (]: On model.ecommerce_gold.stg_cart_events: /* {"app": "dbt", "dbt_version": "1.11.6", "profile_name": "ecommerce_gold", "target_name": "dev", "node_id": "model.ecommerce_gold.stg_cart_events"} */
+alter view "ecommerce"."main"."stg_cart_events__dbt_tmp" rename to "stg_cart_events"
+[0m16:30:08.127350 [debug] [Thread-3 (]: On model.ecommerce_gold.stg_page_views: /* {"app": "dbt", "dbt_version": "1.11.6", "profile_name": "ecommerce_gold", "target_name": "dev", "node_id": "model.ecommerce_gold.stg_page_views"} */
+alter view "ecommerce"."main"."stg_page_views__dbt_tmp" rename to "stg_page_views"
+[0m16:30:08.129896 [debug] [Thread-2 (]: SQL status: OK in 0.001 seconds
+[0m16:30:08.130916 [debug] [Thread-1 (]: SQL status: OK in 0.002 seconds
+[0m16:30:08.133037 [debug] [Thread-3 (]: SQL status: OK in 0.002 seconds
+[0m16:30:08.156241 [debug] [Thread-2 (]: On model.ecommerce_gold.stg_orders: COMMIT
+[0m16:30:08.160250 [debug] [Thread-1 (]: On model.ecommerce_gold.stg_cart_events: COMMIT
+[0m16:30:08.164517 [debug] [Thread-3 (]: On model.ecommerce_gold.stg_page_views: COMMIT
+[0m16:30:08.165517 [debug] [Thread-2 (]: Using duckdb connection "model.ecommerce_gold.stg_orders"
+[0m16:30:08.166520 [debug] [Thread-1 (]: Using duckdb connection "model.ecommerce_gold.stg_cart_events"
+[0m16:30:08.169048 [debug] [Thread-3 (]: Using duckdb connection "model.ecommerce_gold.stg_page_views"
+[0m16:30:08.170560 [debug] [Thread-2 (]: On model.ecommerce_gold.stg_orders: COMMIT
+[0m16:30:08.171584 [debug] [Thread-1 (]: On model.ecommerce_gold.stg_cart_events: COMMIT
+[0m16:30:08.173603 [debug] [Thread-3 (]: On model.ecommerce_gold.stg_page_views: COMMIT
+[0m16:30:08.183291 [debug] [Thread-2 (]: SQL status: OK in 0.008 seconds
+[0m16:30:08.184288 [debug] [Thread-1 (]: SQL status: OK in 0.010 seconds
+[0m16:30:08.185786 [debug] [Thread-3 (]: SQL status: OK in 0.010 seconds
+[0m16:30:08.198956 [debug] [Thread-2 (]: Using duckdb connection "model.ecommerce_gold.stg_orders"
+[0m16:30:08.204493 [debug] [Thread-1 (]: Using duckdb connection "model.ecommerce_gold.stg_cart_events"
+[0m16:30:08.211637 [debug] [Thread-3 (]: Using duckdb connection "model.ecommerce_gold.stg_page_views"
+[0m16:30:08.212881 [debug] [Thread-2 (]: On model.ecommerce_gold.stg_orders: /* {"app": "dbt", "dbt_version": "1.11.6", "profile_name": "ecommerce_gold", "target_name": "dev", "node_id": "model.ecommerce_gold.stg_orders"} */
+
+      drop view if exists "ecommerce"."main"."stg_orders__dbt_backup" cascade
+    
+[0m16:30:08.215499 [debug] [Thread-1 (]: On model.ecommerce_gold.stg_cart_events: /* {"app": "dbt", "dbt_version": "1.11.6", "profile_name": "ecommerce_gold", "target_name": "dev", "node_id": "model.ecommerce_gold.stg_cart_events"} */
+
+      drop view if exists "ecommerce"."main"."stg_cart_events__dbt_backup" cascade
+    
+[0m16:30:08.216498 [debug] [Thread-3 (]: On model.ecommerce_gold.stg_page_views: /* {"app": "dbt", "dbt_version": "1.11.6", "profile_name": "ecommerce_gold", "target_name": "dev", "node_id": "model.ecommerce_gold.stg_page_views"} */
+
+      drop view if exists "ecommerce"."main"."stg_page_views__dbt_backup" cascade
+    
+[0m16:30:08.219040 [debug] [Thread-2 (]: SQL status: OK in 0.001 seconds
+[0m16:30:08.221119 [debug] [Thread-1 (]: SQL status: OK in 0.002 seconds
+[0m16:30:08.222112 [debug] [Thread-3 (]: SQL status: OK in 0.002 seconds
+[0m16:30:08.227988 [debug] [Thread-2 (]: On model.ecommerce_gold.stg_orders: Close
+[0m16:30:08.230996 [debug] [Thread-1 (]: On model.ecommerce_gold.stg_cart_events: Close
+[0m16:30:08.233614 [debug] [Thread-3 (]: On model.ecommerce_gold.stg_page_views: Close
+[0m16:30:08.239017 [debug] [Thread-2 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': 'afcacaf3-ce8a-4f5b-9679-60adfc25f42c', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001C9312BBFA0>]}
+[0m16:30:08.241640 [debug] [Thread-3 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': 'afcacaf3-ce8a-4f5b-9679-60adfc25f42c', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001C934E86E60>]}
+[0m16:30:08.242812 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': 'afcacaf3-ce8a-4f5b-9679-60adfc25f42c', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001C934A51510>]}
+[0m16:30:08.244009 [info ] [Thread-2 (]: 2 of 6 OK created sql view model main.stg_orders ............................... [[32mOK[0m in 0.38s]
+[0m16:30:08.246269 [info ] [Thread-3 (]: 3 of 6 OK created sql view model main.stg_page_views ........................... [[32mOK[0m in 0.38s]
+[0m16:30:08.248358 [info ] [Thread-1 (]: 1 of 6 OK created sql view model main.stg_cart_events .......................... [[32mOK[0m in 0.38s]
+[0m16:30:08.250784 [debug] [Thread-2 (]: Finished running node model.ecommerce_gold.stg_orders
+[0m16:30:08.252549 [debug] [Thread-3 (]: Finished running node model.ecommerce_gold.stg_page_views
+[0m16:30:08.254081 [debug] [Thread-1 (]: Finished running node model.ecommerce_gold.stg_cart_events
+[0m16:30:08.256115 [debug] [Thread-3 (]: Began running node model.ecommerce_gold.fct_orders
+[0m16:30:08.259138 [info ] [Thread-3 (]: 4 of 6 START sql table model main.fct_orders ................................... [RUN]
+[0m16:30:08.261137 [debug] [Thread-3 (]: Re-using an available connection from the pool (formerly model.ecommerce_gold.stg_page_views, now model.ecommerce_gold.fct_orders)
+[0m16:30:08.263244 [debug] [Thread-3 (]: Began compiling node model.ecommerce_gold.fct_orders
+[0m16:30:08.271130 [debug] [Thread-3 (]: Writing injected SQL for node "model.ecommerce_gold.fct_orders"
+[0m16:30:08.276532 [debug] [Thread-3 (]: Began executing node model.ecommerce_gold.fct_orders
+[0m16:30:08.333700 [debug] [Thread-3 (]: Writing runtime sql for node "model.ecommerce_gold.fct_orders"
+[0m16:30:08.337841 [debug] [Thread-3 (]: Using duckdb connection "model.ecommerce_gold.fct_orders"
+[0m16:30:08.339873 [debug] [Thread-3 (]: On model.ecommerce_gold.fct_orders: BEGIN
+[0m16:30:08.342271 [debug] [Thread-3 (]: Opening a new connection, currently in state closed
+[0m16:30:08.344781 [debug] [Thread-3 (]: SQL status: OK in 0.002 seconds
+[0m16:30:08.346824 [debug] [Thread-3 (]: Using duckdb connection "model.ecommerce_gold.fct_orders"
+[0m16:30:08.347824 [debug] [Thread-3 (]: On model.ecommerce_gold.fct_orders: /* {"app": "dbt", "dbt_version": "1.11.6", "profile_name": "ecommerce_gold", "target_name": "dev", "node_id": "model.ecommerce_gold.fct_orders"} */
+
+  
+    
+    
+
+    create  table
+      "ecommerce"."main"."fct_orders__dbt_tmp"
+  
+    as (
+      -- The most important Gold table: one row per order
+-- This is what the revenue dashboard reads from
+
+with orders as (
+    select * from "ecommerce"."main"."stg_orders"
+),
+
+final as (
+    select
+        order_id,
+        user_id,
+        product_id,
+        product_name,
+        category,
+        quantity,
+        price,
+        total_amount,
+        payment_method,
+        status,
+        is_failed,
+
+        -- Business metrics
+        case when not is_failed then total_amount else 0 end    as revenue,
+        case when not is_failed then 1 else 0 end               as successful_order_flag,
+
+        ordered_at,
+        order_date
+    from orders
+)
+
+select * from final
+    );
+  
+  
+[0m16:30:08.360432 [debug] [Thread-3 (]: SQL status: OK in 0.011 seconds
+[0m16:30:08.368587 [debug] [Thread-3 (]: Using duckdb connection "model.ecommerce_gold.fct_orders"
+[0m16:30:08.370689 [debug] [Thread-3 (]: On model.ecommerce_gold.fct_orders: /* {"app": "dbt", "dbt_version": "1.11.6", "profile_name": "ecommerce_gold", "target_name": "dev", "node_id": "model.ecommerce_gold.fct_orders"} */
+alter table "ecommerce"."main"."fct_orders__dbt_tmp" rename to "fct_orders"
+[0m16:30:08.374062 [debug] [Thread-3 (]: SQL status: OK in 0.001 seconds
+[0m16:30:08.390403 [debug] [Thread-3 (]: On model.ecommerce_gold.fct_orders: COMMIT
+[0m16:30:08.393271 [debug] [Thread-3 (]: Using duckdb connection "model.ecommerce_gold.fct_orders"
+[0m16:30:08.395615 [debug] [Thread-3 (]: On model.ecommerce_gold.fct_orders: COMMIT
+[0m16:30:08.400996 [debug] [Thread-3 (]: SQL status: OK in 0.004 seconds
+[0m16:30:08.409568 [debug] [Thread-3 (]: Using duckdb connection "model.ecommerce_gold.fct_orders"
+[0m16:30:08.411068 [debug] [Thread-3 (]: On model.ecommerce_gold.fct_orders: /* {"app": "dbt", "dbt_version": "1.11.6", "profile_name": "ecommerce_gold", "target_name": "dev", "node_id": "model.ecommerce_gold.fct_orders"} */
+
+      drop table if exists "ecommerce"."main"."fct_orders__dbt_backup" cascade
+    
+[0m16:30:08.414751 [debug] [Thread-3 (]: SQL status: OK in 0.001 seconds
+[0m16:30:08.420522 [debug] [Thread-3 (]: On model.ecommerce_gold.fct_orders: Close
+[0m16:30:08.423569 [debug] [Thread-3 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': 'afcacaf3-ce8a-4f5b-9679-60adfc25f42c', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001C934A51510>]}
+[0m16:30:08.426573 [info ] [Thread-3 (]: 4 of 6 OK created sql table model main.fct_orders .............................. [[32mOK[0m in 0.16s]
+[0m16:30:08.430934 [debug] [Thread-3 (]: Finished running node model.ecommerce_gold.fct_orders
+[0m16:30:08.433954 [debug] [Thread-2 (]: Began running node model.ecommerce_gold.dim_product_performance
+[0m16:30:08.434956 [debug] [Thread-4 (]: Began running node model.ecommerce_gold.fct_conversion_funnel
+[0m16:30:08.438419 [info ] [Thread-2 (]: 5 of 6 START sql table model main.dim_product_performance ...................... [RUN]
+[0m16:30:08.440964 [info ] [Thread-4 (]: 6 of 6 START sql table model main.fct_conversion_funnel ........................ [RUN]
+[0m16:30:08.442765 [debug] [Thread-2 (]: Re-using an available connection from the pool (formerly model.ecommerce_gold.stg_orders, now model.ecommerce_gold.dim_product_performance)
+[0m16:30:08.446011 [debug] [Thread-4 (]: Acquiring new duckdb connection 'model.ecommerce_gold.fct_conversion_funnel'
+[0m16:30:08.447675 [debug] [Thread-2 (]: Began compiling node model.ecommerce_gold.dim_product_performance
+[0m16:30:08.449185 [debug] [Thread-4 (]: Began compiling node model.ecommerce_gold.fct_conversion_funnel
+[0m16:30:08.459188 [debug] [Thread-2 (]: Writing injected SQL for node "model.ecommerce_gold.dim_product_performance"
+[0m16:30:08.473025 [debug] [Thread-4 (]: Writing injected SQL for node "model.ecommerce_gold.fct_conversion_funnel"
+[0m16:30:08.477497 [debug] [Thread-2 (]: Began executing node model.ecommerce_gold.dim_product_performance
+[0m16:30:08.490090 [debug] [Thread-2 (]: Writing runtime sql for node "model.ecommerce_gold.dim_product_performance"
+[0m16:30:08.491239 [debug] [Thread-4 (]: Began executing node model.ecommerce_gold.fct_conversion_funnel
+[0m16:30:08.503966 [debug] [Thread-4 (]: Writing runtime sql for node "model.ecommerce_gold.fct_conversion_funnel"
+[0m16:30:08.506962 [debug] [Thread-2 (]: Using duckdb connection "model.ecommerce_gold.dim_product_performance"
+[0m16:30:08.508893 [debug] [Thread-2 (]: On model.ecommerce_gold.dim_product_performance: BEGIN
+[0m16:30:08.510938 [debug] [Thread-2 (]: Opening a new connection, currently in state closed
+[0m16:30:08.512955 [debug] [Thread-4 (]: Using duckdb connection "model.ecommerce_gold.fct_conversion_funnel"
+[0m16:30:08.514959 [debug] [Thread-2 (]: SQL status: OK in 0.004 seconds
+[0m16:30:08.515959 [debug] [Thread-4 (]: On model.ecommerce_gold.fct_conversion_funnel: BEGIN
+[0m16:30:08.518243 [debug] [Thread-2 (]: Using duckdb connection "model.ecommerce_gold.dim_product_performance"
+[0m16:30:08.519249 [debug] [Thread-4 (]: Opening a new connection, currently in state init
+[0m16:30:08.522694 [debug] [Thread-2 (]: On model.ecommerce_gold.dim_product_performance: /* {"app": "dbt", "dbt_version": "1.11.6", "profile_name": "ecommerce_gold", "target_name": "dev", "node_id": "model.ecommerce_gold.dim_product_performance"} */
+
+  
+    
+    
+
+    create  table
+      "ecommerce"."main"."dim_product_performance__dbt_tmp"
+  
+    as (
+      -- Product performance dimension: which products drive the most revenue
+-- Combines views, cart adds, and orders per product
+
+with views as (
+    select
+        product_id,
+        product_name,
+        category,
+        count(*)                as total_views,
+        count(distinct user_id) as unique_viewers
+    from "ecommerce"."main"."stg_page_views"
+    group by 1, 2, 3
+),
+
+carts as (
+    select
+        product_id,
+        count(*)    as total_cart_adds,
+        sum(quantity) as total_units_carted
+    from "ecommerce"."main"."stg_cart_events"
+    group by 1
+),
+
+orders as (
+    select
+        product_id,
+        count(order_id)     as total_orders,
+        sum(quantity)       as total_units_sold,
+        sum(revenue)        as total_revenue,
+        avg(total_amount)   as avg_order_value
+    from "ecommerce"."main"."fct_orders"
+    group by 1
+),
+
+final as (
+    select
+        v.product_id,
+        v.product_name,
+        v.category,
+        v.total_views,
+        v.unique_viewers,
+        coalesce(c.total_cart_adds,    0)   as total_cart_adds,
+        coalesce(o.total_orders,       0)   as total_orders,
+        coalesce(o.total_units_sold,   0)   as total_units_sold,
+        coalesce(o.total_revenue,      0.0) as total_revenue,
+        coalesce(o.avg_order_value,    0.0) as avg_order_value,
+
+        -- Product conversion rate
+        round(
+            coalesce(o.total_orders, 0) * 100.0
+            / nullif(v.total_views, 0), 2
+        )                                   as product_conversion_rate
+
+    from views v
+    left join carts  c using (product_id)
+    left join orders o using (product_id)
+)
+
+select * from final
+order by total_revenue desc
+    );
+  
+  
+[0m16:30:08.525848 [debug] [Thread-4 (]: SQL status: OK in 0.006 seconds
+[0m16:30:08.527864 [debug] [Thread-4 (]: Using duckdb connection "model.ecommerce_gold.fct_conversion_funnel"
+[0m16:30:08.530093 [debug] [Thread-4 (]: On model.ecommerce_gold.fct_conversion_funnel: /* {"app": "dbt", "dbt_version": "1.11.6", "profile_name": "ecommerce_gold", "target_name": "dev", "node_id": "model.ecommerce_gold.fct_conversion_funnel"} */
+
+  
+    
+    
+
+    create  table
+      "ecommerce"."main"."fct_conversion_funnel__dbt_tmp"
+  
+    as (
+      -- The conversion funnel: how many users go from view → cart → order per day
+-- This is the most watched metric in any e-commerce company
+
+with page_views as (
+    select
+        view_date               as event_date,
+        count(distinct user_id) as users_who_viewed
+    from "ecommerce"."main"."stg_page_views"
+    group by 1
+),
+
+carts as (
+    select
+        cart_date               as event_date,
+        count(distinct user_id) as users_who_carted
+    from "ecommerce"."main"."stg_cart_events"
+    group by 1
+),
+
+orders as (
+    select
+        order_date              as event_date,
+        count(distinct user_id) as users_who_ordered,
+        count(order_id)         as total_orders,
+        sum(revenue)            as total_revenue
+    from "ecommerce"."main"."fct_orders"
+    group by 1
+),
+
+final as (
+    select
+        p.event_date,
+        p.users_who_viewed,
+        coalesce(c.users_who_carted,  0)    as users_who_carted,
+        coalesce(o.users_who_ordered, 0)    as users_who_ordered,
+        coalesce(o.total_orders,      0)    as total_orders,
+        coalesce(o.total_revenue,     0)    as total_revenue,
+
+        -- Conversion rates (the KPIs everyone watches)
+        round(
+            coalesce(c.users_who_carted, 0) * 100.0
+            / nullif(p.users_who_viewed, 0), 2
+        )                                   as view_to_cart_rate,
+
+        round(
+            coalesce(o.users_who_ordered, 0) * 100.0
+            / nullif(p.users_who_viewed, 0), 2
+        )                                   as view_to_order_rate
+
+    from page_views p
+    left join carts   c using (event_date)
+    left join orders  o using (event_date)
+)
+
+select * from final
+order by event_date desc
+    );
+  
+  
+[0m16:30:08.566207 [debug] [Thread-2 (]: SQL status: OK in 0.040 seconds
+[0m16:30:08.568207 [debug] [Thread-4 (]: SQL status: OK in 0.036 seconds
+[0m16:30:08.577104 [debug] [Thread-2 (]: Using duckdb connection "model.ecommerce_gold.dim_product_performance"
+[0m16:30:08.586904 [debug] [Thread-4 (]: Using duckdb connection "model.ecommerce_gold.fct_conversion_funnel"
+[0m16:30:08.589646 [debug] [Thread-2 (]: On model.ecommerce_gold.dim_product_performance: /* {"app": "dbt", "dbt_version": "1.11.6", "profile_name": "ecommerce_gold", "target_name": "dev", "node_id": "model.ecommerce_gold.dim_product_performance"} */
+alter table "ecommerce"."main"."dim_product_performance__dbt_tmp" rename to "dim_product_performance"
+[0m16:30:08.590666 [debug] [Thread-4 (]: On model.ecommerce_gold.fct_conversion_funnel: /* {"app": "dbt", "dbt_version": "1.11.6", "profile_name": "ecommerce_gold", "target_name": "dev", "node_id": "model.ecommerce_gold.fct_conversion_funnel"} */
+alter table "ecommerce"."main"."fct_conversion_funnel__dbt_tmp" rename to "fct_conversion_funnel"
+[0m16:30:08.594356 [debug] [Thread-2 (]: SQL status: OK in 0.001 seconds
+[0m16:30:08.599036 [debug] [Thread-2 (]: On model.ecommerce_gold.dim_product_performance: COMMIT
+[0m16:30:08.600656 [debug] [Thread-4 (]: SQL status: OK in 0.007 seconds
+[0m16:30:08.602170 [debug] [Thread-2 (]: Using duckdb connection "model.ecommerce_gold.dim_product_performance"
+[0m16:30:08.607235 [debug] [Thread-4 (]: On model.ecommerce_gold.fct_conversion_funnel: COMMIT
+[0m16:30:08.608374 [debug] [Thread-2 (]: On model.ecommerce_gold.dim_product_performance: COMMIT
+[0m16:30:08.609370 [debug] [Thread-4 (]: Using duckdb connection "model.ecommerce_gold.fct_conversion_funnel"
+[0m16:30:08.612921 [debug] [Thread-4 (]: On model.ecommerce_gold.fct_conversion_funnel: COMMIT
+[0m16:30:08.613917 [debug] [Thread-2 (]: SQL status: OK in 0.003 seconds
+[0m16:30:08.624283 [debug] [Thread-2 (]: Using duckdb connection "model.ecommerce_gold.dim_product_performance"
+[0m16:30:08.624283 [debug] [Thread-4 (]: SQL status: OK in 0.009 seconds
+[0m16:30:08.625889 [debug] [Thread-2 (]: On model.ecommerce_gold.dim_product_performance: /* {"app": "dbt", "dbt_version": "1.11.6", "profile_name": "ecommerce_gold", "target_name": "dev", "node_id": "model.ecommerce_gold.dim_product_performance"} */
+
+      drop table if exists "ecommerce"."main"."dim_product_performance__dbt_backup" cascade
+    
+[0m16:30:08.634604 [debug] [Thread-4 (]: Using duckdb connection "model.ecommerce_gold.fct_conversion_funnel"
+[0m16:30:08.637684 [debug] [Thread-4 (]: On model.ecommerce_gold.fct_conversion_funnel: /* {"app": "dbt", "dbt_version": "1.11.6", "profile_name": "ecommerce_gold", "target_name": "dev", "node_id": "model.ecommerce_gold.fct_conversion_funnel"} */
+
+      drop table if exists "ecommerce"."main"."fct_conversion_funnel__dbt_backup" cascade
+    
+[0m16:30:08.638919 [debug] [Thread-2 (]: SQL status: OK in 0.003 seconds
+[0m16:30:08.643582 [debug] [Thread-2 (]: On model.ecommerce_gold.dim_product_performance: Close
+[0m16:30:08.643582 [debug] [Thread-4 (]: SQL status: OK in 0.004 seconds
+[0m16:30:08.646214 [debug] [Thread-2 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': 'afcacaf3-ce8a-4f5b-9679-60adfc25f42c', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001C9312BBFA0>]}
+[0m16:30:08.650558 [debug] [Thread-4 (]: On model.ecommerce_gold.fct_conversion_funnel: Close
+[0m16:30:08.653052 [info ] [Thread-2 (]: 5 of 6 OK created sql table model main.dim_product_performance ................. [[32mOK[0m in 0.20s]
+[0m16:30:08.655238 [debug] [Thread-4 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': 'afcacaf3-ce8a-4f5b-9679-60adfc25f42c', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001C935437D60>]}
+[0m16:30:08.658041 [debug] [Thread-2 (]: Finished running node model.ecommerce_gold.dim_product_performance
+[0m16:30:08.660564 [info ] [Thread-4 (]: 6 of 6 OK created sql table model main.fct_conversion_funnel ................... [[32mOK[0m in 0.21s]
+[0m16:30:08.663916 [debug] [Thread-4 (]: Finished running node model.ecommerce_gold.fct_conversion_funnel
+[0m16:30:08.668264 [debug] [MainThread]: Using duckdb connection "master"
+[0m16:30:08.670639 [debug] [MainThread]: On master: BEGIN
+[0m16:30:08.672636 [debug] [MainThread]: Opening a new connection, currently in state closed
+[0m16:30:08.675058 [debug] [MainThread]: SQL status: OK in 0.003 seconds
+[0m16:30:08.676651 [debug] [MainThread]: On master: COMMIT
+[0m16:30:08.678732 [debug] [MainThread]: Using duckdb connection "master"
+[0m16:30:08.679830 [debug] [MainThread]: On master: COMMIT
+[0m16:30:08.681820 [debug] [MainThread]: SQL status: OK in 0.001 seconds
+[0m16:30:08.683821 [debug] [MainThread]: On master: Close
+[0m16:30:08.686335 [debug] [MainThread]: Connection 'master' was properly closed.
+[0m16:30:08.687538 [debug] [MainThread]: Connection 'create_ecommerce_main' was properly closed.
+[0m16:30:08.689540 [debug] [MainThread]: Connection 'list_ecommerce_main' was properly closed.
+[0m16:30:08.691674 [debug] [MainThread]: Connection 'model.ecommerce_gold.stg_cart_events' was properly closed.
+[0m16:30:08.692741 [debug] [MainThread]: Connection 'model.ecommerce_gold.dim_product_performance' was properly closed.
+[0m16:30:08.694871 [debug] [MainThread]: Connection 'model.ecommerce_gold.fct_orders' was properly closed.
+[0m16:30:08.694871 [debug] [MainThread]: Connection 'model.ecommerce_gold.fct_conversion_funnel' was properly closed.
+[0m16:30:08.698122 [info ] [MainThread]: 
+[0m16:30:08.701132 [info ] [MainThread]: Finished running 3 table models, 3 view models in 0 hours 0 minutes and 1.35 seconds (1.35s).
+[0m16:30:08.707001 [debug] [MainThread]: Command end result
+[0m16:30:08.777770 [debug] [MainThread]: Wrote artifact WritableManifest to C:\Users\LENOVO\Downloads\merge-handler\ecommerce-pipeline\dbt\ecommerce_gold\target\manifest.json
+[0m16:30:08.782611 [debug] [MainThread]: Wrote artifact SemanticManifest to C:\Users\LENOVO\Downloads\merge-handler\ecommerce-pipeline\dbt\ecommerce_gold\target\semantic_manifest.json
+[0m16:30:08.803502 [debug] [MainThread]: Wrote artifact RunExecutionResult to C:\Users\LENOVO\Downloads\merge-handler\ecommerce-pipeline\dbt\ecommerce_gold\target\run_results.json
+[0m16:30:08.805534 [info ] [MainThread]: 
+[0m16:30:08.807801 [info ] [MainThread]: [32mCompleted successfully[0m
+[0m16:30:08.808897 [info ] [MainThread]: 
+[0m16:30:08.810939 [info ] [MainThread]: Done. PASS=6 WARN=0 ERROR=0 SKIP=0 NO-OP=0 TOTAL=6
+[0m16:30:08.814119 [debug] [MainThread]: Command `dbt run` succeeded at 16:30:08.814119 after 6.20 seconds
+[0m16:30:08.816201 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001C931473640>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001C931767310>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001C934EA8550>]}
+[0m16:30:08.818763 [debug] [MainThread]: Flushing usage events
+[0m16:30:10.607559 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m16:30:24.932163 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000025635C23610>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000025637FAC340>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000025637FAC160>]}
+
+
+============================== 16:30:24.944804 | 3bd7560d-7378-45ed-93f4-ff7cf8933507 ==============================
+[0m16:30:24.944804 [info ] [MainThread]: Running with dbt=1.11.6
+[0m16:30:24.947446 [debug] [MainThread]: running dbt with arguments {'static_parser': 'True', 'no_print': 'None', 'version_check': 'True', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'target_path': 'None', 'printer_width': '80', 'write_json': 'True', 'introspect': 'True', 'log_cache_events': 'False', 'empty': 'None', 'cache_selected_only': 'False', 'log_format': 'default', 'debug': 'False', 'fail_fast': 'False', 'partial_parse': 'True', 'send_anonymous_usage_stats': 'True', 'quiet': 'False', 'warn_error': 'None', 'profiles_dir': 'C:\\Users\\LENOVO\\.dbt', 'use_colors': 'True', 'indirect_selection': 'eager', 'invocation_command': 'dbt test', 'use_experimental_parser': 'False', 'log_path': 'C:\\Users\\LENOVO\\Downloads\\merge-handler\\ecommerce-pipeline\\dbt\\ecommerce_gold\\logs'}
+[0m16:30:25.965123 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': '3bd7560d-7378-45ed-93f4-ff7cf8933507', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000025633E7BEE0>]}
+[0m16:30:26.270486 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'adapter_info', 'label': '3bd7560d-7378-45ed-93f4-ff7cf8933507', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000025637646B90>]}
+[0m16:30:26.279886 [info ] [MainThread]: Registered adapter: duckdb=1.10.1
+[0m16:30:27.018984 [debug] [MainThread]: checksum: ec27062d18352e9cfca161c166fcc73d2201661a23a3cf3c89196a27f32cfcb8, vars: {}, profile: , target: , version: 1.11.6
+[0m16:30:27.462427 [debug] [MainThread]: Partial parsing enabled: 0 files deleted, 0 files added, 0 files changed.
+[0m16:30:27.464426 [debug] [MainThread]: Nothing changed, skipping partial parsing.
+[0m16:30:27.465427 [debug] [MainThread]: Partial parsing enabled, no changes found, skipping parsing
+[0m16:30:27.618274 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'load_project', 'label': '3bd7560d-7378-45ed-93f4-ff7cf8933507', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000025639698A00>]}
+[0m16:30:28.036165 [debug] [MainThread]: Wrote artifact WritableManifest to C:\Users\LENOVO\Downloads\merge-handler\ecommerce-pipeline\dbt\ecommerce_gold\target\manifest.json
+[0m16:30:28.043150 [debug] [MainThread]: Wrote artifact SemanticManifest to C:\Users\LENOVO\Downloads\merge-handler\ecommerce-pipeline\dbt\ecommerce_gold\target\semantic_manifest.json
+[0m16:30:28.142246 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'resource_counts', 'label': '3bd7560d-7378-45ed-93f4-ff7cf8933507', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000025638097610>]}
+[0m16:30:28.144235 [info ] [MainThread]: Found 6 models, 8 data tests, 474 macros
+[0m16:30:28.146247 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': '3bd7560d-7378-45ed-93f4-ff7cf8933507', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002563561AA40>]}
+[0m16:30:28.153496 [info ] [MainThread]: 
+[0m16:30:28.155511 [info ] [MainThread]: Concurrency: 4 threads (target='dev')
+[0m16:30:28.159015 [info ] [MainThread]: 
+[0m16:30:28.161926 [debug] [MainThread]: Acquiring new duckdb connection 'master'
+[0m16:30:28.190194 [debug] [ThreadPool]: Acquiring new duckdb connection 'list_ecommerce_main'
+[0m16:30:28.410339 [debug] [ThreadPool]: Using duckdb connection "list_ecommerce_main"
+[0m16:30:28.411523 [debug] [ThreadPool]: On list_ecommerce_main: BEGIN
+[0m16:30:28.413674 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m16:30:28.483282 [debug] [ThreadPool]: SQL status: OK in 0.070 seconds
+[0m16:30:28.485799 [debug] [ThreadPool]: Using duckdb connection "list_ecommerce_main"
+[0m16:30:28.486788 [debug] [ThreadPool]: On list_ecommerce_main: /* {"app": "dbt", "dbt_version": "1.11.6", "profile_name": "ecommerce_gold", "target_name": "dev", "connection_name": "list_ecommerce_main"} */
+select
+      'ecommerce' as database,
+      table_name as name,
+      table_schema as schema,
+      CASE table_type
+        WHEN 'BASE TABLE' THEN 'table'
+        WHEN 'VIEW' THEN 'view'
+        WHEN 'LOCAL TEMPORARY' THEN 'table'
+        END as type
+    from system.information_schema.tables
+    where lower(table_schema) = 'main'
+    and lower(table_catalog) = 'ecommerce'
+  
+[0m16:30:28.532172 [debug] [ThreadPool]: SQL status: OK in 0.043 seconds
+[0m16:30:28.536172 [debug] [ThreadPool]: On list_ecommerce_main: ROLLBACK
+[0m16:30:28.538685 [debug] [ThreadPool]: Failed to rollback 'list_ecommerce_main'
+[0m16:30:28.540701 [debug] [ThreadPool]: On list_ecommerce_main: Close
+[0m16:30:28.545704 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': '3bd7560d-7378-45ed-93f4-ff7cf8933507', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000025638097610>]}
+[0m16:30:28.547754 [debug] [MainThread]: Using duckdb connection "master"
+[0m16:30:28.549313 [debug] [MainThread]: On master: BEGIN
+[0m16:30:28.552438 [debug] [MainThread]: Opening a new connection, currently in state init
+[0m16:30:28.554436 [debug] [MainThread]: SQL status: OK in 0.003 seconds
+[0m16:30:28.556433 [debug] [MainThread]: On master: COMMIT
+[0m16:30:28.558435 [debug] [MainThread]: Using duckdb connection "master"
+[0m16:30:28.559946 [debug] [MainThread]: On master: COMMIT
+[0m16:30:28.561974 [debug] [MainThread]: SQL status: OK in 0.001 seconds
+[0m16:30:28.563988 [debug] [MainThread]: On master: Close
+[0m16:30:28.577517 [debug] [Thread-1 (]: Began running node test.ecommerce_gold.not_null_stg_cart_events_event_id.81f42ba1e6
+[0m16:30:28.579514 [debug] [Thread-2 (]: Began running node test.ecommerce_gold.not_null_stg_orders_order_id.81cfe2fe64
+[0m16:30:28.581052 [debug] [Thread-3 (]: Began running node test.ecommerce_gold.not_null_stg_orders_total_amount.f31d98d41b
+[0m16:30:28.583162 [debug] [Thread-4 (]: Began running node test.ecommerce_gold.not_null_stg_orders_user_id.7d129d0209
+[0m16:30:28.585162 [info ] [Thread-1 (]: 1 of 8 START test not_null_stg_cart_events_event_id ............................ [RUN]
+[0m16:30:28.587166 [info ] [Thread-2 (]: 2 of 8 START test not_null_stg_orders_order_id ................................. [RUN]
+[0m16:30:28.589159 [info ] [Thread-3 (]: 3 of 8 START test not_null_stg_orders_total_amount ............................. [RUN]
+[0m16:30:28.591703 [info ] [Thread-4 (]: 4 of 8 START test not_null_stg_orders_user_id .................................. [RUN]
+[0m16:30:28.594984 [debug] [Thread-1 (]: Acquiring new duckdb connection 'test.ecommerce_gold.not_null_stg_cart_events_event_id.81f42ba1e6'
+[0m16:30:28.597985 [debug] [Thread-2 (]: Acquiring new duckdb connection 'test.ecommerce_gold.not_null_stg_orders_order_id.81cfe2fe64'
+[0m16:30:28.599499 [debug] [Thread-3 (]: Acquiring new duckdb connection 'test.ecommerce_gold.not_null_stg_orders_total_amount.f31d98d41b'
+[0m16:30:28.603051 [debug] [Thread-4 (]: Acquiring new duckdb connection 'test.ecommerce_gold.not_null_stg_orders_user_id.7d129d0209'
+[0m16:30:28.605051 [debug] [Thread-1 (]: Began compiling node test.ecommerce_gold.not_null_stg_cart_events_event_id.81f42ba1e6
+[0m16:30:28.607057 [debug] [Thread-2 (]: Began compiling node test.ecommerce_gold.not_null_stg_orders_order_id.81cfe2fe64
+[0m16:30:28.610054 [debug] [Thread-3 (]: Began compiling node test.ecommerce_gold.not_null_stg_orders_total_amount.f31d98d41b
+[0m16:30:28.614949 [debug] [Thread-4 (]: Began compiling node test.ecommerce_gold.not_null_stg_orders_user_id.7d129d0209
+[0m16:30:28.687179 [debug] [Thread-2 (]: Writing injected SQL for node "test.ecommerce_gold.not_null_stg_orders_order_id.81cfe2fe64"
+[0m16:30:28.674154 [debug] [Thread-1 (]: Writing injected SQL for node "test.ecommerce_gold.not_null_stg_cart_events_event_id.81f42ba1e6"
+[0m16:30:28.703555 [debug] [Thread-3 (]: Writing injected SQL for node "test.ecommerce_gold.not_null_stg_orders_total_amount.f31d98d41b"
+[0m16:30:28.716324 [debug] [Thread-4 (]: Writing injected SQL for node "test.ecommerce_gold.not_null_stg_orders_user_id.7d129d0209"
+[0m16:30:28.722173 [debug] [Thread-1 (]: Began executing node test.ecommerce_gold.not_null_stg_cart_events_event_id.81f42ba1e6
+[0m16:30:28.739229 [debug] [Thread-3 (]: Began executing node test.ecommerce_gold.not_null_stg_orders_total_amount.f31d98d41b
+[0m16:30:28.755452 [debug] [Thread-2 (]: Began executing node test.ecommerce_gold.not_null_stg_orders_order_id.81cfe2fe64
+[0m16:30:28.792751 [debug] [Thread-1 (]: Writing runtime sql for node "test.ecommerce_gold.not_null_stg_cart_events_event_id.81f42ba1e6"
+[0m16:30:28.798800 [debug] [Thread-3 (]: Writing runtime sql for node "test.ecommerce_gold.not_null_stg_orders_total_amount.f31d98d41b"
+[0m16:30:28.799841 [debug] [Thread-4 (]: Began executing node test.ecommerce_gold.not_null_stg_orders_user_id.7d129d0209
+[0m16:30:28.809315 [debug] [Thread-2 (]: Writing runtime sql for node "test.ecommerce_gold.not_null_stg_orders_order_id.81cfe2fe64"
+[0m16:30:28.820087 [debug] [Thread-4 (]: Writing runtime sql for node "test.ecommerce_gold.not_null_stg_orders_user_id.7d129d0209"
+[0m16:30:28.824632 [debug] [Thread-1 (]: Using duckdb connection "test.ecommerce_gold.not_null_stg_cart_events_event_id.81f42ba1e6"
+[0m16:30:28.827076 [debug] [Thread-3 (]: Using duckdb connection "test.ecommerce_gold.not_null_stg_orders_total_amount.f31d98d41b"
+[0m16:30:28.829080 [debug] [Thread-1 (]: On test.ecommerce_gold.not_null_stg_cart_events_event_id.81f42ba1e6: BEGIN
+[0m16:30:28.832088 [debug] [Thread-2 (]: Using duckdb connection "test.ecommerce_gold.not_null_stg_orders_order_id.81cfe2fe64"
+[0m16:30:28.833511 [debug] [Thread-3 (]: On test.ecommerce_gold.not_null_stg_orders_total_amount.f31d98d41b: BEGIN
+[0m16:30:28.836025 [debug] [Thread-4 (]: Using duckdb connection "test.ecommerce_gold.not_null_stg_orders_user_id.7d129d0209"
+[0m16:30:28.839025 [debug] [Thread-1 (]: Opening a new connection, currently in state init
+[0m16:30:28.841165 [debug] [Thread-2 (]: On test.ecommerce_gold.not_null_stg_orders_order_id.81cfe2fe64: BEGIN
+[0m16:30:28.842459 [debug] [Thread-3 (]: Opening a new connection, currently in state init
+[0m16:30:28.844528 [debug] [Thread-4 (]: On test.ecommerce_gold.not_null_stg_orders_user_id.7d129d0209: BEGIN
+[0m16:30:28.847479 [debug] [Thread-2 (]: Opening a new connection, currently in state init
+[0m16:30:28.848561 [debug] [Thread-1 (]: SQL status: OK in 0.010 seconds
+[0m16:30:28.851672 [debug] [Thread-3 (]: SQL status: OK in 0.009 seconds
+[0m16:30:28.853852 [debug] [Thread-4 (]: Opening a new connection, currently in state init
+[0m16:30:28.855839 [debug] [Thread-2 (]: SQL status: OK in 0.008 seconds
+[0m16:30:28.857359 [debug] [Thread-1 (]: Using duckdb connection "test.ecommerce_gold.not_null_stg_cart_events_event_id.81f42ba1e6"
+[0m16:30:28.859388 [debug] [Thread-3 (]: Using duckdb connection "test.ecommerce_gold.not_null_stg_orders_total_amount.f31d98d41b"
+[0m16:30:28.861386 [debug] [Thread-4 (]: SQL status: OK in 0.009 seconds
+[0m16:30:28.863947 [debug] [Thread-2 (]: Using duckdb connection "test.ecommerce_gold.not_null_stg_orders_order_id.81cfe2fe64"
+[0m16:30:28.865949 [debug] [Thread-1 (]: On test.ecommerce_gold.not_null_stg_cart_events_event_id.81f42ba1e6: /* {"app": "dbt", "dbt_version": "1.11.6", "profile_name": "ecommerce_gold", "target_name": "dev", "node_id": "test.ecommerce_gold.not_null_stg_cart_events_event_id.81f42ba1e6"} */
+
+    
+    select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+  
+    
+    
+
+
+
+select event_id
+from "ecommerce"."main"."stg_cart_events"
+where event_id is null
+
+
+
+  
+  
+      
+    ) dbt_internal_test
+[0m16:30:28.867946 [debug] [Thread-3 (]: On test.ecommerce_gold.not_null_stg_orders_total_amount.f31d98d41b: /* {"app": "dbt", "dbt_version": "1.11.6", "profile_name": "ecommerce_gold", "target_name": "dev", "node_id": "test.ecommerce_gold.not_null_stg_orders_total_amount.f31d98d41b"} */
+
+    
+    select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+  
+    
+    
+
+
+
+select total_amount
+from "ecommerce"."main"."stg_orders"
+where total_amount is null
+
+
+
+  
+  
+      
+    ) dbt_internal_test
+[0m16:30:28.869935 [debug] [Thread-4 (]: Using duckdb connection "test.ecommerce_gold.not_null_stg_orders_user_id.7d129d0209"
+[0m16:30:28.871968 [debug] [Thread-2 (]: On test.ecommerce_gold.not_null_stg_orders_order_id.81cfe2fe64: /* {"app": "dbt", "dbt_version": "1.11.6", "profile_name": "ecommerce_gold", "target_name": "dev", "node_id": "test.ecommerce_gold.not_null_stg_orders_order_id.81cfe2fe64"} */
+
+    
+    select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+  
+    
+    
+
+
+
+select order_id
+from "ecommerce"."main"."stg_orders"
+where order_id is null
+
+
+
+  
+  
+      
+    ) dbt_internal_test
+[0m16:30:28.876495 [debug] [Thread-4 (]: On test.ecommerce_gold.not_null_stg_orders_user_id.7d129d0209: /* {"app": "dbt", "dbt_version": "1.11.6", "profile_name": "ecommerce_gold", "target_name": "dev", "node_id": "test.ecommerce_gold.not_null_stg_orders_user_id.7d129d0209"} */
+
+    
+    select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+  
+    
+    
+
+
+
+select user_id
+from "ecommerce"."main"."stg_orders"
+where user_id is null
+
+
+
+  
+  
+      
+    ) dbt_internal_test
+[0m16:30:28.879504 [debug] [Thread-3 (]: SQL status: OK in 0.005 seconds
+[0m16:30:28.882657 [debug] [Thread-1 (]: SQL status: OK in 0.008 seconds
+[0m16:30:28.885188 [debug] [Thread-2 (]: SQL status: OK in 0.006 seconds
+[0m16:30:28.898270 [debug] [Thread-3 (]: On test.ecommerce_gold.not_null_stg_orders_total_amount.f31d98d41b: ROLLBACK
+[0m16:30:28.899867 [debug] [Thread-4 (]: SQL status: OK in 0.018 seconds
+[0m16:30:28.904418 [debug] [Thread-1 (]: On test.ecommerce_gold.not_null_stg_cart_events_event_id.81f42ba1e6: ROLLBACK
+[0m16:30:28.908998 [debug] [Thread-2 (]: On test.ecommerce_gold.not_null_stg_orders_order_id.81cfe2fe64: ROLLBACK
+[0m16:30:28.911001 [debug] [Thread-3 (]: Failed to rollback 'test.ecommerce_gold.not_null_stg_orders_total_amount.f31d98d41b'
+[0m16:30:28.916085 [debug] [Thread-4 (]: On test.ecommerce_gold.not_null_stg_orders_user_id.7d129d0209: ROLLBACK
+[0m16:30:28.918096 [debug] [Thread-1 (]: Failed to rollback 'test.ecommerce_gold.not_null_stg_cart_events_event_id.81f42ba1e6'
+[0m16:30:28.920097 [debug] [Thread-2 (]: Failed to rollback 'test.ecommerce_gold.not_null_stg_orders_order_id.81cfe2fe64'
+[0m16:30:28.921599 [debug] [Thread-3 (]: On test.ecommerce_gold.not_null_stg_orders_total_amount.f31d98d41b: Close
+[0m16:30:28.923600 [debug] [Thread-4 (]: Failed to rollback 'test.ecommerce_gold.not_null_stg_orders_user_id.7d129d0209'
+[0m16:30:28.926109 [debug] [Thread-1 (]: On test.ecommerce_gold.not_null_stg_cart_events_event_id.81f42ba1e6: Close
+[0m16:30:28.927223 [debug] [Thread-2 (]: On test.ecommerce_gold.not_null_stg_orders_order_id.81cfe2fe64: Close
+[0m16:30:28.930231 [info ] [Thread-3 (]: 3 of 8 PASS not_null_stg_orders_total_amount ................................... [[32mPASS[0m in 0.33s]
+[0m16:30:28.932231 [debug] [Thread-4 (]: On test.ecommerce_gold.not_null_stg_orders_user_id.7d129d0209: Close
+[0m16:30:28.934232 [info ] [Thread-1 (]: 1 of 8 PASS not_null_stg_cart_events_event_id .................................. [[32mPASS[0m in 0.34s]
+[0m16:30:28.938367 [info ] [Thread-2 (]: 2 of 8 PASS not_null_stg_orders_order_id ....................................... [[32mPASS[0m in 0.34s]
+[0m16:30:28.941126 [debug] [Thread-3 (]: Finished running node test.ecommerce_gold.not_null_stg_orders_total_amount.f31d98d41b
+[0m16:30:28.944640 [info ] [Thread-4 (]: 4 of 8 PASS not_null_stg_orders_user_id ........................................ [[32mPASS[0m in 0.34s]
+[0m16:30:28.949133 [debug] [Thread-1 (]: Finished running node test.ecommerce_gold.not_null_stg_cart_events_event_id.81f42ba1e6
+[0m16:30:28.951645 [debug] [Thread-2 (]: Finished running node test.ecommerce_gold.not_null_stg_orders_order_id.81cfe2fe64
+[0m16:30:28.954675 [debug] [Thread-3 (]: Began running node test.ecommerce_gold.not_null_stg_page_views_event_id.000a4c0ffa
+[0m16:30:28.958409 [debug] [Thread-4 (]: Finished running node test.ecommerce_gold.not_null_stg_orders_user_id.7d129d0209
+[0m16:30:28.960413 [debug] [Thread-1 (]: Began running node test.ecommerce_gold.unique_stg_cart_events_event_id.92e64ac1b1
+[0m16:30:28.962404 [debug] [Thread-2 (]: Began running node test.ecommerce_gold.unique_stg_orders_order_id.e3b841c71a
+[0m16:30:28.965416 [info ] [Thread-3 (]: 5 of 8 START test not_null_stg_page_views_event_id ............................. [RUN]
+[0m16:30:28.967943 [debug] [Thread-4 (]: Began running node test.ecommerce_gold.unique_stg_page_views_event_id.167137a679
+[0m16:30:28.970029 [info ] [Thread-1 (]: 6 of 8 START test unique_stg_cart_events_event_id .............................. [RUN]
+[0m16:30:28.973655 [info ] [Thread-2 (]: 7 of 8 START test unique_stg_orders_order_id ................................... [RUN]
+[0m16:30:28.976742 [debug] [Thread-3 (]: Re-using an available connection from the pool (formerly test.ecommerce_gold.not_null_stg_orders_total_amount.f31d98d41b, now test.ecommerce_gold.not_null_stg_page_views_event_id.000a4c0ffa)
+[0m16:30:28.980320 [info ] [Thread-4 (]: 8 of 8 START test unique_stg_page_views_event_id ............................... [RUN]
+[0m16:30:28.982397 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly test.ecommerce_gold.not_null_stg_cart_events_event_id.81f42ba1e6, now test.ecommerce_gold.unique_stg_cart_events_event_id.92e64ac1b1)
+[0m16:30:28.985572 [debug] [Thread-2 (]: Re-using an available connection from the pool (formerly test.ecommerce_gold.not_null_stg_orders_order_id.81cfe2fe64, now test.ecommerce_gold.unique_stg_orders_order_id.e3b841c71a)
+[0m16:30:28.988578 [debug] [Thread-3 (]: Began compiling node test.ecommerce_gold.not_null_stg_page_views_event_id.000a4c0ffa
+[0m16:30:28.991337 [debug] [Thread-4 (]: Re-using an available connection from the pool (formerly test.ecommerce_gold.not_null_stg_orders_user_id.7d129d0209, now test.ecommerce_gold.unique_stg_page_views_event_id.167137a679)
+[0m16:30:28.993344 [debug] [Thread-1 (]: Began compiling node test.ecommerce_gold.unique_stg_cart_events_event_id.92e64ac1b1
+[0m16:30:28.996346 [debug] [Thread-2 (]: Began compiling node test.ecommerce_gold.unique_stg_orders_order_id.e3b841c71a
+[0m16:30:29.016994 [debug] [Thread-3 (]: Writing injected SQL for node "test.ecommerce_gold.not_null_stg_page_views_event_id.000a4c0ffa"
+[0m16:30:29.018989 [debug] [Thread-4 (]: Began compiling node test.ecommerce_gold.unique_stg_page_views_event_id.167137a679
+[0m16:30:29.039758 [debug] [Thread-1 (]: Writing injected SQL for node "test.ecommerce_gold.unique_stg_cart_events_event_id.92e64ac1b1"
+[0m16:30:29.053568 [debug] [Thread-2 (]: Writing injected SQL for node "test.ecommerce_gold.unique_stg_orders_order_id.e3b841c71a"
+[0m16:30:29.068663 [debug] [Thread-4 (]: Writing injected SQL for node "test.ecommerce_gold.unique_stg_page_views_event_id.167137a679"
+[0m16:30:29.072049 [debug] [Thread-3 (]: Began executing node test.ecommerce_gold.not_null_stg_page_views_event_id.000a4c0ffa
+[0m16:30:29.088071 [debug] [Thread-3 (]: Writing runtime sql for node "test.ecommerce_gold.not_null_stg_page_views_event_id.000a4c0ffa"
+[0m16:30:29.091030 [debug] [Thread-1 (]: Began executing node test.ecommerce_gold.unique_stg_cart_events_event_id.92e64ac1b1
+[0m16:30:29.093207 [debug] [Thread-2 (]: Began executing node test.ecommerce_gold.unique_stg_orders_order_id.e3b841c71a
+[0m16:30:29.095314 [debug] [Thread-4 (]: Began executing node test.ecommerce_gold.unique_stg_page_views_event_id.167137a679
+[0m16:30:29.096494 [debug] [Thread-3 (]: Using duckdb connection "test.ecommerce_gold.not_null_stg_page_views_event_id.000a4c0ffa"
+[0m16:30:29.106470 [debug] [Thread-1 (]: Writing runtime sql for node "test.ecommerce_gold.unique_stg_cart_events_event_id.92e64ac1b1"
+[0m16:30:29.117510 [debug] [Thread-2 (]: Writing runtime sql for node "test.ecommerce_gold.unique_stg_orders_order_id.e3b841c71a"
+[0m16:30:29.126110 [debug] [Thread-4 (]: Writing runtime sql for node "test.ecommerce_gold.unique_stg_page_views_event_id.167137a679"
+[0m16:30:29.128112 [debug] [Thread-3 (]: On test.ecommerce_gold.not_null_stg_page_views_event_id.000a4c0ffa: BEGIN
+[0m16:30:29.132644 [debug] [Thread-1 (]: Using duckdb connection "test.ecommerce_gold.unique_stg_cart_events_event_id.92e64ac1b1"
+[0m16:30:29.134769 [debug] [Thread-3 (]: Opening a new connection, currently in state closed
+[0m16:30:29.137012 [debug] [Thread-2 (]: Using duckdb connection "test.ecommerce_gold.unique_stg_orders_order_id.e3b841c71a"
+[0m16:30:29.139291 [debug] [Thread-4 (]: Using duckdb connection "test.ecommerce_gold.unique_stg_page_views_event_id.167137a679"
+[0m16:30:29.139291 [debug] [Thread-1 (]: On test.ecommerce_gold.unique_stg_cart_events_event_id.92e64ac1b1: BEGIN
+[0m16:30:29.143354 [debug] [Thread-2 (]: On test.ecommerce_gold.unique_stg_orders_order_id.e3b841c71a: BEGIN
+[0m16:30:29.144928 [debug] [Thread-3 (]: SQL status: OK in 0.010 seconds
+[0m16:30:29.145956 [debug] [Thread-4 (]: On test.ecommerce_gold.unique_stg_page_views_event_id.167137a679: BEGIN
+[0m16:30:29.147954 [debug] [Thread-1 (]: Opening a new connection, currently in state closed
+[0m16:30:29.150103 [debug] [Thread-2 (]: Opening a new connection, currently in state closed
+[0m16:30:29.152106 [debug] [Thread-3 (]: Using duckdb connection "test.ecommerce_gold.not_null_stg_page_views_event_id.000a4c0ffa"
+[0m16:30:29.154107 [debug] [Thread-4 (]: Opening a new connection, currently in state closed
+[0m16:30:29.156639 [debug] [Thread-1 (]: SQL status: OK in 0.009 seconds
+[0m16:30:29.158644 [debug] [Thread-3 (]: On test.ecommerce_gold.not_null_stg_page_views_event_id.000a4c0ffa: /* {"app": "dbt", "dbt_version": "1.11.6", "profile_name": "ecommerce_gold", "target_name": "dev", "node_id": "test.ecommerce_gold.not_null_stg_page_views_event_id.000a4c0ffa"} */
+
+    
+    select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+  
+    
+    
+
+
+
+select event_id
+from "ecommerce"."main"."stg_page_views"
+where event_id is null
+
+
+
+  
+  
+      
+    ) dbt_internal_test
+[0m16:30:29.159988 [debug] [Thread-2 (]: SQL status: OK in 0.010 seconds
+[0m16:30:29.163023 [debug] [Thread-4 (]: SQL status: OK in 0.009 seconds
+[0m16:30:29.164099 [debug] [Thread-1 (]: Using duckdb connection "test.ecommerce_gold.unique_stg_cart_events_event_id.92e64ac1b1"
+[0m16:30:29.167661 [debug] [Thread-2 (]: Using duckdb connection "test.ecommerce_gold.unique_stg_orders_order_id.e3b841c71a"
+[0m16:30:29.169198 [debug] [Thread-4 (]: Using duckdb connection "test.ecommerce_gold.unique_stg_page_views_event_id.167137a679"
+[0m16:30:29.171385 [debug] [Thread-3 (]: SQL status: OK in 0.004 seconds
+[0m16:30:29.172452 [debug] [Thread-1 (]: On test.ecommerce_gold.unique_stg_cart_events_event_id.92e64ac1b1: /* {"app": "dbt", "dbt_version": "1.11.6", "profile_name": "ecommerce_gold", "target_name": "dev", "node_id": "test.ecommerce_gold.unique_stg_cart_events_event_id.92e64ac1b1"} */
+
+    
+    select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+  
+    
+    
+
+select
+    event_id as unique_field,
+    count(*) as n_records
+
+from "ecommerce"."main"."stg_cart_events"
+where event_id is not null
+group by event_id
+having count(*) > 1
+
+
+
+  
+  
+      
+    ) dbt_internal_test
+[0m16:30:29.174456 [debug] [Thread-2 (]: On test.ecommerce_gold.unique_stg_orders_order_id.e3b841c71a: /* {"app": "dbt", "dbt_version": "1.11.6", "profile_name": "ecommerce_gold", "target_name": "dev", "node_id": "test.ecommerce_gold.unique_stg_orders_order_id.e3b841c71a"} */
+
+    
+    select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+  
+    
+    
+
+select
+    order_id as unique_field,
+    count(*) as n_records
+
+from "ecommerce"."main"."stg_orders"
+where order_id is not null
+group by order_id
+having count(*) > 1
+
+
+
+  
+  
+      
+    ) dbt_internal_test
+[0m16:30:29.177031 [debug] [Thread-4 (]: On test.ecommerce_gold.unique_stg_page_views_event_id.167137a679: /* {"app": "dbt", "dbt_version": "1.11.6", "profile_name": "ecommerce_gold", "target_name": "dev", "node_id": "test.ecommerce_gold.unique_stg_page_views_event_id.167137a679"} */
+
+    
+    select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+  
+    
+    
+
+select
+    event_id as unique_field,
+    count(*) as n_records
+
+from "ecommerce"."main"."stg_page_views"
+where event_id is not null
+group by event_id
+having count(*) > 1
+
+
+
+  
+  
+      
+    ) dbt_internal_test
+[0m16:30:29.181446 [debug] [Thread-3 (]: On test.ecommerce_gold.not_null_stg_page_views_event_id.000a4c0ffa: ROLLBACK
+[0m16:30:29.186914 [debug] [Thread-3 (]: Failed to rollback 'test.ecommerce_gold.not_null_stg_page_views_event_id.000a4c0ffa'
+[0m16:30:29.188939 [debug] [Thread-3 (]: On test.ecommerce_gold.not_null_stg_page_views_event_id.000a4c0ffa: Close
+[0m16:30:29.194424 [debug] [Thread-1 (]: SQL status: OK in 0.010 seconds
+[0m16:30:29.196932 [debug] [Thread-2 (]: SQL status: OK in 0.012 seconds
+[0m16:30:29.200907 [debug] [Thread-4 (]: SQL status: OK in 0.015 seconds
+[0m16:30:29.199861 [info ] [Thread-3 (]: 5 of 8 PASS not_null_stg_page_views_event_id ................................... [[32mPASS[0m in 0.22s]
+[0m16:30:29.205623 [debug] [Thread-1 (]: On test.ecommerce_gold.unique_stg_cart_events_event_id.92e64ac1b1: ROLLBACK
+[0m16:30:29.210521 [debug] [Thread-2 (]: On test.ecommerce_gold.unique_stg_orders_order_id.e3b841c71a: ROLLBACK
+[0m16:30:29.217296 [debug] [Thread-4 (]: On test.ecommerce_gold.unique_stg_page_views_event_id.167137a679: ROLLBACK
+[0m16:30:29.219457 [debug] [Thread-3 (]: Finished running node test.ecommerce_gold.not_null_stg_page_views_event_id.000a4c0ffa
+[0m16:30:29.222859 [debug] [Thread-1 (]: Failed to rollback 'test.ecommerce_gold.unique_stg_cart_events_event_id.92e64ac1b1'
+[0m16:30:29.225423 [debug] [Thread-2 (]: Failed to rollback 'test.ecommerce_gold.unique_stg_orders_order_id.e3b841c71a'
+[0m16:30:29.229069 [debug] [Thread-4 (]: Failed to rollback 'test.ecommerce_gold.unique_stg_page_views_event_id.167137a679'
+[0m16:30:29.231659 [debug] [Thread-1 (]: On test.ecommerce_gold.unique_stg_cart_events_event_id.92e64ac1b1: Close
+[0m16:30:29.235035 [debug] [Thread-2 (]: On test.ecommerce_gold.unique_stg_orders_order_id.e3b841c71a: Close
+[0m16:30:29.237083 [debug] [Thread-4 (]: On test.ecommerce_gold.unique_stg_page_views_event_id.167137a679: Close
+[0m16:30:29.242690 [info ] [Thread-1 (]: 6 of 8 PASS unique_stg_cart_events_event_id .................................... [[32mPASS[0m in 0.26s]
+[0m16:30:29.248562 [info ] [Thread-2 (]: 7 of 8 PASS unique_stg_orders_order_id ......................................... [[32mPASS[0m in 0.26s]
+[0m16:30:29.252061 [info ] [Thread-4 (]: 8 of 8 PASS unique_stg_page_views_event_id ..................................... [[32mPASS[0m in 0.26s]
+[0m16:30:29.254604 [debug] [Thread-1 (]: Finished running node test.ecommerce_gold.unique_stg_cart_events_event_id.92e64ac1b1
+[0m16:30:29.258111 [debug] [Thread-2 (]: Finished running node test.ecommerce_gold.unique_stg_orders_order_id.e3b841c71a
+[0m16:30:29.260377 [debug] [Thread-4 (]: Finished running node test.ecommerce_gold.unique_stg_page_views_event_id.167137a679
+[0m16:30:29.267113 [debug] [MainThread]: Using duckdb connection "master"
+[0m16:30:29.269627 [debug] [MainThread]: On master: BEGIN
+[0m16:30:29.271654 [debug] [MainThread]: Opening a new connection, currently in state closed
+[0m16:30:29.274699 [debug] [MainThread]: SQL status: OK in 0.003 seconds
+[0m16:30:29.275702 [debug] [MainThread]: On master: COMMIT
+[0m16:30:29.278050 [debug] [MainThread]: Using duckdb connection "master"
+[0m16:30:29.281109 [debug] [MainThread]: On master: COMMIT
+[0m16:30:29.283628 [debug] [MainThread]: SQL status: OK in 0.001 seconds
+[0m16:30:29.286518 [debug] [MainThread]: On master: Close
+[0m16:30:29.288762 [debug] [MainThread]: Connection 'master' was properly closed.
+[0m16:30:29.292431 [debug] [MainThread]: Connection 'list_ecommerce_main' was properly closed.
+[0m16:30:29.294200 [debug] [MainThread]: Connection 'test.ecommerce_gold.unique_stg_cart_events_event_id.92e64ac1b1' was properly closed.
+[0m16:30:29.296224 [debug] [MainThread]: Connection 'test.ecommerce_gold.unique_stg_orders_order_id.e3b841c71a' was properly closed.
+[0m16:30:29.298333 [debug] [MainThread]: Connection 'test.ecommerce_gold.not_null_stg_page_views_event_id.000a4c0ffa' was properly closed.
+[0m16:30:29.302817 [debug] [MainThread]: Connection 'test.ecommerce_gold.unique_stg_page_views_event_id.167137a679' was properly closed.
+[0m16:30:29.303946 [info ] [MainThread]: 
+[0m16:30:29.306940 [info ] [MainThread]: Finished running 8 data tests in 0 hours 0 minutes and 1.14 seconds (1.14s).
+[0m16:30:29.315416 [debug] [MainThread]: Command end result
+[0m16:30:29.415390 [debug] [MainThread]: Wrote artifact WritableManifest to C:\Users\LENOVO\Downloads\merge-handler\ecommerce-pipeline\dbt\ecommerce_gold\target\manifest.json
+[0m16:30:29.421932 [debug] [MainThread]: Wrote artifact SemanticManifest to C:\Users\LENOVO\Downloads\merge-handler\ecommerce-pipeline\dbt\ecommerce_gold\target\semantic_manifest.json
+[0m16:30:29.448868 [debug] [MainThread]: Wrote artifact RunExecutionResult to C:\Users\LENOVO\Downloads\merge-handler\ecommerce-pipeline\dbt\ecommerce_gold\target\run_results.json
+[0m16:30:29.450390 [info ] [MainThread]: 
+[0m16:30:29.453829 [info ] [MainThread]: [32mCompleted successfully[0m
+[0m16:30:29.456114 [info ] [MainThread]: 
+[0m16:30:29.458761 [info ] [MainThread]: Done. PASS=8 WARN=0 ERROR=0 SKIP=0 NO-OP=0 TOTAL=8
+[0m16:30:29.464647 [debug] [MainThread]: Command `dbt test` succeeded at 16:30:29.464647 after 4.91 seconds
+[0m16:30:29.466649 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000025635C23610>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000025636FC4F40>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000025639C070A0>]}
+[0m16:30:29.468161 [debug] [MainThread]: Flushing usage events
+[0m16:30:30.652404 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m16:30:41.258527 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001642DF13580>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000164302888B0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000164302886D0>]}
+
+
+============================== 16:30:41.272061 | 2b8d9bfb-75b2-4844-a683-7e94e66ba745 ==============================
+[0m16:30:41.272061 [info ] [MainThread]: Running with dbt=1.11.6
+[0m16:30:41.275996 [debug] [MainThread]: running dbt with arguments {'static_parser': 'True', 'no_print': 'None', 'version_check': 'True', 'target_path': 'None', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'printer_width': '80', 'write_json': 'True', 'empty': 'None', 'log_cache_events': 'False', 'introspect': 'True', 'cache_selected_only': 'False', 'fail_fast': 'False', 'debug': 'False', 'log_format': 'default', 'profiles_dir': 'C:\\Users\\LENOVO\\.dbt', 'send_anonymous_usage_stats': 'True', 'quiet': 'False', 'warn_error': 'None', 'partial_parse': 'True', 'indirect_selection': 'eager', 'use_colors': 'True', 'invocation_command': 'dbt docs generate', 'use_experimental_parser': 'False', 'log_path': 'C:\\Users\\LENOVO\\Downloads\\merge-handler\\ecommerce-pipeline\\dbt\\ecommerce_gold\\logs'}
+[0m16:30:43.003350 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': '2b8d9bfb-75b2-4844-a683-7e94e66ba745', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001642CB5D480>]}
+[0m16:30:43.501680 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'adapter_info', 'label': '2b8d9bfb-75b2-4844-a683-7e94e66ba745', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001643028B760>]}
+[0m16:30:43.514939 [info ] [MainThread]: Registered adapter: duckdb=1.10.1
+[0m16:30:44.886645 [debug] [MainThread]: checksum: ec27062d18352e9cfca161c166fcc73d2201661a23a3cf3c89196a27f32cfcb8, vars: {}, profile: , target: , version: 1.11.6
+[0m16:30:45.994577 [debug] [MainThread]: Partial parsing enabled: 0 files deleted, 0 files added, 0 files changed.
+[0m16:30:45.998019 [debug] [MainThread]: Nothing changed, skipping partial parsing.
+[0m16:30:46.001170 [debug] [MainThread]: Partial parsing enabled, no changes found, skipping parsing
+[0m16:30:46.337806 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'load_project', 'label': '2b8d9bfb-75b2-4844-a683-7e94e66ba745', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001643197FDF0>]}
+[0m16:30:46.669376 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'resource_counts', 'label': '2b8d9bfb-75b2-4844-a683-7e94e66ba745', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000016431892890>]}
+[0m16:30:46.673540 [info ] [MainThread]: Found 6 models, 8 data tests, 474 macros
+[0m16:30:46.677069 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': '2b8d9bfb-75b2-4844-a683-7e94e66ba745', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001642D8B03D0>]}
+[0m16:30:46.691725 [info ] [MainThread]: 
+[0m16:30:46.697404 [info ] [MainThread]: Concurrency: 4 threads (target='dev')
+[0m16:30:46.702016 [info ] [MainThread]: 
+[0m16:30:46.707850 [debug] [MainThread]: Acquiring new duckdb connection 'master'
+[0m16:30:46.768288 [debug] [ThreadPool]: Acquiring new duckdb connection 'list_ecommerce_main'
+[0m16:30:47.302544 [debug] [ThreadPool]: Using duckdb connection "list_ecommerce_main"
+[0m16:30:47.303543 [debug] [ThreadPool]: On list_ecommerce_main: BEGIN
+[0m16:30:47.306662 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m16:30:47.343558 [debug] [ThreadPool]: SQL status: OK in 0.038 seconds
+[0m16:30:47.346083 [debug] [ThreadPool]: Using duckdb connection "list_ecommerce_main"
+[0m16:30:47.347083 [debug] [ThreadPool]: On list_ecommerce_main: /* {"app": "dbt", "dbt_version": "1.11.6", "profile_name": "ecommerce_gold", "target_name": "dev", "connection_name": "list_ecommerce_main"} */
+select
+      'ecommerce' as database,
+      table_name as name,
+      table_schema as schema,
+      CASE table_type
+        WHEN 'BASE TABLE' THEN 'table'
+        WHEN 'VIEW' THEN 'view'
+        WHEN 'LOCAL TEMPORARY' THEN 'table'
+        END as type
+    from system.information_schema.tables
+    where lower(table_schema) = 'main'
+    and lower(table_catalog) = 'ecommerce'
+  
+[0m16:30:47.383653 [debug] [ThreadPool]: SQL status: OK in 0.035 seconds
+[0m16:30:47.387258 [debug] [ThreadPool]: On list_ecommerce_main: ROLLBACK
+[0m16:30:47.389258 [debug] [ThreadPool]: Failed to rollback 'list_ecommerce_main'
+[0m16:30:47.390258 [debug] [ThreadPool]: On list_ecommerce_main: Close
+[0m16:30:47.394450 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': '2b8d9bfb-75b2-4844-a683-7e94e66ba745', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000016431732170>]}
+[0m16:30:47.404987 [debug] [Thread-1 (]: Began running node model.ecommerce_gold.stg_cart_events
+[0m16:30:47.406870 [debug] [Thread-2 (]: Began running node model.ecommerce_gold.stg_orders
+[0m16:30:47.408476 [debug] [Thread-3 (]: Began running node model.ecommerce_gold.stg_page_views
+[0m16:30:47.409569 [debug] [Thread-1 (]: Acquiring new duckdb connection 'model.ecommerce_gold.stg_cart_events'
+[0m16:30:47.411569 [debug] [Thread-2 (]: Acquiring new duckdb connection 'model.ecommerce_gold.stg_orders'
+[0m16:30:47.414001 [debug] [Thread-3 (]: Acquiring new duckdb connection 'model.ecommerce_gold.stg_page_views'
+[0m16:30:47.415993 [debug] [Thread-1 (]: Began compiling node model.ecommerce_gold.stg_cart_events
+[0m16:30:47.418246 [debug] [Thread-2 (]: Began compiling node model.ecommerce_gold.stg_orders
+[0m16:30:47.419555 [debug] [Thread-3 (]: Began compiling node model.ecommerce_gold.stg_page_views
+[0m16:30:47.435737 [debug] [Thread-1 (]: Writing injected SQL for node "model.ecommerce_gold.stg_cart_events"
+[0m16:30:47.442707 [debug] [Thread-2 (]: Writing injected SQL for node "model.ecommerce_gold.stg_orders"
+[0m16:30:47.447360 [debug] [Thread-3 (]: Writing injected SQL for node "model.ecommerce_gold.stg_page_views"
+[0m16:30:47.451118 [debug] [Thread-1 (]: Began executing node model.ecommerce_gold.stg_cart_events
+[0m16:30:47.456047 [debug] [Thread-1 (]: Finished running node model.ecommerce_gold.stg_cart_events
+[0m16:30:47.457288 [debug] [Thread-2 (]: Began executing node model.ecommerce_gold.stg_orders
+[0m16:30:47.458838 [debug] [Thread-3 (]: Began executing node model.ecommerce_gold.stg_page_views
+[0m16:30:47.460181 [debug] [Thread-4 (]: Began running node test.ecommerce_gold.not_null_stg_cart_events_event_id.81f42ba1e6
+[0m16:30:47.461568 [debug] [Thread-1 (]: Began running node test.ecommerce_gold.unique_stg_cart_events_event_id.92e64ac1b1
+[0m16:30:47.464551 [debug] [Thread-2 (]: Finished running node model.ecommerce_gold.stg_orders
+[0m16:30:47.466777 [debug] [Thread-3 (]: Finished running node model.ecommerce_gold.stg_page_views
+[0m16:30:47.469289 [debug] [Thread-4 (]: Acquiring new duckdb connection 'test.ecommerce_gold.not_null_stg_cart_events_event_id.81f42ba1e6'
+[0m16:30:47.470621 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly model.ecommerce_gold.stg_cart_events, now test.ecommerce_gold.unique_stg_cart_events_event_id.92e64ac1b1)
+[0m16:30:47.472702 [debug] [Thread-2 (]: Began running node model.ecommerce_gold.fct_orders
+[0m16:30:47.473950 [debug] [Thread-3 (]: Began running node test.ecommerce_gold.not_null_stg_orders_order_id.81cfe2fe64
+[0m16:30:47.474951 [debug] [Thread-4 (]: Began compiling node test.ecommerce_gold.not_null_stg_cart_events_event_id.81f42ba1e6
+[0m16:30:47.477328 [debug] [Thread-1 (]: Began compiling node test.ecommerce_gold.unique_stg_cart_events_event_id.92e64ac1b1
+[0m16:30:47.478292 [debug] [Thread-2 (]: Re-using an available connection from the pool (formerly model.ecommerce_gold.stg_orders, now model.ecommerce_gold.fct_orders)
+[0m16:30:47.479433 [debug] [Thread-3 (]: Re-using an available connection from the pool (formerly model.ecommerce_gold.stg_page_views, now test.ecommerce_gold.not_null_stg_orders_order_id.81cfe2fe64)
+[0m16:30:47.508209 [debug] [Thread-4 (]: Writing injected SQL for node "test.ecommerce_gold.not_null_stg_cart_events_event_id.81f42ba1e6"
+[0m16:30:47.524995 [debug] [Thread-1 (]: Writing injected SQL for node "test.ecommerce_gold.unique_stg_cart_events_event_id.92e64ac1b1"
+[0m16:30:47.526575 [debug] [Thread-2 (]: Began compiling node model.ecommerce_gold.fct_orders
+[0m16:30:47.527594 [debug] [Thread-3 (]: Began compiling node test.ecommerce_gold.not_null_stg_orders_order_id.81cfe2fe64
+[0m16:30:47.536723 [debug] [Thread-2 (]: Writing injected SQL for node "model.ecommerce_gold.fct_orders"
+[0m16:30:47.538130 [debug] [Thread-4 (]: Began executing node test.ecommerce_gold.not_null_stg_cart_events_event_id.81f42ba1e6
+[0m16:30:47.548420 [debug] [Thread-3 (]: Writing injected SQL for node "test.ecommerce_gold.not_null_stg_orders_order_id.81cfe2fe64"
+[0m16:30:47.550848 [debug] [Thread-1 (]: Began executing node test.ecommerce_gold.unique_stg_cart_events_event_id.92e64ac1b1
+[0m16:30:47.553534 [debug] [Thread-4 (]: Finished running node test.ecommerce_gold.not_null_stg_cart_events_event_id.81f42ba1e6
+[0m16:30:47.555752 [debug] [Thread-2 (]: Began executing node model.ecommerce_gold.fct_orders
+[0m16:30:47.558609 [debug] [Thread-1 (]: Finished running node test.ecommerce_gold.unique_stg_cart_events_event_id.92e64ac1b1
+[0m16:30:47.559653 [debug] [Thread-3 (]: Began executing node test.ecommerce_gold.not_null_stg_orders_order_id.81cfe2fe64
+[0m16:30:47.560637 [debug] [Thread-4 (]: Began running node test.ecommerce_gold.not_null_stg_orders_total_amount.f31d98d41b
+[0m16:30:47.563166 [debug] [Thread-2 (]: Finished running node model.ecommerce_gold.fct_orders
+[0m16:30:47.565167 [debug] [Thread-1 (]: Began running node test.ecommerce_gold.not_null_stg_orders_user_id.7d129d0209
+[0m16:30:47.567441 [debug] [Thread-3 (]: Finished running node test.ecommerce_gold.not_null_stg_orders_order_id.81cfe2fe64
+[0m16:30:47.568658 [debug] [Thread-4 (]: Re-using an available connection from the pool (formerly test.ecommerce_gold.not_null_stg_cart_events_event_id.81f42ba1e6, now test.ecommerce_gold.not_null_stg_orders_total_amount.f31d98d41b)
+[0m16:30:47.571004 [debug] [Thread-2 (]: Began running node test.ecommerce_gold.unique_stg_orders_order_id.e3b841c71a
+[0m16:30:47.573143 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly test.ecommerce_gold.unique_stg_cart_events_event_id.92e64ac1b1, now test.ecommerce_gold.not_null_stg_orders_user_id.7d129d0209)
+[0m16:30:47.574660 [debug] [Thread-3 (]: Began running node test.ecommerce_gold.not_null_stg_page_views_event_id.000a4c0ffa
+[0m16:30:47.575677 [debug] [Thread-4 (]: Began compiling node test.ecommerce_gold.not_null_stg_orders_total_amount.f31d98d41b
+[0m16:30:47.576842 [debug] [Thread-2 (]: Re-using an available connection from the pool (formerly model.ecommerce_gold.fct_orders, now test.ecommerce_gold.unique_stg_orders_order_id.e3b841c71a)
+[0m16:30:47.579064 [debug] [Thread-1 (]: Began compiling node test.ecommerce_gold.not_null_stg_orders_user_id.7d129d0209
+[0m16:30:47.580069 [debug] [Thread-3 (]: Re-using an available connection from the pool (formerly test.ecommerce_gold.not_null_stg_orders_order_id.81cfe2fe64, now test.ecommerce_gold.not_null_stg_page_views_event_id.000a4c0ffa)
+[0m16:30:47.593033 [debug] [Thread-4 (]: Writing injected SQL for node "test.ecommerce_gold.not_null_stg_orders_total_amount.f31d98d41b"
+[0m16:30:47.594168 [debug] [Thread-2 (]: Began compiling node test.ecommerce_gold.unique_stg_orders_order_id.e3b841c71a
+[0m16:30:47.604988 [debug] [Thread-1 (]: Writing injected SQL for node "test.ecommerce_gold.not_null_stg_orders_user_id.7d129d0209"
+[0m16:30:47.606116 [debug] [Thread-3 (]: Began compiling node test.ecommerce_gold.not_null_stg_page_views_event_id.000a4c0ffa
+[0m16:30:47.617364 [debug] [Thread-2 (]: Writing injected SQL for node "test.ecommerce_gold.unique_stg_orders_order_id.e3b841c71a"
+[0m16:30:47.619360 [debug] [Thread-4 (]: Began executing node test.ecommerce_gold.not_null_stg_orders_total_amount.f31d98d41b
+[0m16:30:47.628300 [debug] [Thread-3 (]: Writing injected SQL for node "test.ecommerce_gold.not_null_stg_page_views_event_id.000a4c0ffa"
+[0m16:30:47.630834 [debug] [Thread-1 (]: Began executing node test.ecommerce_gold.not_null_stg_orders_user_id.7d129d0209
+[0m16:30:47.634579 [debug] [Thread-4 (]: Finished running node test.ecommerce_gold.not_null_stg_orders_total_amount.f31d98d41b
+[0m16:30:47.636279 [debug] [Thread-2 (]: Began executing node test.ecommerce_gold.unique_stg_orders_order_id.e3b841c71a
+[0m16:30:47.639604 [debug] [Thread-1 (]: Finished running node test.ecommerce_gold.not_null_stg_orders_user_id.7d129d0209
+[0m16:30:47.640655 [debug] [Thread-3 (]: Began executing node test.ecommerce_gold.not_null_stg_page_views_event_id.000a4c0ffa
+[0m16:30:47.641657 [debug] [Thread-4 (]: Began running node test.ecommerce_gold.unique_stg_page_views_event_id.167137a679
+[0m16:30:47.643657 [debug] [Thread-2 (]: Finished running node test.ecommerce_gold.unique_stg_orders_order_id.e3b841c71a
+[0m16:30:47.646188 [debug] [Thread-1 (]: Began running node model.ecommerce_gold.dim_product_performance
+[0m16:30:47.648191 [debug] [Thread-3 (]: Finished running node test.ecommerce_gold.not_null_stg_page_views_event_id.000a4c0ffa
+[0m16:30:47.650288 [debug] [Thread-4 (]: Re-using an available connection from the pool (formerly test.ecommerce_gold.not_null_stg_orders_total_amount.f31d98d41b, now test.ecommerce_gold.unique_stg_page_views_event_id.167137a679)
+[0m16:30:47.652374 [debug] [Thread-2 (]: Began running node model.ecommerce_gold.fct_conversion_funnel
+[0m16:30:47.653369 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly test.ecommerce_gold.not_null_stg_orders_user_id.7d129d0209, now model.ecommerce_gold.dim_product_performance)
+[0m16:30:47.655371 [debug] [Thread-4 (]: Began compiling node test.ecommerce_gold.unique_stg_page_views_event_id.167137a679
+[0m16:30:47.657580 [debug] [Thread-2 (]: Re-using an available connection from the pool (formerly test.ecommerce_gold.unique_stg_orders_order_id.e3b841c71a, now model.ecommerce_gold.fct_conversion_funnel)
+[0m16:30:47.658580 [debug] [Thread-1 (]: Began compiling node model.ecommerce_gold.dim_product_performance
+[0m16:30:47.669132 [debug] [Thread-4 (]: Writing injected SQL for node "test.ecommerce_gold.unique_stg_page_views_event_id.167137a679"
+[0m16:30:47.670130 [debug] [Thread-2 (]: Began compiling node model.ecommerce_gold.fct_conversion_funnel
+[0m16:30:47.677787 [debug] [Thread-1 (]: Writing injected SQL for node "model.ecommerce_gold.dim_product_performance"
+[0m16:30:47.690953 [debug] [Thread-2 (]: Writing injected SQL for node "model.ecommerce_gold.fct_conversion_funnel"
+[0m16:30:47.692947 [debug] [Thread-4 (]: Began executing node test.ecommerce_gold.unique_stg_page_views_event_id.167137a679
+[0m16:30:47.697719 [debug] [Thread-4 (]: Finished running node test.ecommerce_gold.unique_stg_page_views_event_id.167137a679
+[0m16:30:47.699259 [debug] [Thread-1 (]: Began executing node model.ecommerce_gold.dim_product_performance
+[0m16:30:47.702377 [debug] [Thread-2 (]: Began executing node model.ecommerce_gold.fct_conversion_funnel
+[0m16:30:47.704932 [debug] [Thread-1 (]: Finished running node model.ecommerce_gold.dim_product_performance
+[0m16:30:47.707452 [debug] [Thread-2 (]: Finished running node model.ecommerce_gold.fct_conversion_funnel
+[0m16:30:47.712317 [debug] [MainThread]: Connection 'master' was properly closed.
+[0m16:30:47.713356 [debug] [MainThread]: Connection 'list_ecommerce_main' was properly closed.
+[0m16:30:47.715370 [debug] [MainThread]: Connection 'model.ecommerce_gold.dim_product_performance' was properly closed.
+[0m16:30:47.716370 [debug] [MainThread]: Connection 'model.ecommerce_gold.fct_conversion_funnel' was properly closed.
+[0m16:30:47.717887 [debug] [MainThread]: Connection 'test.ecommerce_gold.not_null_stg_page_views_event_id.000a4c0ffa' was properly closed.
+[0m16:30:47.719900 [debug] [MainThread]: Connection 'test.ecommerce_gold.unique_stg_page_views_event_id.167137a679' was properly closed.
+[0m16:30:47.727562 [debug] [MainThread]: Command end result
+[0m16:30:48.013781 [debug] [MainThread]: Wrote artifact WritableManifest to C:\Users\LENOVO\Downloads\merge-handler\ecommerce-pipeline\dbt\ecommerce_gold\target\manifest.json
+[0m16:30:48.021995 [debug] [MainThread]: Wrote artifact SemanticManifest to C:\Users\LENOVO\Downloads\merge-handler\ecommerce-pipeline\dbt\ecommerce_gold\target\semantic_manifest.json
+[0m16:30:48.062735 [debug] [MainThread]: Wrote artifact RunExecutionResult to C:\Users\LENOVO\Downloads\merge-handler\ecommerce-pipeline\dbt\ecommerce_gold\target\run_results.json
+[0m16:30:59.360858 [debug] [MainThread]: Acquiring new duckdb connection 'generate_catalog'
+[0m16:30:59.363875 [info ] [MainThread]: Building catalog
+[0m16:30:59.429516 [debug] [ThreadPool]: Acquiring new duckdb connection 'ecommerce.information_schema'
+[0m16:30:59.462466 [debug] [ThreadPool]: Using duckdb connection "ecommerce.information_schema"
+[0m16:30:59.465398 [debug] [ThreadPool]: On ecommerce.information_schema: BEGIN
+[0m16:30:59.467809 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m16:30:59.472592 [debug] [ThreadPool]: SQL status: OK in 0.005 seconds
+[0m16:30:59.475597 [debug] [ThreadPool]: Using duckdb connection "ecommerce.information_schema"
+[0m16:30:59.479156 [debug] [ThreadPool]: On ecommerce.information_schema: /* {"app": "dbt", "dbt_version": "1.11.6", "profile_name": "ecommerce_gold", "target_name": "dev", "connection_name": "ecommerce.information_schema"} */
+with relations AS (
+      select
+        t.table_name
+        , t.database_name
+        , t.schema_name
+        , 'BASE TABLE' as table_type
+        , t.comment as table_comment
+      from duckdb_tables() t
+      WHERE t.database_name = 'ecommerce'
+      UNION ALL
+      SELECT v.view_name as table_name
+      , v.database_name
+      , v.schema_name
+      , 'VIEW' as table_type
+      , v.comment as table_comment
+      from duckdb_views() v
+      WHERE v.database_name = 'ecommerce'
+    )
+    select
+        'ecommerce' as table_database,
+        r.schema_name as table_schema,
+        r.table_name,
+        r.table_type,
+        r.table_comment,
+        c.column_name,
+        c.column_index as column_index,
+        c.data_type as column_type,
+        c.comment as column_comment,
+        NULL as table_owner
+    FROM relations r JOIN duckdb_columns() c ON r.schema_name = c.schema_name AND r.table_name = c.table_name
+    WHERE (upper(r.schema_name) = upper('main'))
+    ORDER BY
+        r.schema_name,
+        r.table_name,
+        c.column_index
+[0m16:30:59.505424 [debug] [ThreadPool]: SQL status: OK in 0.024 seconds
+[0m16:30:59.530086 [debug] [ThreadPool]: On ecommerce.information_schema: ROLLBACK
+[0m16:30:59.533006 [debug] [ThreadPool]: Failed to rollback 'ecommerce.information_schema'
+[0m16:30:59.536321 [debug] [ThreadPool]: On ecommerce.information_schema: Close
+[0m16:30:59.602544 [debug] [MainThread]: Wrote artifact CatalogArtifact to C:\Users\LENOVO\Downloads\merge-handler\ecommerce-pipeline\dbt\ecommerce_gold\target\catalog.json
+[0m16:30:59.707614 [debug] [MainThread]: Wrote artifact WritableManifest to C:\Users\LENOVO\Downloads\merge-handler\ecommerce-pipeline\dbt\ecommerce_gold\target\manifest.json
+[0m16:30:59.717178 [debug] [MainThread]: Wrote artifact SemanticManifest to C:\Users\LENOVO\Downloads\merge-handler\ecommerce-pipeline\dbt\ecommerce_gold\target\semantic_manifest.json
+[0m16:30:59.720623 [info ] [MainThread]: Catalog written to C:\Users\LENOVO\Downloads\merge-handler\ecommerce-pipeline\dbt\ecommerce_gold\target\catalog.json
+[0m16:30:59.726010 [debug] [MainThread]: Command `dbt docs generate` succeeded at 16:30:59.724928 after 18.83 seconds
+[0m16:30:59.728017 [debug] [MainThread]: Connection 'generate_catalog' was properly closed.
+[0m16:30:59.730645 [debug] [MainThread]: Connection 'ecommerce.information_schema' was properly closed.
+[0m16:30:59.732851 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001642DF13580>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000164318A8220>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001643154AB30>]}
+[0m16:30:59.735886 [debug] [MainThread]: Flushing usage events
+[0m16:31:01.008846 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m16:32:02.593251 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000175EC2D3640>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000175EE64C370>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000175EE64C190>]}
+
+
+============================== 16:32:02.602902 | a23d0e82-22a6-413f-978f-2710902dc323 ==============================
+[0m16:32:02.602902 [info ] [MainThread]: Running with dbt=1.11.6
+[0m16:32:02.604906 [debug] [MainThread]: running dbt with arguments {'version_check': 'True', 'no_print': 'None', 'static_parser': 'True', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'target_path': 'None', 'printer_width': '80', 'write_json': 'True', 'introspect': 'True', 'log_cache_events': 'False', 'empty': 'None', 'cache_selected_only': 'False', 'fail_fast': 'False', 'debug': 'False', 'log_format': 'default', 'profiles_dir': 'C:\\Users\\LENOVO\\.dbt', 'send_anonymous_usage_stats': 'True', 'quiet': 'False', 'warn_error': 'None', 'partial_parse': 'True', 'use_colors': 'True', 'indirect_selection': 'eager', 'invocation_command': 'dbt docs serve', 'use_experimental_parser': 'False', 'log_path': 'C:\\Users\\LENOVO\\Downloads\\merge-handler\\ecommerce-pipeline\\dbt\\ecommerce_gold\\logs'}
+[0m16:32:03.929710 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': 'a23d0e82-22a6-413f-978f-2710902dc323', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000175EA53AA10>]}
+[0m16:32:04.300117 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'adapter_info', 'label': 'a23d0e82-22a6-413f-978f-2710902dc323', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000175EE64F730>]}
+[0m16:33:14.256489 [error] [MainThread]: Encountered an error:
+
+[0m16:33:14.380865 [error] [MainThread]: Traceback (most recent call last):
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\cli\requires.py", line 182, in wrapper
+    result, success = func(*args, **kwargs)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\cli\requires.py", line 128, in wrapper
+    return func(*args, **kwargs)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\cli\requires.py", line 276, in wrapper
+    return func(*args, **kwargs)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\cli\requires.py", line 321, in wrapper
+    return func(*args, **kwargs)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\cli\requires.py", line 368, in wrapper
+    return func(*args, **kwargs)
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\cli\main.py", line 307, in docs_serve
+    results = task.run()
+  File "C:\Users\LENOVO\Downloads\merge-handler\venv\lib\site-packages\dbt\task\docs\serve.py", line 29, in run
+    httpd.serve_forever()
+  File "C:\Users\LENOVO\AppData\Local\Programs\Python\Python310\lib\socketserver.py", line 232, in serve_forever
+    ready = selector.select(poll_interval)
+  File "C:\Users\LENOVO\AppData\Local\Programs\Python\Python310\lib\selectors.py", line 324, in select
+    r, w, _ = self._select(self._readers, self._writers, [], timeout)
+  File "C:\Users\LENOVO\AppData\Local\Programs\Python\Python310\lib\selectors.py", line 315, in _select
+    r, w, x = select.select(r, w, w, timeout)
+KeyboardInterrupt
+
+[0m16:33:14.395415 [debug] [MainThread]: Command `dbt docs serve` failed at 16:33:14.394407 after 72.00 seconds
+[0m16:33:14.400408 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000175EC2D3640>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000175EF9B6C50>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000175EF9B6C80>]}
+[0m16:33:14.404177 [debug] [MainThread]: Flushing usage events
+[0m16:33:16.006617 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m16:33:32.212246 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001FD75F43670>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001FD782BC370>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001FD782BC190>]}
+
+
+============================== 16:33:32.224262 | f276342e-cb6b-4c7c-a7ae-d90561fe6b03 ==============================
+[0m16:33:32.224262 [info ] [MainThread]: Running with dbt=1.11.6
+[0m16:33:32.227650 [debug] [MainThread]: running dbt with arguments {'static_parser': 'True', 'no_print': 'None', 'version_check': 'True', 'target_path': 'None', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'printer_width': '80', 'write_json': 'True', 'introspect': 'True', 'log_cache_events': 'False', 'empty': 'None', 'cache_selected_only': 'False', 'fail_fast': 'False', 'debug': 'False', 'log_format': 'default', 'partial_parse': 'True', 'send_anonymous_usage_stats': 'True', 'quiet': 'False', 'warn_error': 'None', 'profiles_dir': 'C:\\Users\\LENOVO\\.dbt', 'invocation_command': 'dbt docs serve --port 8081', 'use_colors': 'True', 'indirect_selection': 'eager', 'use_experimental_parser': 'False', 'log_path': 'C:\\Users\\LENOVO\\Downloads\\merge-handler\\ecommerce-pipeline\\dbt\\ecommerce_gold\\logs'}
+[0m16:33:33.263117 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': 'f276342e-cb6b-4c7c-a7ae-d90561fe6b03', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001FD7421A140>]}
+[0m16:33:33.466896 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'adapter_info', 'label': 'f276342e-cb6b-4c7c-a7ae-d90561fe6b03', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001FD782BF760>]}
