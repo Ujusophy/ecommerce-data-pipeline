@@ -1,6 +1,6 @@
-# 🛒 Real-Time E-Commerce Analytics Pipeline
+# Real-Time E-Commerce Analytics Pipeline
 
-> An end-to-end data engineering project simulating a production-grade e-commerce analytics platform — from live event streaming to a business intelligence dashboard.
+A full end-to-end data engineering project that simulates an e-commerce platform, streams events in real time, stores and transforms the data through three layers, and serves business metrics on a live dashboard. Every tool in this project is open source and runs locally with Docker.
 
 [![Python](https://img.shields.io/badge/Python-3.10+-blue?style=flat-square&logo=python)](https://python.org)
 [![Apache Kafka](https://img.shields.io/badge/Kafka-7.4.0-black?style=flat-square&logo=apachekafka)](https://kafka.apache.org)
@@ -13,280 +13,162 @@
 
 ---
 
-## 📌 Table of Contents
+## Architecture
 
-- [Project Overview](#-project-overview)
-- [Architecture](#-architecture)
-- [Tech Stack](#-tech-stack)
-- [Data Flow](#-data-flow)
-- [Project Structure](#-project-structure)
-- [Getting Started](#-getting-started)
-- [Running the Pipeline](#-running-the-pipeline)
-- [Data Layers](#-data-layers)
-- [dbt Models](#-dbt-models)
-- [Airflow DAG](#-airflow-dag)
-- [Dashboard](#-dashboard)
-- [Key Engineering Decisions](#-key-engineering-decisions)
-- [What I Learned](#-what-i-learned)
+[View Interactive Architecture Diagram](https://ujusophy.github.io/ecommerce-data-pipeline/)
 
----
-
-## 📖 Project Overview
-
-This project builds a complete, production-style data pipeline for an e-commerce platform. It demonstrates how modern data engineering teams handle high-volume event streams — from raw clickstream data all the way to business dashboards.
-
-### What it simulates
-
-A Python script acts as a live e-commerce website, generating realistic user behaviour events:
-
-- **Page views** — users browsing products
-- **Add to cart** — users adding items to their basket
-- **Orders placed** — completed purchases with payment status
-
-These events stream through Kafka into Spark, get stored in a Delta Lake medallion architecture (Bronze → Silver → Gold), get transformed by dbt into business metrics, orchestrated hourly by Airflow, and visualized in Apache Superset.
-
-### Why this project matters
-
-Most data engineering portfolios show batch ETL scripts. This project demonstrates:
-
-- **Real-time streaming** with Kafka and Spark Structured Streaming
-- **Lakehouse architecture** with Delta Lake ACID transactions
-- **Data quality enforcement** at every layer
-- **Production patterns** like idempotent upserts, checkpointing, and schema enforcement
-- **End-to-end orchestration** with monitoring and retries
-
----
-
-## 🏗️ Architecture
-
-👉 [**View Interactive Architecture Diagram**](https://YOUR_USERNAME.github.io/ecommerce-data-pipeline/)
+The pipeline follows a standard production pattern:
 
 ```
-┌─────────────────────────────────────────────────────────────────────┐
-│                         INGESTION LAYER                             │
-│                                                                     │
-│   ┌─────────────────┐          ┌──────────────────────────────┐    │
-│   │  Python          │  events  │  Apache Kafka                │    │
-│   │  Event           │ ──────►  │  topic: ecommerce_events     │    │
-│   │  Simulator       │          │  port: 9092 (ext)            │    │
-│   │  (Faker lib)     │          │        29092 (internal)      │    │
-│   └─────────────────┘          └──────────────┬───────────────┘    │
-└──────────────────────────────────────────────┼────────────────────┘
-                                               │ Structured Streaming
-┌──────────────────────────────────────────────▼────────────────────┐
-│                        PROCESSING LAYER                            │
-│                                                                    │
-│   ┌────────────────────────────────────────────────────────────┐  │
-│   │  Apache Spark 3.5 (Structured Streaming)                   │  │
-│   │  • Reads Kafka stream → parses JSON → enforces schema      │  │
-│   │  • Adds ingestion timestamps                               │  │
-│   │  • Writes to Delta Lake in append mode with checkpointing  │  │
-│   └───────────────────────────────┬────────────────────────────┘  │
-└───────────────────────────────────┼───────────────────────────────┘
-                                    │ Delta Lake writes
-┌───────────────────────────────────▼───────────────────────────────┐
-│                      MEDALLION STORAGE                             │
-│                                                                    │
-│  🥉 BRONZE              🥈 SILVER              🥇 GOLD             │
-│  ┌──────────────┐      ┌──────────────┐      ┌──────────────┐    │
-│  │ Raw events   │ ───► │ page_views   │ ───► │ fct_orders   │    │
-│  │ all types    │      │ cart_events  │      │ fct_funnel   │    │
-│  │ unmodified   │      │ orders       │      │ dim_products │    │
-│  │              │      │ deduplicated │      │              │    │
-│  │ append only  │      │ validated    │      │ aggregated   │    │
-│  └──────────────┘      └──────────────┘      └──────────────┘    │
-└───────────────────────────────────────────────────────────────────┘
-                                    │
-                                    │ dbt SQL transforms
-┌───────────────────────────────────▼───────────────────────────────┐
-│                      ORCHESTRATION                                 │
-│                                                                    │
-│   Apache Airflow 2.8 — runs every hour                            │
-│   check_bronze ──► run_silver ──► run_dbt ──► dbt_tests ──► done  │
-└───────────────────────────────────┬───────────────────────────────┘
-                                    │
-┌───────────────────────────────────▼───────────────────────────────┐
-│                         SERVING LAYER                              │
-│                                                                    │
-│   Apache Superset — Business Intelligence Dashboard                │
-│   • Total Revenue KPI    • Revenue by Category                    │
-│   • Conversion Funnel    • Product Performance Table              │
-└───────────────────────────────────────────────────────────────────┘
+Python Simulator
+      |
+      | (JSON events over Kafka)
+      v
+Apache Kafka
+      |
+      | (Spark reads the stream)
+      v
+Spark Structured Streaming
+      |
+      | (writes raw events)
+      v
+Bronze Layer  (Delta Lake)
+      |
+      | (Spark batch job cleans and splits)
+      v
+Silver Layer  (Delta Lake)
+      |
+      | (dbt transforms into business metrics)
+      v
+Gold Layer  (DuckDB)
+      |
+      | (Airflow runs Silver + Gold hourly)
+      v
+Apache Airflow  (orchestration)
+      |
+      | (Superset reads Gold tables)
+      v
+Apache Superset Dashboard
 ```
 
 ---
 
-## 🛠️ Tech Stack
+## What Each Layer Does
+
+**Bronze** — raw data. Every event is stored exactly as it arrived, with no changes. Think of it as your source of truth. If something breaks downstream, you can always replay from here.
+
+**Silver** — clean data. Duplicates are removed, bad records are filtered out, and events are split into three typed tables: page views, cart events, and orders.
+
+**Gold** — business data. dbt transforms Silver into metrics that answer real questions: What is today's revenue? Which product converts best? Where are users dropping off in the funnel?
+
+---
+
+## Tech Stack
 
 | Layer | Tool | Purpose |
 |---|---|---|
-| Event Generation | Python + Faker | Simulate realistic e-commerce events |
-| Message Broker | Apache Kafka | Decouple producers from consumers |
-| Stream Processing | Apache Spark 3.5 | Process events in real time |
-| Storage | Delta Lake | ACID transactions on Parquet files |
-| Transformation | dbt + DuckDB | SQL-based Gold layer modeling |
-| Orchestration | Apache Airflow 2.8 | Schedule and monitor the pipeline |
-| Visualization | Apache Superset | Business intelligence dashboard |
-| Infrastructure | Docker Compose | Run all services locally |
+| Event generation | Python, Faker | Simulates user behaviour |
+| Message broker | Apache Kafka | Decouples producer from consumer |
+| Stream processing | Apache Spark 3.5 | Reads Kafka stream in real time |
+| Storage format | Delta Lake | ACID transactions on Parquet files |
+| Batch transforms | Apache Spark | Bronze to Silver processing |
+| Data modelling | dbt + DuckDB | Silver to Gold SQL transforms |
+| Orchestration | Apache Airflow 2.8 | Hourly pipeline scheduling |
+| Dashboarding | Apache Superset 3.0 | Business metrics visualisation |
+| Infrastructure | Docker + Docker Compose | All services run in containers |
 
 ---
 
-## 🔄 Data Flow
-
-### Event Schema
-
-Every event produced by the simulator follows this schema:
-
-```json
-{
-  "event_type": "order_placed",
-  "event_id": "uuid4",
-  "user_id": "uuid4",
-  "timestamp": "2026-03-04T14:22:00.000Z",
-  "product_id": "P001",
-  "product_name": "Wireless Headphones",
-  "category": "Electronics",
-  "quantity": 2,
-  "price": 89.99,
-  "total_amount": 179.98,
-  "payment_method": "credit_card",
-  "status": "success"
-}
-```
-
-### Conversion Funnel
-
-The simulator replicates a realistic e-commerce funnel:
-
-```
-100% — Page View       (every user session starts here)
- 60% — Add to Cart     (60% of viewers add an item)
- 24% — Order Placed    (40% of cart adders complete purchase)
- 18% — Successful      (75% of orders succeed, 25% fail)
-```
-
----
-
-## 📁 Project Structure
+## Project Structure
 
 ```
 ecommerce-pipeline/
-│
-├── simulator/                  # Event producer
-│   ├── venv/
-│   └── producer.py             # Kafka producer — generates user events
-│
-├── kafka/                      # Infrastructure
-│   └── docker-compose.yml      # All services: Kafka, Spark, Airflow, Superset
-│
-├── spark/                      # Spark jobs
-│   ├── streaming_job.py        # Bronze layer — Kafka → Delta Lake (streaming)
-│   └── silver_job.py           # Silver layer — clean, deduplicate, split
-│
-├── dbt/
-│   └── ecommerce_gold/         # dbt project
-│       ├── dbt_project.yml
-│       ├── models/
-│       │   ├── staging/
-│       │   │   ├── stg_page_views.sql
-│       │   │   ├── stg_cart_events.sql
-│       │   │   ├── stg_orders.sql
-│       │   │   └── schema.yml      # data quality tests
-│       │   └── marts/
-│       │       ├── fct_orders.sql
-│       │       ├── fct_conversion_funnel.sql
-│       │       └── dim_product_performance.sql
-│       └── profiles.yml
-│
-├── airflow/
-│   └── dags/
-│       └── ecommerce_pipeline.py   # Hourly DAG
-│
-├── data/                       # Delta Lake storage (git-ignored)
-│   ├── bronze/
-│   ├── silver/
-│   └── gold/
-│
-└── docs/
-    └── index.html              # Interactive architecture diagram
+|
+|-- simulator/
+|   |-- producer.py          # generates and sends events to Kafka
+|   |-- venv/                # Python virtual environment
+|
+|-- kafka/
+|   |-- docker-compose.yml   # all Docker services live here
+|
+|-- spark/
+|   |-- streaming_job.py     # reads Kafka, writes to Bronze Delta Lake
+|   |-- silver_job.py        # cleans Bronze, writes to Silver Delta Lake
+|
+|-- dbt/
+|   |-- ecommerce_gold/
+|       |-- models/
+|           |-- staging/     # thin wrappers over Silver tables
+|           |-- marts/       # business metric tables (Gold)
+|
+|-- airflow/
+|   |-- dags/
+|       |-- ecommerce_pipeline.py   # the main DAG
+|
+|-- data/
+|   |-- bronze/              # raw Delta Lake files
+|   |-- silver/              # cleaned Delta Lake files
+|   |-- gold/                # DuckDB database file
+|
+|-- docs/
+    |-- index.html           # interactive architecture diagram
 ```
 
 ---
 
-## 🚀 Getting Started
+## Prerequisites
 
-### Prerequisites
+Before you start, make sure you have the following installed:
 
-Make sure you have these installed:
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) 
+- [Python 3.10+](https://www.python.org/downloads/)
+- Git
 
-| Tool | Version | Download |
-|---|---|---|
-| Docker Desktop | Latest | [docker.com](https://docker.com/products/docker-desktop) |
-| Python | 3.10+ | [python.org](https://python.org/downloads) |
-| Git | Latest | [git-scm.com](https://git-scm.com) |
+---
 
-> ⚠️ On Windows, ensure Docker Desktop uses WSL 2 (not Hyper-V) and Python is added to PATH during installation.
+## Getting Started
 
-### Clone the Repository
+### 1. Clone the repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/ecommerce-data-pipeline.git
+git clone https://github.com/Ujusophy/ecommerce-data-pipeline.git
 cd ecommerce-data-pipeline
 ```
 
-### Start All Services
+### 2. Start all services
+
+This starts Kafka, Spark, Airflow, Superset, and their dependencies:
 
 ```bash
 cd kafka
 docker-compose up -d
 ```
 
-This spins up 6 containers:
-
-| Container | Purpose | Port |
-|---|---|---|
-| `zookeeper` | Kafka cluster manager | 2181 |
-| `kafka` | Message broker | 9092 |
-| `kafka-ui` | Kafka visual dashboard | 8080 |
-| `spark` | Stream + batch processing | 4040 |
-| `airflow` | Pipeline orchestration | 8082 |
-| `superset` | BI dashboard | 8083 |
-
-Verify all containers are running:
+Wait about 2 minutes for everything to initialise. Check that all containers are running:
 
 ```bash
 docker ps
 ```
 
----
+You should see: `zookeeper`, `kafka`, `kafka-ui`, `spark`, `airflow`, `airflow-postgres`, `superset`
 
-## ▶️ Running the Pipeline
+### 3. Start the event simulator
 
-### Step 1 — Start the Event Simulator
-
-Opens a terminal and starts streaming fake e-commerce events to Kafka:
+Open a new terminal:
 
 ```bash
 cd simulator
 python -m venv venv
-venv\Scripts\activate        # Windows
+venv\Scripts\activate
 pip install kafka-python faker
 python producer.py
 ```
 
-You will see events streaming in real time:
-```
-🚀 Starting e-commerce event simulator...
-[PAGE VIEW]   user=a3f92b1c...  product=Wireless Headphones
-[ADD TO CART] user=a3f92b1c...  product=Wireless Headphones
-[ORDER]       user=a3f92b1c...  product=Wireless Headphones  total=$179.98
-```
+You will see events printing to the terminal. Leave this running.
 
-Verify events in Kafka UI → http://localhost:8080 → Topics → `ecommerce_events`
+### 4. Start the Spark streaming job
 
-### Step 2 — Start Spark Streaming (Bronze Layer)
-
-In a new terminal, start consuming events from Kafka and writing to Delta Lake:
+Open another terminal:
 
 ```bash
 docker exec -it spark /opt/spark/bin/spark-submit \
@@ -294,11 +176,11 @@ docker exec -it spark /opt/spark/bin/spark-submit \
   /opt/spark-jobs/streaming_job.py
 ```
 
-Monitor at Spark UI → http://localhost:4040 → Streaming tab
+This connects to Kafka and starts writing events to the Bronze Delta Lake layer. Leave this running.
 
-### Step 3 — Run Silver Layer
+### 5. Run the Silver job
 
-Cleans, deduplicates, and splits Bronze into typed tables:
+Once you have some data in Bronze (give it a minute), open another terminal:
 
 ```bash
 docker exec -it spark /opt/spark/bin/spark-submit \
@@ -306,200 +188,149 @@ docker exec -it spark /opt/spark/bin/spark-submit \
   /opt/spark-jobs/silver_job.py
 ```
 
-### Step 4 — Run dbt Gold Layer
+This cleans the Bronze data and writes three tables to Silver: `page_views`, `cart_events`, and `orders`.
 
-Builds business-level aggregations from Silver tables:
+### 6. Run dbt
 
 ```bash
 cd dbt/ecommerce_gold
+python -m venv venv
 venv\Scripts\activate
-dbt run       # build all 6 models
-dbt test      # run 8 data quality tests
-dbt docs generate && dbt docs serve --port 8081
+pip install dbt-core dbt-duckdb duckdb
+
+dbt run
+dbt test
 ```
 
-View lineage graph → http://localhost:8081
+This builds the Gold layer — three business metric tables in DuckDB.
 
-### Step 5 — Trigger Airflow DAG
+---
 
-Airflow automates Steps 3 and 4 on an hourly schedule:
+## Accessing the Services
+
+| Service | URL | Login |
+|---|---|---|
+| Kafka UI | http://localhost:8080 | No login |
+| Spark UI | http://localhost:4040 | No login |
+| Airflow | http://localhost:8082 | admin / admin123 |
+| Superset | http://localhost:8083 | admin / admin123 |
+| dbt Docs | http://localhost:8081 | No login |
+
+---
+
+## Running the Automated Pipeline
+
+The Airflow DAG runs the Silver job and dbt every hour automatically. To trigger it manually:
 
 ```bash
-# Sync DAG to database
-docker exec -it airflow airflow dags reserialize
-
-# Unpause and trigger
 docker exec -it airflow airflow dags unpause ecommerce_pipeline
 docker exec -it airflow airflow dags trigger ecommerce_pipeline
 ```
 
-Monitor at Airflow UI → http://localhost:8082 (admin / admin123)
+Then open the Airflow UI at http://localhost:8082 and watch the tasks run.
 
-### Step 6 — View Dashboard
-
-Open Superset → http://localhost:8083 (admin / admin123)
-
-Navigate to Dashboards → **Ecommerce Analytics**
-
----
-
-## 🗄️ Data Layers
-
-### Bronze Layer
-- **Path:** `data/bronze/ecommerce_events/`
-- **Format:** Delta Lake (Parquet + transaction log)
-- **Written by:** Spark Structured Streaming
-- **Contents:** Raw, unmodified events — all types in one table
-- **Rule:** Append-only. Nothing is ever deleted from Bronze.
-
-### Silver Layer
-- **Path:** `data/silver/`
-- **Format:** Delta Lake
-- **Written by:** `silver_job.py` via Spark batch
-- **Tables:** `page_views`, `cart_events`, `orders`
-- **Transformations applied:**
-  - Null checks on `event_id`, `user_id`, `event_type`
-  - Deduplication on `event_id`
-  - Type casting (string timestamps → proper timestamps)
-  - Business rule: `is_failed` flag on orders
-  - Idempotent upserts via Delta MERGE
-
-### Gold Layer
-- **Path:** `data/gold/ecommerce.duckdb`
-- **Format:** DuckDB database
-- **Written by:** dbt
-- **Models:** `fct_orders`, `fct_conversion_funnel`, `dim_product_performance`
-
----
-
-## 📐 dbt Models
-
-### Lineage Graph
-
-```
-stg_page_views ────────────────────────────────────────────┐
-                                                            ▼
-stg_cart_events ────────────────────────► fct_conversion_funnel
-                                                            
-stg_orders ──────────────► fct_orders ──► dim_product_performance
-```
-
-### Model Descriptions
-
-| Model | Type | Description |
-|---|---|---|
-| `stg_page_views` | View | Wraps Silver page_views, renames columns |
-| `stg_cart_events` | View | Wraps Silver cart_events, adds line_total |
-| `stg_orders` | View | Wraps Silver orders, casts types |
-| `fct_orders` | Table | One row per order with revenue flag |
-| `fct_conversion_funnel` | Table | Daily funnel metrics and conversion rates |
-| `dim_product_performance` | Table | Per-product views, orders, revenue, conversion |
-
-### Data Quality Tests
-
-```yaml
-# 8 tests run automatically on every dbt run
-stg_orders:     order_id (unique, not_null), user_id (not_null), total_amount (not_null)
-stg_page_views: event_id (unique, not_null)
-stg_cart_events: event_id (unique, not_null)
-```
-
----
-
-## 🌀 Airflow DAG
-
-**Schedule:** `0 * * * *` (every hour at :00)
+The DAG runs five tasks in order:
 
 ```
 check_bronze_availability
-         │
-         ▼
-    run_silver_job          ← spark-submit silver_job.py
-         │
-         ▼
-    run_dbt_models          ← dbt run
-         │
-         ▼
-    run_dbt_tests           ← dbt test
-         │
-         ▼
-   log_pipeline_summary     ← logs execution stats
+        |
+  run_silver_job
+        |
+  run_dbt_models
+        |
+   run_dbt_tests
+        |
+  log_pipeline_summary
 ```
 
-**Reliability features:**
-- `retries: 2` on every task
-- `retry_delay: 5 minutes`
-- `execution_timeout` per task (30 min Silver, 15 min dbt)
-- Bronze health check before running expensive Spark jobs
-- `trigger_rule: all_success` on summary task
+If any task fails, Airflow retries it twice with a 5-minute wait between attempts.
 
 ---
 
-## 📊 Dashboard
+## The Dashboard
 
-The Superset dashboard (`Ecommerce Analytics`) contains four charts:
+Open Superset at http://localhost:8083 and navigate to the `Ecommerce Analytics` dashboard. It shows four charts:
 
-| Chart | Type | Dataset | Metric |
-|---|---|---|---|
-| Total Revenue | Big Number + Trendline | `fct_orders` | `SUM(revenue)` |
-| Revenue by Category | Bar Chart | `fct_orders` | `SUM(revenue)` grouped by `category` |
-| Conversion Funnel | Funnel Chart | `fct_conversion_funnel` | viewed → carted → ordered |
-| Product Performance | Table | `dim_product_performance` | all KPIs sorted by revenue |
+**Total Revenue** — a big number with a trendline showing revenue over time from successful orders only.
 
----
+**Revenue by Category** — a bar chart breaking down which product categories drive the most revenue.
 
-## 🧠 Key Engineering Decisions
+**User Conversion Funnel** — shows how many users viewed a product, added it to cart, and placed an order. The drop-off between steps reflects a realistic conversion rate.
 
-**Why Kafka over a direct database write?**
-Kafka decouples the producer (simulator) from the consumer (Spark). This means either side can go down and recover independently. In production, this handles traffic spikes without data loss.
-
-**Why Delta Lake over plain Parquet?**
-Delta Lake adds ACID transactions, schema enforcement, and time travel to plain Parquet files. The `_delta_log/` transaction log means you can audit every write and roll back bad data — critical for production pipelines.
-
-**Why separate Bronze/Silver/Gold?**
-The Medallion architecture ensures that raw data is always preserved (Bronze), cleaned data is reliable (Silver), and business logic is centralized (Gold). You can reprocess any layer without losing the original data.
-
-**Why dbt for the Gold layer?**
-dbt treats SQL transformations as code — versioned, tested, and documented. The `ref()` function builds a dependency graph so models always run in the right order, and the lineage graph makes it easy to understand data flow.
-
-**Why DuckDB for dbt instead of Spark?**
-DuckDB runs in-process with no server needed and queries Parquet files directly. For the Gold layer (small aggregated tables), it's dramatically faster and simpler than running another Spark job.
-
-**Why Airflow over a cron job?**
-Airflow gives visibility, retries, alerting, and dependency management. A cron job just runs silently — you don't know if it failed until your dashboard shows stale data.
+**Product Performance** — a table ranking every product by revenue, with columns for total views, orders, units sold, and conversion rate.
 
 ---
 
-## 📚 What I Learned
+## dbt Models
 
-Building this project end-to-end taught me:
+The Gold layer is built from six dbt models:
 
-- **Docker networking** — containers can't reach each other via `localhost`. Internal services need to communicate by container name (e.g. `kafka:29092`)
-- **Kafka listener configuration** — separating internal and external listeners is essential when mixing Docker and host-based clients
-- **Spark Structured Streaming** — treating a live stream like a continuously growing table is a powerful mental model
-- **Delta Lake MERGE** — upsert operations make batch jobs idempotent, meaning they're safe to re-run without creating duplicates
-- **dbt ref()** — dependency management through `ref()` eliminates entire categories of ordering bugs
-- **Airflow DAG serialization** — DAGs must be serialized to the metadata DB before they appear in the UI
-- **The real value of the Medallion architecture** — having Bronze means you can always reprocess from raw data when you find a bug in Silver or Gold
+```
+stg_page_views       (view)   -- wraps silver/page_views
+stg_cart_events      (view)   -- wraps silver/cart_events
+stg_orders           (view)   -- wraps silver/orders
+        |
+        v
+fct_orders                (table) -- one row per order, revenue calculated
+fct_conversion_funnel     (table) -- daily funnel metrics with conversion rates
+dim_product_performance   (table) -- product-level aggregates ranked by revenue
+```
 
----
-
-## 🌐 Services Reference
-
-| Service | URL | Credentials |
-|---|---|---|
-| Kafka UI | http://localhost:8080 | — |
-| Spark UI | http://localhost:4040 | — |
-| Airflow | http://localhost:8082 | admin / admin123 |
-| dbt Docs | http://localhost:8081 | — |
-| Superset | http://localhost:8083 | admin / admin123 |
+Run `dbt docs serve --port 8081` to see the full lineage graph in your browser.
 
 ---
 
-## 📄 License
+## Data Quality
 
-MIT License — feel free to use this project as a reference or starting point for your own data engineering work.
+dbt runs 8 automated tests every time the pipeline executes:
+
+- `order_id` is unique and not null in `stg_orders`
+- `user_id` is not null in `stg_orders`
+- `total_amount` is not null in `stg_orders`
+- `event_id` is unique and not null in `stg_page_views`
+- `event_id` is unique and not null in `stg_cart_events`
+
+The Spark Silver job also applies its own checks before writing:
+
+- Drops records with null `event_id`, `user_id`, or `event_type`
+- Removes duplicate events using `event_id`
+- Filters out orders missing `order_id` or `total_amount`
 
 ---
 
-*Built as a data engineering portfolio project — demonstrating real-time streaming, lakehouse architecture, SQL transformation, orchestration, and business intelligence in a single end-to-end pipeline.*
+## Stopping the Pipeline
+
+To stop everything:
+
+```bash
+# stop the simulator (in its terminal)
+Ctrl+C
+
+# stop the Spark streaming job (in its terminal)
+Ctrl+C
+
+# stop all Docker containers
+cd kafka
+docker-compose down
+```
+
+To remove all stored data and start fresh:
+
+```bash
+docker-compose down -v
+rm -rf ../data/bronze ../data/silver ../data/gold
+```
+
+---
+
+## What I Learned Building This
+
+Working through this project from scratch made a few things click that are hard to understand from tutorials alone.
+
+The Medallion Architecture makes sense once you feel the pain of not having it. Before splitting into Bronze, Silver, and Gold, every time I needed to fix something I had to reprocess everything. Having layers means you can fix one layer without touching the others.
+
+Docker networking is not the same as your local network. The bug where Spark could not find Kafka because it was looking at `localhost` instead of the container name `kafka` was a real lesson. In production, services always talk to each other by hostname, not IP.
+
+dbt tests are more valuable than they look at first. Running `dbt test` after every build means you catch data problems before they reach the dashboard. Finding out your revenue numbers are wrong in a dashboard meeting is much worse than a failing test in a terminal.
+
+Idempotency matters more than correctness. The Silver job uses Delta MERGE so it can be re-run without creating duplicates. This seems like extra work until you have a failed run and need to re-run it without fear.
